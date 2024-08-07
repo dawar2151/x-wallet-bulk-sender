@@ -54,13 +54,14 @@ export const ConnectBtn = () => {
       <a
         href="#"
         onClick={openChainModal}
-        className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+        className="rounded-md px-3.5 py-2.5 text-sm font-semibold  shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
       >
         Switch Networks
       </a>
       <a href="#" onClick={async () => openAccountModal?.()} className="text-sm font-semibold leading-6 text-gray-900">
         {address?.slice(0, 6)}...{address?.slice(-4)} <span aria-hidden="true">→</span>
       </a>
+      <span>{chain?.name}</span>
     </div>
   );
 };

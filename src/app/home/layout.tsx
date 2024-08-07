@@ -1,14 +1,14 @@
 'use client';
 
-import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems, Button } from '@headlessui/react'
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import { Dialog, DialogPanel } from '@headlessui/react'
 import { useState } from 'react'
+import { ConnectBtn } from '../components/connectButton';
 
 const navigation = [
   { name: 'VIP', href: '#', current: true },
   { name: 'Tutorial', href: '#', current: false },
-  { name: 'Referral', href: '#', current: false },
+  { name: 'Transactions history', href: '#', current: false },
   { name: 'Verification', href: '#', current: false },
 ]
 
@@ -55,7 +55,7 @@ export default function Layout({
           </div>
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
             <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
-              Log in <span aria-hidden="true">&rarr;</span>
+            <ConnectBtn />
             </a>
           </div>
         </nav>
