@@ -3,7 +3,7 @@
 import { Textarea, IconButton } from "@material-tailwind/react";
 import { useState } from "react";
 import { useReadContract, useReadContracts } from "wagmi";
-import { abi } from "../abis/erc20";
+import { abi } from "../abis/ERC20";
 import { Address } from "viem";
  
 export function TokenAddressInput() {
@@ -34,7 +34,7 @@ export function TokenAddressInput() {
       ...contractConfig,
     }] 
   }) 
-  const [balance, symbol, decimals] = data || [] 
+  const [symbol, decimals] = data || [] 
 
  console.log(data);
   return (
