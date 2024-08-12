@@ -40,9 +40,19 @@ export function TabsWithIcon() {
   ];
   return (
     <Tabs value="dashboard">
-      <TabsHeader>
+      <TabsHeader
+        placeholder=""
+        onPointerEnterCapture={() => {}}
+        onPointerLeaveCapture={() => {}}
+      >
         {data.map(({ label, value, icon }) => (
-          <Tab key={value} value={value}>
+          <Tab
+            key={value}
+            value={value}
+            placeholder=""
+            onPointerEnterCapture={() => {}}
+            onPointerLeaveCapture={() => {}}
+          >
             <div className="flex items-center gap-2">
               {React.createElement(icon, { className: "w-5 h-5" })}
               {label}
@@ -50,7 +60,11 @@ export function TabsWithIcon() {
           </Tab>
         ))}
       </TabsHeader>
-      <TabsBody>
+      <TabsBody
+        placeholder=""
+        onPointerEnterCapture={() => {}}
+        onPointerLeaveCapture={() => {}}
+      >
         {data.map(({ value, desc }) => (
           <TabPanel key={value} value={value}>
             {desc}
