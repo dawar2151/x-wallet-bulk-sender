@@ -3,13 +3,13 @@
 import { Textarea, IconButton } from "@material-tailwind/react";
 import { useState } from "react";
 import { useReadContract, useReadContracts } from "wagmi";
-import { abi } from "../abis/ERC20";
+import { ABI_ERC20 } from "../abis/ERC20";
 import { Address } from "viem";
  
 export function TokenAddressInput() {
    const [address, setAddress] = useState<Address>();
    const contractConfig = {
-    abi,
+    abi: ABI_ERC20,
     address,
    }
    const { 
@@ -34,7 +34,7 @@ export function TokenAddressInput() {
       ...contractConfig,
     }] 
   }) 
-  const [symbol, decimals] = data || [] 
+  const [balanceOf, symbol, decimals, totalSupply] = data || [] 
 
  console.log(data);
   return (
@@ -64,7 +64,7 @@ export function TokenAddressInput() {
         rows={1}
         resize={true}
         value={address}
-        onChange={e=>setAddress(e.target.value)}
+        onChange={e => setAddress(e.target.value)}
         placeholder="Your Token Address"
         className="min-h-full !border-0 focus:border-transparent"
         containerProps={{
@@ -72,11 +72,10 @@ export function TokenAddressInput() {
         }}
         labelProps={{
           className: "before:content-none after:content-none",
-        }}
-      />
+        }} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}      />
       <div>
         <IconButton variant="text" className="rounded-full">
-          {decimals?.result}
+          {decimals?.result.toString()}
         </IconButton>
       </div>
     </div>
