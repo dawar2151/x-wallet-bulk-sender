@@ -3,12 +3,12 @@
 import { DragComponent } from "./DragComponent"
 import { TokenAddressInput } from "./TokenAddressInput"
 
-export function FillDetails() {
+export function FillDetails( ) {
     return (
         <>
             <TokenAddressInput />
             <div className="my-10">
-            <DragComponent />
+            <DragComponent   />
             </div>
             <div className="text-right my-10">
             <a

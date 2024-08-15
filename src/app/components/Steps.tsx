@@ -17,13 +17,13 @@ import { FillDetails } from "./FillDetails";
 import { Summary } from "./Summary";
 import { Forward } from "./Forward";
  
-export function TabsWithIcon() {
+export function TabsWithIcon( ) {
   const data = [
     {
       label: "Prepare",
       value: "dashboard",
       icon: Square3Stack3DIcon,
-      desc: <FillDetails />,
+      desc: <FillDetails   />,
     },
     {
       label: "Preview & Approve",

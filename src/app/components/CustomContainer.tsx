@@ -168,7 +168,7 @@ export function CustomDragDrop({
               className="opacity-0 hidden"
               type="file"
               multiple
-              accept="image/*"
+              accept="csv/*"
               ref={fileRef}
               onChange={(e) => handleDrop(e, "inputFile")}
             />

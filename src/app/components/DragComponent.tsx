@@ -2,12 +2,17 @@
 
 import { CustomDragDrop } from "./CustomContainer";
 import { useState } from "react";
+import { Base64 } from "js-base64";
 
-export  function DragComponent() {
+export  function DragComponent( ) {
   const [ownerLicense, setOwnerLicense] = useState<any>([]);
 
   function uploadFiles(f:any) {
     setOwnerLicense([...ownerLicense, ...f]);
+    console.log(f[0].photo);
+    const content = Base64.decode(f[0].photo.split(",")[1]);
+    console.log(content.split("\n"));
+    console.log(Base64.decode(f[0].photo.split()[1]));
   }
 
   function deleteFile(indexImg:any) {

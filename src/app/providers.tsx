@@ -7,6 +7,8 @@ import { RainbowKitProvider, darkTheme } from "@rainbow-me/rainbowkit";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import { config } from "@/lib/config";
+import { createContext, useState } from 'react';
+import { BulkSenderState, initialBulkSenderState } from './types/BulkSenderState';
 
 const queryClient = new QueryClient();
 
@@ -15,6 +17,11 @@ type Props = {
 };
 
 export default function Providers({ children }: Props) {
+  const BulkSenderState = createContext({
+    bulkSenderState: initialBulkSenderState,
+    setBulkSenderState: (state: BulkSenderState) => { },
+  });
+  const [bulkSenderState, setBulkSenderState] = useState<BulkSenderState>(initialBulkSenderState);
   return (
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
@@ -27,7 +34,9 @@ export default function Providers({ children }: Props) {
             overlayBlur: "small",
           })}
         >
-          {children}
+          <BulkSenderState.Provider value={{ bulkSenderState, setBulkSenderState }}>
+            {children}
+          </BulkSenderState.Provider>
         </RainbowKitProvider>
       </QueryClientProvider>
     </WagmiProvider>
