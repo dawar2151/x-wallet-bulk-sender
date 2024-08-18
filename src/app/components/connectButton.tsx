@@ -8,16 +8,14 @@ import {
 } from "@rainbow-me/rainbowkit";
 import { useAccount, useDisconnect } from "wagmi";
 
-export const ConnectBtn = () => {
+export const ConnectBtn: React.FC = () => {
   const { isConnecting, address, isConnected, chain } = useAccount();
-
-
   const { openConnectModal } = useConnectModal();
   const { openAccountModal } = useAccountModal();
   const { openChainModal } = useChainModal();
   const { disconnect } = useDisconnect();
 
-  const isMounted = useRef(false);
+  const isMounted = useRef<boolean>(false);
 
   useEffect(() => {
     isMounted.current = true;

@@ -15,12 +15,12 @@ const queryClient = new QueryClient();
 type Props = {
   children: React.ReactNode;
 };
-
-export default function Providers({ children }: Props) {
-  const BulkSenderState = createContext({
-    bulkSenderState: initialBulkSenderState,
-    setBulkSenderState: (state: BulkSenderState) => { },
-  });
+export const BulkSenderStateContext = createContext({
+  bulkSenderState: initialBulkSenderState,
+  setBulkSenderState: (state: BulkSenderState) => { },
+});
+export  default function Providers({ children }: Props) {
+  
   const [bulkSenderState, setBulkSenderState] = useState<BulkSenderState>(initialBulkSenderState);
   return (
     <WagmiProvider config={config}>
@@ -34,9 +34,9 @@ export default function Providers({ children }: Props) {
             overlayBlur: "small",
           })}
         >
-          <BulkSenderState.Provider value={{ bulkSenderState, setBulkSenderState }}>
+          <BulkSenderStateContext.Provider value={{ bulkSenderState, setBulkSenderState }}>
             {children}
-          </BulkSenderState.Provider>
+          </BulkSenderStateContext.Provider>
         </RainbowKitProvider>
       </QueryClientProvider>
     </WagmiProvider>

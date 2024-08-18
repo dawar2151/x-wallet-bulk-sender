@@ -63,7 +63,7 @@ export function CustomDragDrop({
         const base64String = await convertFileBase64(file);
         return {
           name: file.name,
-          photo: base64String,
+          fileContent: base64String,
           type: file.type,
           size: file.size
         };

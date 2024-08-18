@@ -10,6 +10,7 @@ const nextConfig = {
 
       fs: false, // the solution
     };
+    config.externals.push('encoding');
     
     return config;
   },

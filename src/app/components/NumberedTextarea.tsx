@@ -1,11 +1,25 @@
-import React, { useState, useEffect, useRef } from 'react';
+"use client";
+
+import React, { useState, useEffect, useRef, useContext } from 'react';
+import { BulkSenderStateContext } from '../providers';
 
 export function NumberedTextarea() {
     const [text, setText] = useState('');
     const textareaRef = useRef(null);
+    const { setBulkSenderState, bulkSenderState } = useContext(BulkSenderStateContext);
   
-    const handleInputChange = (event) => {
-      setText(event.target.value);
+    const handleInputChange = (event: unknown) => {
+      setBulkSenderState({
+        ...bulkSenderState,
+        stringReceivers: event.target.value,
+        receivers: event.target.value.split('\n').map((line) => {
+          const [address, amount] = line.split(',');
+          return {
+            address,
+            amount,
+          };
+        }),
+      });
     };
   
     useEffect(() => {
@@ -15,8 +29,8 @@ export function NumberedTextarea() {
       }
     }, [text]);
   
-    const lineNumbers = text.split('\n').map((_, i) => i + 1).join('\n');
-  
+    const lineNumbers = bulkSenderState?.stringReceivers?.split('\n').map((_, i) => i + 1).join('\n');
+    console.log(lineNumbers);
     return (
       <div className="flex">
         {/* Line numbers */}
@@ -34,7 +48,7 @@ export function NumberedTextarea() {
         {/* Text input */}
         <textarea
           ref={textareaRef}
-          value={text}
+          value={bulkSenderState.stringReceivers}
           onChange={handleInputChange}
           className="w-full p-2 outline-none resize-none"
           style={{

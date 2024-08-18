@@ -3,12 +3,7 @@ import { TabsWithIcon } from '../components/Steps';
 
 import fs from 'fs';
 const Home: NextPage = () => {
-  const readFile = async (file: any) => {
-    "use server"; // mark function as a server action (fixes the error)
-    console.log(file);
-    const data = fs.readFileSync(file[0].path, 'utf8');
-    console.log(data);
-  }
+ 
   return (
     <div className="relative isolate px-6 pt-14 lg:px-8">
       <div

@@ -1,14 +1,25 @@
 'use client'
 
+import { useContext } from "react";
+import { BulkSenderStateContext } from "../providers";
 import { DragComponent } from "./DragComponent"
 import { TokenAddressInput } from "./TokenAddressInput"
+import { NumberedTextarea } from "./NumberedTextarea";
 
 export function FillDetails( ) {
+    const {bulkSenderState} = useContext(BulkSenderStateContext);
+    console.log(bulkSenderState)
     return (
         <>
             <TokenAddressInput />
             <div className="my-10">
-            <DragComponent   />
+                {
+                    bulkSenderState?.stringReceivers ? (
+                        <NumberedTextarea />
+                    ):(
+                        <DragComponent   />
+                    )
+                }
             </div>
             <div className="text-right my-10">
             <a

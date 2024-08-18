@@ -1,18 +1,32 @@
 "use client";
 
 import { CustomDragDrop } from "./CustomContainer";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Base64 } from "js-base64";
+import { BulkSenderStateContext } from "../providers";
+import { Receiver } from "../types/BulkSenderState";
 
 export  function DragComponent( ) {
   const [ownerLicense, setOwnerLicense] = useState<any>([]);
+  const {bulkSenderState, setBulkSenderState} = useContext(BulkSenderStateContext);
 
   function uploadFiles(f:any) {
     setOwnerLicense([...ownerLicense, ...f]);
-    console.log(f[0].photo);
-    const content = Base64.decode(f[0].photo.split(",")[1]);
+    console.log(f[0].fileContent);
+    const content = Base64.decode(f[0].fileContent.split(",")[1]);
     console.log(content.split("\n"));
-    console.log(Base64.decode(f[0].photo.split()[1]));
+    const data = Base64.decode(f[0].fileContent.split(",")[1]);
+    setBulkSenderState({
+      ...setBulkSenderState,
+      stringReceivers: data,
+      receivers: data.split("\n").map((line: string) => {
+        const [address, amount] = line.split(",");
+        return {
+          address,
+          amount
+        }
+      }),
+    });
   }
 
   function deleteFile(indexImg:any) {
@@ -33,7 +47,7 @@ export  function DragComponent( ) {
         onDelete={deleteFile}
         count={2}
         formats={["csv", "txt"]}
-      />
+      />  
     </div>
   );
 }
