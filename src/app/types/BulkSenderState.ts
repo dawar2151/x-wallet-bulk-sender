@@ -1,3 +1,5 @@
+import { Address } from "viem";
+
 export enum TokenType {
     Native = 'Native',
     ERC20 = 'ERC20',
@@ -11,7 +13,7 @@ export interface Receiver {
 }
 export type BulkSenderState = {
     tokenType?: TokenType;
-    tokenAddress?: string;
+    tokenAddress?: Address;
     decimals?: number;
     symbol?: string;
     stringReceivers?: string;
@@ -21,7 +23,7 @@ export type BulkSenderState = {
 export const initialBulkSenderState: BulkSenderState = {
     tokenType: TokenType.Native,
     stringReceivers: '',
-    tokenAddress: '',
+    tokenAddress: '0x',
     decimals: 0,
     symbol: '',
     receivers: [{

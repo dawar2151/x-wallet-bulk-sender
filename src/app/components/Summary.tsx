@@ -5,7 +5,44 @@ import {
     CardBody,
     Typography,
 } from "@material-tailwind/react";
+import { ABI_ERC20 } from "../abis/ERC20";
+import { useAccount, useBalance, useReadContracts } from "wagmi";
+import { BulkSenderStateContext } from "../providers";
+import { useContext } from "react";
 export function Summary() {
+    const account = useAccount()
+    const {bulkSenderState} = useContext(BulkSenderStateContext);
+    const result = useBalance({
+        address: account?.address,
+        unit: 'ether', 
+    });
+    const contractConfig = {
+        abi: ABI_ERC20,
+        address: bulkSenderState.tokenAddress,
+      }
+      const {
+        data,
+        error,
+        isPending
+      } = useReadContracts({
+        contracts: [{
+            functionName: 'allowance',
+            ...contractConfig,
+            args: [account?.address, bulkSenderState.tokenAddress],
+          },{
+            functionName: 'balanceOf',
+            ...contractConfig,
+            args: [account?.address],
+          },{
+          functionName: 'symbol',
+          ...contractConfig,
+        },
+        {
+          functionName: 'decimals',
+          ...contractConfig,
+        }]
+      })
+      const [allowance, balanceOf,symbol, decimals] = data || []
     return (
         <div>
             <span>Summary</span>
@@ -13,7 +50,7 @@ export function Summary() {
                 <Card className="mt-6 w-96">
                     <CardBody>
                         <Typography variant="h5" color="blue-gray" className="mb-2">
-                            90 Bears
+                            {`${allowance?.result} ${symbol?.result}`}
                         </Typography>
                         <Typography>
                         Your current bulksender allowance.
@@ -23,27 +60,27 @@ export function Summary() {
                 <Card className="mt-6 w-96">
                     <CardBody>
                         <Typography variant="h5" color="blue-gray" className="mb-2">
-                            90 Bears
+                            {bulkSenderState.totalAmount} {symbol?.result}
                         </Typography>
                         <Typography>
-                        Your current bulksender allowance.
+                        Total number of tokens to be sent.
                         </Typography>
                     </CardBody>
                 </Card>
                 <Card className="mt-6 w-96">
                     <CardBody>
                         <Typography variant="h5" color="blue-gray" className="mb-2">
-                            90 Bears
+                            {`${balanceOf?.result} ${symbol?.result}`}
                         </Typography>
                         <Typography>
-                        Your current bulksender allowance.
+                            your {`${symbol?.result}`} Balance
                         </Typography>
                     </CardBody>
                 </Card>
                 <Card className="mt-6 w-96">
                     <CardBody>
                         <Typography variant="h5" color="blue-gray" className="mb-2">
-                            90 Bears
+                        {result.data?.formatted.toString()} ETH
                         </Typography>
                         <Typography>
                         Your current bulksender allowance.

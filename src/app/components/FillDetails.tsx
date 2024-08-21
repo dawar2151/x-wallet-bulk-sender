@@ -8,7 +8,6 @@ import { NumberedTextarea } from "./NumberedTextarea";
 
 export function FillDetails( ) {
     const {bulkSenderState} = useContext(BulkSenderStateContext);
-    console.log(bulkSenderState)
     return (
         <>
             <TokenAddressInput />

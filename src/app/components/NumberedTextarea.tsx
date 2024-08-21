@@ -2,24 +2,30 @@
 
 import React, { useState, useEffect, useRef, useContext } from 'react';
 import { BulkSenderStateContext } from '../providers';
+import { isAddress } from 'viem';
 
 export function NumberedTextarea() {
-    const [text, setText] = useState('');
-    const textareaRef = useRef(null);
-    const { setBulkSenderState, bulkSenderState } = useContext(BulkSenderStateContext);
+  const { setBulkSenderState, bulkSenderState } = useContext(BulkSenderStateContext);
+
+    const textareaRef = useRef<HTMLTextAreaElement>(null);
   
-    const handleInputChange = (event: unknown) => {
-      setBulkSenderState({
-        ...bulkSenderState,
-        stringReceivers: event.target.value,
-        receivers: event.target.value.split('\n').map((line) => {
+    const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+      const receiversAccounts = event.target.value.split('\n').map((line) => {
           const [address, amount] = line.split(',');
           return {
             address,
             amount,
           };
-        }),
-      });
+        }).filter(({ address, amount }) => isAddress(address) && amount);
+      const totalAmount = receiversAccounts.reduce((acc, { amount }) => acc + Number(amount), 0);
+      setBulkSenderState(
+        {
+        ...bulkSenderState,
+        stringReceivers: event.target.value,
+        receivers: receiversAccounts,
+        totalAmount: totalAmount,  
+        }  
+      )
     };
   
     useEffect(() => {
@@ -27,10 +33,9 @@ export function NumberedTextarea() {
         textareaRef.current.style.height = 'auto';
         textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
       }
-    }, [text]);
+    }, [bulkSenderState.stringReceivers]);
   
     const lineNumbers = bulkSenderState?.stringReceivers?.split('\n').map((_, i) => i + 1).join('\n');
-    console.log(lineNumbers);
     return (
       <div className="flex">
         {/* Line numbers */}
