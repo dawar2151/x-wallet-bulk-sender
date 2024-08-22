@@ -6,43 +6,68 @@ import {
     Typography,
 } from "@material-tailwind/react";
 import { ABI_ERC20 } from "../abis/ERC20";
-import { useAccount, useBalance, useReadContracts } from "wagmi";
+import { useAccount, useBalance, useReadContracts, useWriteContract } from "wagmi";
 import { BulkSenderStateContext } from "../providers";
 import { useContext } from "react";
+import { formatEther, formatUnits, parseEther } from "viem";
+import { config } from "@/lib/config";
 export function Summary() {
     const account = useAccount()
-    const {bulkSenderState} = useContext(BulkSenderStateContext);
+    const { writeContract, data:dataWrite } = useWriteContract();
+
+    const { bulkSenderState } = useContext(BulkSenderStateContext);
     const result = useBalance({
         address: account?.address,
-        unit: 'ether', 
+        unit: 'ether',
     });
+
+
     const contractConfig = {
         abi: ABI_ERC20,
         address: bulkSenderState.tokenAddress,
-      }
-      const {
+    }
+    const {
         data,
         error,
         isPending
-      } = useReadContracts({
+    } = useReadContracts({
         contracts: [{
             functionName: 'allowance',
             ...contractConfig,
             args: [account?.address, bulkSenderState.tokenAddress],
-          },{
+        }, {
             functionName: 'balanceOf',
             ...contractConfig,
             args: [account?.address],
-          },{
-          functionName: 'symbol',
-          ...contractConfig,
+        }, {
+            functionName: 'symbol',
+            ...contractConfig,
         },
         {
-          functionName: 'decimals',
-          ...contractConfig,
+            functionName: 'decimals',
+            ...contractConfig,
         }]
-      })
-      const [allowance, balanceOf,symbol, decimals] = data || []
+    })
+    const [allowance, balanceOf, symbol,decimals] = data || []
+    console.log('Approved', dataWrite);
+
+    const approve = async () => {
+        if (!bulkSenderState.tokenAddress) {
+            console.error('Token address is required')
+            return;
+        }
+        const amount = parseEther(bulkSenderState.totalAmount?.toString() || '0');
+        console.log('Amount', amount);
+        await writeContract( {
+                abi: ABI_ERC20,
+                address: bulkSenderState.tokenAddress,
+                functionName: 'approve',
+                args: [
+                    bulkSenderState.tokenAddress,
+                    amount,
+                ]
+            });
+    }
     return (
         <div>
             <span>Summary</span>
@@ -53,7 +78,7 @@ export function Summary() {
                             {`${allowance?.result} ${symbol?.result}`}
                         </Typography>
                         <Typography>
-                        Your current bulksender allowance.
+                            Your current bulksender allowance.
                         </Typography>
                     </CardBody>
                 </Card>
@@ -63,14 +88,14 @@ export function Summary() {
                             {bulkSenderState.totalAmount} {symbol?.result}
                         </Typography>
                         <Typography>
-                        Total number of tokens to be sent.
+                            Total number of tokens to be sent.
                         </Typography>
                     </CardBody>
                 </Card>
                 <Card className="mt-6 w-96">
                     <CardBody>
                         <Typography variant="h5" color="blue-gray" className="mb-2">
-                            {`${balanceOf?.result} ${symbol?.result}`}
+                            {balanceOf?.result?formatEther(BigInt(balanceOf?.result), 'wei'):'0'} {symbol?.result}
                         </Typography>
                         <Typography>
                             your {`${symbol?.result}`} Balance
@@ -80,10 +105,10 @@ export function Summary() {
                 <Card className="mt-6 w-96">
                     <CardBody>
                         <Typography variant="h5" color="blue-gray" className="mb-2">
-                        {result.data?.formatted.toString()} ETH
+                            {result.data?.formatted.toString()} ETH
                         </Typography>
                         <Typography>
-                        Your current bulksender allowance.
+                            Your current bulksender allowance.
                         </Typography>
                     </CardBody>
                 </Card>
@@ -94,12 +119,12 @@ export function Summary() {
                 <Radio name="type" label="Unlimited amount" defaultChecked />
             </div>
             <div className="text-right my-2">
-            <a
-                href="#"
-                className="rounded-md bg-indigo-600 px-10 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            >
-                Next
-            </a>
+                <button
+                    onClick={() => approve()}
+                    className="rounded-md bg-indigo-600 px-10 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                >
+                    Approve
+                </button>
             </div>
         </div>
     )
