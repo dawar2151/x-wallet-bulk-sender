@@ -32,8 +32,8 @@ export function TabsWithIcon( ) {
       desc: <Summary />,
     },
     {
-      label: "Settings",
-      value: "settings",
+      label: "Summary",
+      value: "Summary",
       icon: Cog6ToothIcon,
       desc: <Forward />,
     },

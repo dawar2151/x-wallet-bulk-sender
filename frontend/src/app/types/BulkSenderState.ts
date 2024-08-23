@@ -14,6 +14,8 @@ export interface Receiver {
 export type BulkSenderState = {
     tokenType?: TokenType;
     tokenAddress?: Address;
+    tokenSymbol?: string;
+    currentTokenBalance?: number;
     decimals?: number;
     symbol?: string;
     stringReceivers?: string;
@@ -24,6 +26,8 @@ export const initialBulkSenderState: BulkSenderState = {
     tokenType: TokenType.Native,
     stringReceivers: '',
     tokenAddress: '0x',
+    tokenSymbol: 'ETh',
+    currentTokenBalance: 0,
     decimals: 0,
     symbol: '',
     receivers: [{
