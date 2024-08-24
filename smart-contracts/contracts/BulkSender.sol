@@ -100,6 +100,7 @@ contract BulkSender is Ownable, IBulkSender {
 
         require(_receivers.length == _values.length, InvalidInput());
         IERC20 token = IERC20(_tokenAddress);
+        
         for (uint i = 0; i < _receivers.length; i++) {
             token.transferFrom(msg.sender, _receivers[i], _values[i]);
         }
