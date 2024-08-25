@@ -11,13 +11,15 @@ import { BulkSenderStateContext } from "../providers";
 import { useContext } from "react";
 import { formatEther, formatUnits, parseEther } from "viem";
 import { config } from "@/lib/config";
+import { BulkSenders } from "../config/bulkSender";
+import { STEPS } from "../types/BulkSenderState";
 export function Summary() {
-    const account = useAccount()
-    const { writeContract, data:dataWrite } = useWriteContract();
+    const {address, chainId} = useAccount()
+    const { writeContract,  isSuccess,data:dataWrite } = useWriteContract();
 
-    const { bulkSenderState } = useContext(BulkSenderStateContext);
+    const { setBulkSenderState, bulkSenderState } = useContext(BulkSenderStateContext);
     const result = useBalance({
-        address: account?.address,
+        address: address,
         unit: 'ether',
     });
 
@@ -34,11 +36,11 @@ export function Summary() {
         contracts: [{
             functionName: 'allowance',
             ...contractConfig,
-            args: [account?.address, bulkSenderState.tokenAddress],
+            args: [address, bulkSenderState.tokenAddress],
         }, {
             functionName: 'balanceOf',
             ...contractConfig,
-            args: [account?.address],
+            args: [address],
         }, {
             functionName: 'symbol',
             ...contractConfig,
@@ -50,6 +52,12 @@ export function Summary() {
     })
     const [allowance, balanceOf, symbol,decimals] = data || []
     console.log('Approved', dataWrite);
+    if(isSuccess && !isPending){
+        setBulkSenderState({
+            ...bulkSenderState,
+            currentStep: STEPS.TRANSFER
+        })
+    }
 
     const approve = async () => {
         if (!bulkSenderState.tokenAddress) {
@@ -63,7 +71,7 @@ export function Summary() {
                 address: bulkSenderState.tokenAddress,
                 functionName: 'approve',
                 args: [
-                    bulkSenderState.tokenAddress,
+                    BulkSenders[chainId as number],// TODO: fix type
                     amount,
                 ]
             });

@@ -1,6 +1,6 @@
 'use client';
 
-import React from "react";
+import React, { useContext } from "react";
 import {
   Tabs,
   TabsHeader,
@@ -16,61 +16,59 @@ import {
 import { FillDetails } from "./FillDetails";
 import { Summary } from "./Summary";
 import { Forward } from "./Forward";
+import { BulkSenderStateContext } from "../providers";
+import { STEPS } from "../types/BulkSenderState";
  
 export function TabsWithIcon( ) {
+  const {setBulkSenderState,bulkSenderState} = useContext(BulkSenderStateContext);
   const data = [
     {
-      label: "Prepare",
-      value: "dashboard",
+      label: STEPS.PREPARING,
+      value: STEPS.PREPARING,
       icon: Square3Stack3DIcon,
       desc: <FillDetails   />,
+      disabled: bulkSenderState.currentStep != STEPS.PREPARING
     },
     {
-      label: "Preview & Approve",
-      value: "Preview & Approve",
+      label: STEPS.APPROVE,
+      value: STEPS.APPROVE,
       icon: UserCircleIcon,
       desc: <Summary />,
+      disabled: bulkSenderState.currentStep != STEPS.APPROVE
     },
     {
-      label: "Summary",
-      value: "Summary",
+      label: STEPS.TRANSFER,
+      value: STEPS.TRANSFER,
       icon: Cog6ToothIcon,
       desc: <Forward />,
+      disabled: bulkSenderState.currentStep != STEPS.TRANSFER
     },
   ];
   return (
-    <Tabs value="dashboard">
-      <TabsHeader
-        placeholder=""
-        onPointerEnterCapture={() => {}}
-        onPointerLeaveCapture={() => {}}
-      >
-        {data.map(({ label, value, icon }) => (
-          <Tab
+    <div>
+    <div className="flex space-x-3 border-b">
+      {/* Loop through tab data and render button for each. */}
+      {data.map(({label, value, desc}, idx) => {
+        return (
+          <button
             key={value}
-            value={value}
-            placeholder=""
-            onPointerEnterCapture={() => {}}
-            onPointerLeaveCapture={() => {}}
+            className={`py-2 border-b-4 transition-colors duration-300 ${
+              value === bulkSenderState.currentStep
+                ? 'border-teal-500'
+                : 'border-transparent hover:border-gray-200'
+            }`}
+            // Change the active tab on click.
+            //onClick={() => set(idx)}
           >
-            <div className="flex items-center gap-2">
-              {React.createElement(icon, { className: "w-5 h-5" })}
-              {label}
-            </div>
-          </Tab>
-        ))}
-      </TabsHeader>
-      <TabsBody
-        placeholder=""
-        onPointerEnterCapture={() => {}}
-        onPointerLeaveCapture={() => {}}
-      >
-        {data.map(({ value, desc }) => (
-          <TabPanel key={value} value={value}>
-            {desc}
-          </TabPanel>
-        ))}
-      </TabsBody>
-    </Tabs>
-  );
+            {label}
+          </button>
+        );
+      })}
+    </div>
+    {/* Show active tab content. */}
+    <div className="py-4">
+      <p>{data.filter(item=>item.value === bulkSenderState.currentStep)[0].desc}</p>
+    </div>
+  </div>
+);
 }

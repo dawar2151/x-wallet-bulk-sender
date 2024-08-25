@@ -11,7 +11,13 @@ export interface Receiver {
     address: string;
     amount: string;
 }
+export enum STEPS  {
+    PREPARING = "Preparing",
+    APPROVE = "Approve",
+    TRANSFER ="Transfer"
+}
 export type BulkSenderState = {
+    currentStep: STEPS;
     tokenType?: TokenType;
     tokenAddress?: Address;
     tokenSymbol?: string;
@@ -23,6 +29,7 @@ export type BulkSenderState = {
     totalAmount?: number;
 }
 export const initialBulkSenderState: BulkSenderState = {
+    currentStep: STEPS.PREPARING,
     tokenType: TokenType.Native,
     stringReceivers: '',
     tokenAddress: '0x',

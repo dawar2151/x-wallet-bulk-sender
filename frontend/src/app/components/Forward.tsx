@@ -7,14 +7,18 @@ import {
 } from "@material-tailwind/react";
 import { useContext } from "react";
 import { BulkSenderStateContext } from "../providers";
-import { useAccount, useBalance, useReadContracts } from "wagmi";
+import { useAccount, useBalance, useReadContracts, useWriteContract } from "wagmi";
 import { ABI_ERC20 } from "../abis/ERC20";
-import { formatEther } from "viem";
+import { formatEther, parseEther } from "viem";
+import { writeContract } from "viem/actions";
+import { BULK_SENDER_ABI } from "../abis/BULKSENDER";
+import { BulkSenders } from "../config/bulkSender";
 export function Forward() {
-    const account = useAccount();
+    const {address, chainId} = useAccount();
+    const { writeContract,  isSuccess,data:dataWrite, error: dataWriteError } = useWriteContract();
     const {bulkSenderState} = useContext(BulkSenderStateContext);
     const nativeTokenBalance = useBalance({
-        address: account?.address,
+        address: address,
         unit: 'ether',
     });
 
@@ -31,11 +35,11 @@ export function Forward() {
         contracts: [{
             functionName: 'allowance',
             ...contractConfig,
-            args: [account?.address, bulkSenderState.tokenAddress],
+            args: [address, bulkSenderState.tokenAddress],
         }, {
             functionName: 'balanceOf',
             ...contractConfig,
-            args: [account?.address],
+            args: [address],
         }, {
             functionName: 'symbol',
             ...contractConfig,
@@ -46,7 +50,27 @@ export function Forward() {
         }]
     })
     const [allowance, balanceOf, symbol,decimals] = data || []
-
+    console.log(dataWriteError?.message);
+    const transfer = async () => {
+        console.log("kharya")
+        if (!bulkSenderState.tokenAddress) {
+            console.error('Token address is required')
+            return;
+        }
+        console.log(bulkSenderState.receivers?.map(a=> a.address))
+        const amount = parseEther(bulkSenderState.totalAmount?.toString() || '0');
+        await writeContract({
+                abi: BULK_SENDER_ABI,
+                address: BulkSenders[chainId as number],
+                functionName: 'bulkTransferERC20',
+                args: [
+                    bulkSenderState.tokenAddress,
+                    bulkSenderState.receivers?.map(a=> a.address),
+                    bulkSenderState.receivers?.map(a=> parseEther(a.amount)),
+                ],
+                value: parseEther('0.01'), 
+            });
+    }
     return (
         <div>
             <span>Summary</span>
@@ -113,12 +137,12 @@ export function Forward() {
                 </Card>
             </div>
             <div className="text-right my-10">
-            <a
-                href="#"
+            <button
+                onClick={()=>transfer()}
                 className="rounded-md bg-indigo-600 px-10 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
                 Processes Transfer
-            </a>
+            </button>
             </div>
         </div>
     )
