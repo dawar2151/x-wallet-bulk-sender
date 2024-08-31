@@ -52,7 +52,6 @@ export function Forward() {
     const [allowance, balanceOf, symbol,decimals] = data || []
     console.log(dataWriteError?.message);
     const transfer = async () => {
-        console.log("kharya")
         if (!bulkSenderState.tokenAddress) {
             console.error('Token address is required')
             return;

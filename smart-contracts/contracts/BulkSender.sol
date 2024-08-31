@@ -2,6 +2,8 @@ pragma solidity ^0.8.26;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/token/ERC1155/IERC1155.sol";
+import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "./IBulkSender.sol";
 
 contract BulkSender is Ownable, IBulkSender {
@@ -107,5 +109,38 @@ contract BulkSender is Ownable, IBulkSender {
         emit LogTokenBulkSent(_tokenAddress, _receivers.length);
     }
 
+    /**
+    * @dev bulk transfer erc721 tokens
+    * @param _tokenAddress address of the token
+    * @param _receivers array of receivers
+    * @param _tokenIds array of token ids
+    */
+    function bulkTransferERC721(address _tokenAddress, address[] calldata _receivers, uint[] calldata _tokenIds) external payable onlyAllowedAccount() {
 
+        require(_receivers.length == _tokenIds.length, InvalidInput());
+        IERC721 token = IERC721(_tokenAddress);
+
+        for (uint i = 0; i < _receivers.length; i++) {
+            token.safeTransferFrom(msg.sender, _receivers[i], _tokenIds[i]);
+        }
+        emit LogTokenBulkSent(_tokenAddress, _receivers.length);
+    }
+
+    /** 
+     * @dev bulk transfer erc1155 tokens
+     * @param _tokenAddress address of the token
+     * @param _receivers array of receivers
+     * @param _tokenIds array of token ids
+     * @param _values array of token values
+     */
+    function bulkTransferERC1155(address _tokenAddress, address[] calldata _receivers, uint[] calldata _tokenIds, uint[] calldata _values) external payable onlyAllowedAccount() {
+
+        require(_receivers.length == _tokenIds.length && _receivers.length == _values.length, InvalidInput());
+        IERC1155 token = IERC1155(_tokenAddress);
+
+        for (uint i = 0; i < _receivers.length; i++) {
+            token.safeTransferFrom(msg.sender, _receivers[i], _tokenIds[i], _values[i], "");
+        }
+        emit LogTokenBulkSent(_tokenAddress, _receivers.length);
+    }
 }
