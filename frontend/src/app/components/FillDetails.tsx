@@ -6,6 +6,8 @@ import { DragComponent } from "./DragComponent"
 import { TokenAddressInput } from "./TokenAddressInput"
 import { NumberedTextarea } from "./NumberedTextarea";
 import { STEPS } from "../types/BulkSenderState";
+import CheckContractType from "../utils/getTokenType";
+import { Address } from "viem";
 
 export function FillDetails( ) {
     const {setBulkSenderState,bulkSenderState} = useContext(BulkSenderStateContext);
@@ -19,6 +21,7 @@ export function FillDetails( ) {
     return (
         <>
             <TokenAddressInput />
+            <CheckContractType contractAddress={bulkSenderState.tokenAddress as Address} />
             <div className="my-10">
                 {
                     bulkSenderState?.stringReceivers ? (

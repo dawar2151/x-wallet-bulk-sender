@@ -8,10 +8,8 @@ import { Address } from "viem";
 import { BulkSenderStateContext } from "../providers";
 
 export function TokenAddressInput() {
-  const [address, setAddress] = useState<Address>();
   const { setBulkSenderState, bulkSenderState } = useContext(BulkSenderStateContext);
   const onChangeAddress = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setAddress(e.target.value as Address);
     setBulkSenderState(
       {
         ...bulkSenderState,
@@ -21,7 +19,7 @@ export function TokenAddressInput() {
   }
   const contractConfig = {
     abi: ABI_ERC20,
-    address,
+    address: bulkSenderState.tokenAddress,
   }
   const {
     data,
@@ -51,7 +49,7 @@ export function TokenAddressInput() {
       <Textarea
         rows={1}
         resize={true}
-        value={address}
+        value={bulkSenderState.tokenAddress}
         onChange={e => onChangeAddress(e)}
         placeholder="Your Token Address"
         className="min-h-full !border-0 focus:border-transparent"

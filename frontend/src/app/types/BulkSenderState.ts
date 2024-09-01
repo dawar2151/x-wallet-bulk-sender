@@ -1,12 +1,13 @@
 import { Address } from "viem";
 
-export enum TokenType {
+export enum ContractType {
     Native = 'Native',
     ERC20 = 'ERC20',
     ERC721 = 'ERC721',
     ERC1155 = 'ERC1155',
-    Other = 'Other'
-}
+    Unknown = 'Unknown',
+    }
+
 export interface Receiver {
     address: string;
     amount: string;
@@ -18,7 +19,7 @@ export enum STEPS  {
 }
 export type BulkSenderState = {
     currentStep: STEPS;
-    tokenType?: TokenType;
+    contractType?: ContractType;
     tokenAddress?: Address;
     tokenSymbol?: string;
     currentTokenBalance?: number;
@@ -30,7 +31,7 @@ export type BulkSenderState = {
 }
 export const initialBulkSenderState: BulkSenderState = {
     currentStep: STEPS.PREPARING,
-    tokenType: TokenType.Native,
+    contractType: ContractType.Native,
     stringReceivers: '',
     tokenAddress: '0x',
     tokenSymbol: 'ETh',

@@ -11,7 +11,7 @@ export function NumberedTextarea() {
   
     const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
       const receiversAccounts = event.target.value.split('\n').map((line) => {
-          const [address, amount] = line.split(',');
+          const [address, amount] = line.replace('\r', '').split(',');
           return {
             address,
             amount,

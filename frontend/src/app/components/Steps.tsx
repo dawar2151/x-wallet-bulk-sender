@@ -17,7 +17,7 @@ import { FillDetails } from "./FillDetails";
 import { Summary } from "./Summary";
 import { Forward } from "./Forward";
 import { BulkSenderStateContext } from "../providers";
-import { STEPS } from "../types/BulkSenderState";
+import { BulkSenderState, STEPS } from "../types/BulkSenderState";
  
 export function TabsWithIcon( ) {
   const {setBulkSenderState,bulkSenderState} = useContext(BulkSenderStateContext);
@@ -27,28 +27,34 @@ export function TabsWithIcon( ) {
       value: STEPS.PREPARING,
       icon: Square3Stack3DIcon,
       desc: <FillDetails   />,
-      disabled: bulkSenderState.currentStep != STEPS.PREPARING
+      step: STEPS.PREPARING,
     },
     {
       label: STEPS.APPROVE,
       value: STEPS.APPROVE,
       icon: UserCircleIcon,
       desc: <Summary />,
-      disabled: bulkSenderState.currentStep != STEPS.APPROVE
+      step: STEPS.APPROVE,
     },
     {
       label: STEPS.TRANSFER,
       value: STEPS.TRANSFER,
       icon: Cog6ToothIcon,
       desc: <Forward />,
-      disabled: bulkSenderState.currentStep != STEPS.TRANSFER
+      step: STEPS.TRANSFER,
     },
   ];
+  const setStep =(step: STEPS)=>{
+    setBulkSenderState({
+      ...bulkSenderState,
+      currentStep: step
+  })
+  }
   return (
     <div>
     <div className="flex space-x-3 border-b">
       {/* Loop through tab data and render button for each. */}
-      {data.map(({label, value, desc}, idx) => {
+      {data.map(({label, value, desc, step}, idx) => {
         return (
           <button
             key={value}
@@ -57,8 +63,7 @@ export function TabsWithIcon( ) {
                 ? 'border-teal-500'
                 : 'border-transparent hover:border-gray-200'
             }`}
-            // Change the active tab on click.
-            //onClick={() => set(idx)}
+            onClick={() => setStep(step)}
           >
             {label}
           </button>

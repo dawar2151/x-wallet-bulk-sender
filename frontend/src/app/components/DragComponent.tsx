@@ -6,6 +6,7 @@ import { Base64 } from "js-base64";
 import { BulkSenderStateContext } from "../providers";
 import { Receiver } from "../types/BulkSenderState";
 import { useBalance } from "wagmi";
+import { isAddress } from "viem";
 
 export  function DragComponent( ) {
   const [ownerLicense, setOwnerLicense] = useState<any>([]);
@@ -16,17 +17,22 @@ export  function DragComponent( ) {
     const content = Base64.decode(f[0].fileContent.split(",")[1]);
 
     const data = Base64.decode(f[0].fileContent.split(",")[1]);
-    setBulkSenderState({
-      ...bulkSenderState,
-      stringReceivers: data,
-      receivers: data.split("\n").map((line: string) => {
-        const [address, amount] = line.split(",");
-        return {
-          address,
-          amount
-        }
-      }),
-    });
+    const receiversAccounts = data.split('\n').map((line) => {
+      const [address, amount] = line.replace('\r', '').split(',');
+      return {
+        address,
+        amount,
+      };
+    }).filter(({ address, amount }) => isAddress(address) && amount);
+  const totalAmount = receiversAccounts.reduce((acc, { amount }) => acc + Number(amount), 0);
+  setBulkSenderState(
+    {
+    ...bulkSenderState,
+    stringReceivers: data,
+    receivers: receiversAccounts,
+    totalAmount: totalAmount,  
+    }  
+  )
   }
 
   function deleteFile(indexImg:any) {
