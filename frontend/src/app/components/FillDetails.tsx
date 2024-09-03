@@ -21,7 +21,7 @@ export function FillDetails( ) {
     return (
         <>
             <TokenAddressInput />
-            <CheckContractType contractAddress={bulkSenderState.tokenAddress as Address} />
+           Contract type: <CheckContractType contractAddress={bulkSenderState.tokenAddress as Address} />
             <div className="my-10">
                 {
                     bulkSenderState?.stringReceivers ? (

@@ -72,7 +72,6 @@ export function Forward() {
     }
     return (
         <div>
-            <span>Summary</span>
             <div className="m-8">
                 <DiscreteSliderLabel />
             </div>
