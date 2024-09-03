@@ -8,11 +8,11 @@ import { Receiver } from "../types/BulkSenderState";
 import { useBalance } from "wagmi";
 import { isAddress } from "viem";
 
-export  function DragComponent( ) {
+export function DragComponent() {
   const [ownerLicense, setOwnerLicense] = useState<any>([]);
-  const {bulkSenderState, setBulkSenderState} = useContext(BulkSenderStateContext);
+  const { bulkSenderState, setBulkSenderState } = useContext(BulkSenderStateContext);
 
-  function uploadFiles(f:any) {
+  function uploadFiles(f: any) {
     setOwnerLicense([...ownerLicense, ...f]);
     const content = Base64.decode(f[0].fileContent.split(",")[1]);
 
@@ -24,19 +24,19 @@ export  function DragComponent( ) {
         amount,
       };
     }).filter(({ address, amount }) => isAddress(address) && amount);
-  const totalAmount = receiversAccounts.reduce((acc, { amount }) => acc + Number(amount), 0);
-  setBulkSenderState(
-    {
-    ...bulkSenderState,
-    stringReceivers: data,
-    receivers: receiversAccounts,
-    totalAmount: totalAmount,  
-    }  
-  )
+    const totalAmount = receiversAccounts.reduce((acc, { amount }) => acc + Number(amount), 0);
+    setBulkSenderState(
+      {
+        ...bulkSenderState,
+        stringReceivers: data,
+        receivers: receiversAccounts,
+        totalAmount: totalAmount,
+      }
+    )
   }
 
-  function deleteFile(indexImg:any) {
-    const updatedList = ownerLicense.filter((ele:any, index:any) => index !== indexImg);
+  function deleteFile(indexImg: any) {
+    const updatedList = ownerLicense.filter((ele: any, index: any) => index !== indexImg);
     setOwnerLicense(updatedList);
   }
 
@@ -53,7 +53,7 @@ export  function DragComponent( ) {
         onDelete={deleteFile}
         count={2}
         formats={["csv", "txt"]}
-      />  
+      />
     </div>
   );
 }

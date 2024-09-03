@@ -10,9 +10,9 @@ import { BulkSenderStateContext } from "../providers";
 import { useAccount, useBalance, useReadContracts, useWriteContract } from "wagmi";
 import { ABI_ERC20 } from "../abis/ERC20";
 import { formatEther, parseEther } from "viem";
-import { writeContract } from "viem/actions";
 import { BULK_SENDER_ABI } from "../abis/BULKSENDER";
 import { BulkSenders } from "../config/bulkSender";
+import DiscreteSliderLabel from "./GasFee";
 export function Forward() {
     const {address, chainId} = useAccount();
     const { writeContract,  isSuccess,data:dataWrite, error: dataWriteError } = useWriteContract();
@@ -73,6 +73,9 @@ export function Forward() {
     return (
         <div>
             <span>Summary</span>
+            <div className="m-8">
+                <DiscreteSliderLabel />
+            </div>
             <div className="grid grid-cols-2 gap-2 justify-items-center">
                 <Card className="mt-6 w-96">
                     <CardBody>
