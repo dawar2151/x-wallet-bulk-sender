@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
 import { Mark } from '@mui/material/Slider/useSlider.types';
 import { safe } from 'wagmi/connectors';
+import { BulkSenderStateContext } from '../providers';
 
 
 export default function DiscreteSliderLabel() {
@@ -13,6 +14,7 @@ export default function DiscreteSliderLabel() {
     const [min, setMin] = React.useState<number>(0);
     const [max, setMax] = React.useState<number>(0);
     const [value, setValue] = React.useState<number>();
+    const {bulkSenderState, setBulkSenderState} = React.useContext(BulkSenderStateContext);
 
     function valuetext(value: number) {
     
@@ -25,7 +27,14 @@ export default function DiscreteSliderLabel() {
         }else
         return `Unknown: ${value}`;
     }
+    const proceedChange = (newValue: number | number[]) => {
+        setValue(newValue as number);
+        setBulkSenderState({
+            ...bulkSenderState,
+            currentGasPrice: newValue as number
+        })
 
+    }
     const getGas = async () => {
         const apiKey = 'CRGFC2A36MV1J8HJGQ8RJRICDXI3J4N33Q';
         const url = `https://api.etherscan.io/api?module=gastracker&action=gasoracle&apikey=${apiKey}`;
@@ -73,6 +82,7 @@ export default function DiscreteSliderLabel() {
                 size='small'
                 getAriaValueText={valuetext}
                 getAriaLabel={(value)=>  'Gas Fee'}
+                onChange={(event, newValue) => proceedChange(newValue)}
                 valueLabelFormat={valuetext}
                 marks={marks}
                 valueLabelDisplay="on"

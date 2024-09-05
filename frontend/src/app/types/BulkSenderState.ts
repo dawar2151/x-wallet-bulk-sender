@@ -28,6 +28,7 @@ export type BulkSenderState = {
     stringReceivers?: string;
     receivers?: Receiver[];
     totalAmount?: number;
+    currentGasPrice?: number;
 }
 export const initialBulkSenderState: BulkSenderState = {
     currentStep: STEPS.PREPARING,
@@ -42,5 +43,6 @@ export const initialBulkSenderState: BulkSenderState = {
         address: '',
         amount: ''
     }],
-    totalAmount: 0
+    totalAmount: 0,
+    currentGasPrice: 0
 }
