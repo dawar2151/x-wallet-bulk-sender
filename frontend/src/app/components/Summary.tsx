@@ -117,7 +117,7 @@ export function Summary() {
                             {result.data?.formatted.toString()} ETH
                         </Typography>
                         <Typography>
-                            Your current bulksender allowance.
+                        Your Native token balance
                         </Typography>
                     </CardBody>
                 </Card>

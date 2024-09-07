@@ -156,7 +156,7 @@ export function Forward() {
                            {nativeTokenBalance.data?.formatted || '0'} {nativeTokenBalance.data?.symbol}
                         </Typography>
                         <Typography>
-                        Your SEPETH balance
+                        Your Native token balance
                         </Typography>
                     </CardBody>
                 </Card>

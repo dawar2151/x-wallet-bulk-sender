@@ -51,7 +51,7 @@ export function TokenAddressInput() {
         resize={true}
         value={bulkSenderState.tokenAddress}
         onChange={e => onChangeAddress(e)}
-        placeholder="Your Token Address"
+        placeholder="Fill your ERC20, ERC721 or ERC1155 Address"
         className="min-h-full !border-0 focus:border-transparent"
         containerProps={{
           className: "grid h-full",
