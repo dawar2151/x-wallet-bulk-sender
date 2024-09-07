@@ -31,7 +31,7 @@ export default function Layout({
               <span className="sr-only">X-wallet bulk sender</span>
               <img
                 alt=""
-                src="./bulk-sender-high-resolution-logo-black-transparent.png"
+                src="/bulk-sender-high-resolution-logo-black-transparent.png"
                 className="h-10 w-auto"
               />
             </a>
