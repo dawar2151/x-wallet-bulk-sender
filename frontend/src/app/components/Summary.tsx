@@ -8,7 +8,7 @@ import {
 import { ABI_ERC20 } from "../abis/ERC20";
 import { useAccount, useBalance, useReadContracts, useWriteContract } from "wagmi";
 import { BulkSenderStateContext } from "../providers";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { formatEther, formatUnits, parseEther } from "viem";
 import { config } from "@/lib/config";
 import { BulkSenders } from "../config/bulkSender";
@@ -16,6 +16,7 @@ import { STEPS } from "../types/BulkSenderState";
 export function Summary() {
     const {address, chainId} = useAccount()
     const { writeContract,  isSuccess,data:dataWrite } = useWriteContract();
+    const [approveType, setApproveType] = useState<string>('unlimited');
 
     const { setBulkSenderState, bulkSenderState } = useContext(BulkSenderStateContext);
     const result = useBalance({
@@ -72,7 +73,7 @@ export function Summary() {
                 functionName: 'approve',
                 args: [
                     BulkSenders[chainId as number],// TODO: fix type
-                    amount,
+                    approveType == "exact" ? amount: '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff',
                 ]
             });
     }
@@ -122,9 +123,9 @@ export function Summary() {
                 </Card>
             </div>
             <div className="text-center underline-offset-1 my-5">Amount to approve</div>
-            <div className="text-center gap-10">
-                <Radio name="type" label="Exact Amount to be sent" />
-                <Radio name="type" label="Unlimited amount" defaultChecked />
+            <div className="text-center gap-10" onChange={(e)=>setApproveType(e.target.value)}>
+                <Radio name="type" value="exact" label="Exact Amount to be sent" />
+                <Radio name="type" value="unlimited" label="Unlimited amount" defaultChecked />
             </div>
             <div className="text-right my-2">
                 <button

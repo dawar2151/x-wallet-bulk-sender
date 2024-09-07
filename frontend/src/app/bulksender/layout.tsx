@@ -6,10 +6,10 @@ import { useState } from 'react'
 import { ConnectBtn } from '../components/connectButton';
 
 const navigation = [
-  { name: 'VIP', href: '#', current: true },
-  { name: 'Tutorial', href: '#', current: false },
-  { name: 'Transactions history', href: '#', current: false },
-  { name: 'Verification', href: '#', current: false },
+  { name: 'VIP', href: '/bulksender/vip', current: true },
+  { name: 'Tutorial', href: '/bulksender/tutorial', current: false },
+  { name: 'Transactions history', href: '/bulksender/history', current: false },
+  { name: 'Verification', href: '/bulksender/verification', current: false },
 ]
 
 function classNames(...classes:any) {
@@ -27,12 +27,12 @@ export default function Layout({
       <header className="absolute inset-x-0 top-0 z-50">
         <nav aria-label="Global" className="flex items-center justify-between p-6 lg:px-8">
           <div className="flex lg:flex-1">
-            <a href="#" className="-m-1.5 p-1.5">
-              <span className="sr-only">Your Company</span>
+            <a href="/bulksender" className="-m-1.5 p-1.5">
+              <span className="sr-only">X-wallet bulk sender</span>
               <img
                 alt=""
-                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                className="h-8 w-auto"
+                src="./bulk-sender-high-resolution-logo-black-transparent.png"
+                className="h-10 w-auto"
               />
             </a>
           </div>

@@ -34,7 +34,6 @@ export const initialBulkSenderState: BulkSenderState = {
     currentStep: STEPS.PREPARING,
     contractType: ContractType.Native,
     stringReceivers: '',
-    tokenAddress: '0x',
     tokenSymbol: 'ETh',
     currentTokenBalance: 0,
     decimals: 0,

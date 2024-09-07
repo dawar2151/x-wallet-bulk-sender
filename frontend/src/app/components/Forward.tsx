@@ -5,14 +5,18 @@ import {
     CardBody,
     Typography,
 } from "@material-tailwind/react";
-import { useContext } from "react";
+import { simulateContract } from '@wagmi/core'
+
+import { useContext, useEffect } from "react";
 import { BulkSenderStateContext } from "../providers";
-import { useAccount, useBalance, useReadContracts, useWriteContract } from "wagmi";
+import { useAccount, useBalance, useReadContracts, useWriteContract, usePrepareTransactionRequest} from "wagmi";
 import { ABI_ERC20 } from "../abis/ERC20";
-import { formatEther, parseEther } from "viem";
+import { encodeFunctionData, formatEther, Hex, parseEther, parseGwei } from "viem";
 import { BULK_SENDER_ABI } from "../abis/BULKSENDER";
 import { BulkSenders } from "../config/bulkSender";
 import DiscreteSliderLabel from "./GasFee";
+import { config } from "@/lib/config";
+import { useEstimateGas } from 'wagmi'
 export function Forward() {
     const {address, chainId} = useAccount();
     const { writeContract,  isSuccess,data:dataWrite, error: dataWriteError } = useWriteContract();
@@ -67,9 +71,29 @@ export function Forward() {
                     bulkSenderState.receivers?.map(a=> a.address),
                     bulkSenderState.receivers?.map(a=> parseEther(a.amount)),
                 ],
-                value: parseEther('0.01'), 
+                value: parseEther('0.01')
+                //gasPrice: parseGwei(bulkSenderState.currentGasPrice?.toString() || '0'),
             });
     }
+    const dataHex = encodeFunctionData({
+        abi: BULK_SENDER_ABI,
+        functionName: 'bulkTransferERC20',
+        args: [
+            bulkSenderState.tokenAddress,
+            bulkSenderState.receivers?.map(a=> a.address),
+            bulkSenderState.receivers?.map(a=> parseEther(a.amount)),
+        ]
+      })
+    const result = useEstimateGas({
+        data: dataHex?.toString() as Hex, 
+        to: BulkSenders[chainId as number] ,
+        value: parseEther('0.01'),
+      })
+      useEffect(() => {
+        console.log(result);
+     }, [bulkSenderState.currentGasPrice]);
+
+  
     return (
         <div>
             <div className="m-8">
@@ -119,7 +143,7 @@ export function Forward() {
                 <Card className="mt-6 w-96">
                     <CardBody>
                         <Typography variant="h5" color="blue-gray" className="mb-2">
-                            {balanceOf?.result} {symbol?.result}
+                            {(Number(result.data) * bulkSenderState?.currentGasPrice)/1000000000} ETH
                         </Typography>
                         <Typography>
                         Approximate cost of operation 

@@ -27,6 +27,12 @@ export default function DiscreteSliderLabel() {
         }else
         return `Unknown: ${value}`;
     }
+    React.useEffect(() => {
+        setBulkSenderState({
+            ...bulkSenderState,
+            currentGasPrice: safeGasPrice as number
+        })
+    }, [safeGasPrice]);
     const proceedChange = (newValue: number | number[]) => {
         setValue(newValue as number);
         setBulkSenderState({

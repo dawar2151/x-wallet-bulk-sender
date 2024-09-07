@@ -7,7 +7,7 @@ export default  function Home() {
   const router = useRouter()
   const gotToHome = () => {
     console.log("clicked")
-    router.push("/home");
+    router.push("/bulksender");
 };
   return (
     <div className="relative isolate px-6 pt-14 lg:px-8">
