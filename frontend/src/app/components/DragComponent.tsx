@@ -4,7 +4,7 @@ import { CustomDragDrop } from "./CustomContainer";
 import { useContext, useState } from "react";
 import { Base64 } from "js-base64";
 import { BulkSenderStateContext } from "../providers";
-import { Receiver } from "../types/BulkSenderState";
+import { Receiver, TypingType } from "../types/BulkSenderState";
 import { useBalance } from "wagmi";
 import { isAddress } from "viem";
 
@@ -31,6 +31,7 @@ export function DragComponent() {
         stringReceivers: data,
         receivers: receiversAccounts,
         totalAmount: totalAmount,
+        currentTypingType: TypingType.Manually
       }
     )
   }
@@ -39,14 +40,20 @@ export function DragComponent() {
     const updatedList = ownerLicense.filter((ele: any, index: any) => index !== indexImg);
     setOwnerLicense(updatedList);
   }
-
+  const setTypingtoManually = () => {
+    setBulkSenderState({
+      ...bulkSenderState,
+      currentTypingType: TypingType.Manually
+    })
+  }
+  const setTypingtoUpload = () => {
+    setBulkSenderState({
+      ...bulkSenderState,
+      currentTypingType: TypingType.Upload
+    })
+  }
   return (
     <div className="bg-white shadow rounded-lg w-full px-5 pt-3 pb-5">
-      <div className="pb-[8px] border-b border-[#e0e0e0]">
-        <h2 className="text-black text-[17px] font-[600]">
-          Drag and Drop Your File here
-        </h2>
-      </div>
       <CustomDragDrop
         ownerLicense={ownerLicense}
         onUpload={uploadFiles}

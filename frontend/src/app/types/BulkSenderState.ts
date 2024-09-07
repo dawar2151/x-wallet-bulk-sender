@@ -7,6 +7,10 @@ export enum ContractType {
     ERC1155 = 'ERC1155',
     Unknown = 'Unknown',
     }
+export enum TypingType {
+    Upload = 'Upload',
+    Manually = 'Manually'
+}
 
 export interface Receiver {
     address: string;
@@ -29,6 +33,7 @@ export type BulkSenderState = {
     receivers?: Receiver[];
     totalAmount?: number;
     currentGasPrice?: number;
+    currentTypingType:TypingType
 }
 export const initialBulkSenderState: BulkSenderState = {
     currentStep: STEPS.PREPARING,
@@ -43,5 +48,6 @@ export const initialBulkSenderState: BulkSenderState = {
         amount: ''
     }],
     totalAmount: 0,
-    currentGasPrice: 0
+    currentGasPrice: 0,
+    currentTypingType: TypingType.Upload
 }
