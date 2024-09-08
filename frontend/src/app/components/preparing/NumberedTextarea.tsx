@@ -11,12 +11,22 @@ export function NumberedTextarea() {
   
     const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
       const receiversAccounts = event.target.value.split('\n').map((line) => {
-          const [address, amount] = line.replace('\r', '').split(',');
+        const data = line.replace('\r', '').trim().split(',');
+        if (data.length === 3) {
+          const [address, tokenId, amount] = data;
+          return {
+            address,
+            tokenId,
+            amount,
+          };
+        } else {
+          const [address, amount] = data;
           return {
             address,
             amount,
           };
-        }).filter(({ address, amount }) => isAddress(address) && amount);
+        }
+      }).filter(({ address, amount }) => isAddress(address) && amount);
       const totalAmount = receiversAccounts.reduce((acc, { amount }) => acc + Number(amount), 0);
       setBulkSenderState(
         {

@@ -14,6 +14,7 @@ export enum TypingType {
 
 export interface Receiver {
     address: string;
+    tokenId?: string;
     amount: string;
 }
 export const enum ApproveType {

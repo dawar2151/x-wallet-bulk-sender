@@ -10,7 +10,7 @@ import { Card, CardContent, Typography } from '@mui/material';
 
 export function ExampleContents() {
   const [open, setOpen] = React.useState(false);
- 
+
   const handleOpen = () => setOpen(!open);
   const erc20List = [
     { receiver: '0xa0BfF9CA8aF0649eB056cA1a902b559Da97FFde9', amount: 1 },
@@ -34,52 +34,53 @@ export function ExampleContents() {
   ];
   return (
     <>
-      <a href="#" className="text-[#0070f3]" onClick={handleOpen}>
+      <Button size="lg" color="white" onClick={handleOpen} className="flex items-center gap-3">
         Example Data
-      </a>
+      </Button>
+
       <Dialog open={open} handler={handleOpen}>
         <DialogHeader>Its a simple dialog.</DialogHeader>
         <DialogBody>
-        <div className="p-4">
-      <Card className="mb-4">
-        <CardContent>
-          <Typography variant="h6" className="mb-2">ERC20 Example (Receiver, Amount)</Typography>
-          <ul className="list-disc pl-6">
-            {erc20List.map((item, index) => (
-              <li key={index} className="text-gray-700 mb-1">
-                {item.receiver}, {item.amount}
-              </li>
-            ))}
-          </ul>
-        </CardContent>
-      </Card>
+          <div className="p-4">
+            <Card className="mb-4">
+              <CardContent>
+                <Typography variant="h6" className="mb-2">ERC20 Example (Receiver, Amount)</Typography>
+                <ul className="list-disc pl-6">
+                  {erc20List.map((item, index) => (
+                    <li key={index} className="text-gray-700 mb-1">
+                      {item.receiver}, {item.amount}
+                    </li>
+                  ))}
+                </ul>
+              </CardContent>
+            </Card>
 
-      <Card className="mb-4">
-        <CardContent>
-          <Typography variant="h6" className="mb-2">ERC721 Example (Receiver, TokenId)</Typography>
-          <ul className="list-disc pl-6">
-            {erc721List.map((item, index) => (
-              <li key={index} className="text-gray-700 mb-1">
-                {item.receiver}, {item.tokenId}
-              </li>
-            ))}
-          </ul>
-        </CardContent>
-      </Card>
+            <Card className="mb-4">
+              <CardContent>
+                <Typography variant="h6" className="mb-2">ERC721 Example (Receiver, TokenId)</Typography>
+                <ul className="list-disc pl-6">
+                  {erc721List.map((item, index) => (
+                    <li key={index} className="text-gray-700 mb-1">
+                      {item.receiver}, {item.tokenId}
+                    </li>
+                  ))}
+                </ul>
+              </CardContent>
+            </Card>
 
-      <Card>
-        <CardContent>
-          <Typography variant="h6" className="mb-2">ERC1155 Example (Receiver, TokenId, Amount)</Typography>
-          <ul className="list-disc pl-6">
-            {erc1155List.map((item, index) => (
-              <li key={index} className="text-gray-700 mb-1">
-                {item.receiver}, {item.tokenId}, {item.amount}
-              </li>
-            ))}
-          </ul>
-        </CardContent>
-      </Card>
-    </div>
+            <Card>
+              <CardContent>
+                <Typography variant="h6" className="mb-2">ERC1155 Example (Receiver, TokenId, Amount)</Typography>
+                <ul className="list-disc pl-6">
+                  {erc1155List.map((item, index) => (
+                    <li key={index} className="text-gray-700 mb-1">
+                      {item.receiver}, {item.tokenId}, {item.amount}
+                    </li>
+                  ))}
+                </ul>
+              </CardContent>
+            </Card>
+          </div>
         </DialogBody>
       </Dialog>
     </>

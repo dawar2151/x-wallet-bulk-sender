@@ -8,7 +8,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import { config } from "@/lib/config";
 import { createContext, useState } from 'react';
-import { BulkSenderState, initialBulkSenderState } from './types/BulkSenderState';
+import { BulkSenderState, initialBulkSenderState } from '@/app/types/BulkSenderState';
 
 const queryClient = new QueryClient();
 

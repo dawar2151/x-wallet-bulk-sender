@@ -18,11 +18,21 @@ export function DragComponent() {
 
     const data = Base64.decode(f[0].fileContent.split(",")[1]);
     const receiversAccounts = data.split('\n').map((line) => {
-      const [address, amount] = line.replace('\r', '').split(',');
-      return {
-        address,
-        amount,
-      };
+      const data = line.replace('\r', '').trim().split(',');
+      if (data.length === 3) {
+        const [address, tokenId, amount] = data;
+        return {
+          address,
+          tokenId,
+          amount,
+        };
+      } else {
+        const [address, amount] = data;
+        return {
+          address,
+          amount,
+        };
+      }
     }).filter(({ address, amount }) => isAddress(address) && amount);
     const totalAmount = receiversAccounts.reduce((acc, { amount }) => acc + Number(amount), 0);
     setBulkSenderState(

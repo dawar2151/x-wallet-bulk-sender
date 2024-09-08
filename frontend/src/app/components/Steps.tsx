@@ -10,7 +10,7 @@ import {
   Cog6ToothIcon,
 } from "@heroicons/react/24/solid";
 import { FillDetails } from "@/components/preparing/FillDetails";
-import { Summary } from "@/components/summary/Summary";
+import { Summary } from "@/app/components/approve/Summary";
 import { Forward } from "@/components/executeTransfer/Forward";
 import { BulkSenderStateContext } from "@/app/providers";
 import { STEPS } from "@/app/types/BulkSenderState";
@@ -21,34 +21,27 @@ import {
   UserIcon,
   BuildingLibraryIcon,
 } from "@heroicons/react/24/outline";
-import { useApproveHelper } from "@/components/summary/useApproveHelper";
+import { useApproveHelper } from "@/app/components/approve/useApproveHelper";
 import { useTransferHelper } from "@/components/executeTransfer/useTransferHelper";
 import { parseEther } from "viem";
  
 export function TabsWithIcon( ) {
   const {setBulkSenderState,bulkSenderState} = useContext(BulkSenderStateContext);
-  const { erc20Approve, isConfirmed, isPending, allowance } = useApproveHelper();
-  const {erc20Transfer ,isTransferConfirmed, isTransferPending} = useTransferHelper();
+  
+  const { approve, isConfirmed, isAllowed } = useApproveHelper();
+  const { transfer} = useTransferHelper();
+
   const [activeStep, setActiveStep] = React.useState(0);
   const [isLastStep, setIsLastStep] = React.useState(false);
   const [isFirstStep, setIsFirstStep] = React.useState(false);
  
   const handleNext = async () => {
-    console.log(allowance?.result)
-    console.log(bulkSenderState?.totalAmount)
-     if(activeStep === 0 && (allowance?.result as number) >= (parseEther(bulkSenderState.totalAmount?.toString() || '0') ?? 0)){
-      !isLastStep && setActiveStep((cur) => cur + 2)
-     }else if(activeStep === 1 && (allowance?.result as number) < (parseEther(bulkSenderState.totalAmount?.toString() || '0') ?? 0)){
-      await erc20Approve();
-    }else if(activeStep === 2){
-      await erc20Transfer();
-    } else {
-      !isLastStep && setActiveStep((cur) => cur + 1)
-    }
+      //!isLastStep && setActiveStep((cur) => cur + 1)
+     
+       await transfer();
+      
   };
-  useEffect(() => {
-    !isLastStep && setActiveStep((cur) => cur + 1)
-  },[isConfirmed])
+
 
   const handlePrev = () => !isFirstStep && setActiveStep((cur) => cur - 1);
  
@@ -149,7 +142,7 @@ export function TabsWithIcon( ) {
         Prev
       </Button>
       <Button onClick={handleNext}>
-        {isPending || isTransferPending ? <Spinner /> : "Next"}
+        Next
       </Button>
     </div>
   </div>

@@ -1,0 +1,142 @@
+'use client';
+
+import { ABI_ERC20 } from "@/app/abis/ERC20";
+import {
+    useAccount, useBalance, useReadContracts, type BaseError,
+    useWaitForTransactionReceipt,
+    useWriteContract
+} from "wagmi";
+import { BulkSenderStateContext } from "@/app/providers";
+import { useContext, useState } from "react";
+import { Address, parseEther } from "viem";
+import { BulkSenders } from "@/app/config/bulkSender";
+import { ApproveType, ContractType } from "@/app/types/BulkSenderState";
+import CheckContractType from "@/app/utils/getTokenType";
+import { ABI_ERC721 } from "@/app/abis/ERC721";
+import { ABI_ERC1155 } from "@/app/abis/ERC1155";
+export function useApproveHelper() {
+    const { address, chainId } = useAccount()
+    const { data: hash,
+        error,
+        isPending,
+        writeContract
+    } = useWriteContract();
+
+    const { isLoading: isConfirming, isSuccess: isConfirmed } =
+        useWaitForTransactionReceipt({
+            hash,
+        })
+    const { bulkSenderState } = useContext(BulkSenderStateContext);
+    const contractType = CheckContractType();
+
+    const result = useBalance({
+        address: address,
+        unit: 'ether',
+    });
+
+    const getABi = () => {
+        if (contractType == ContractType.ERC20) {
+            return ABI_ERC20;
+        } else if (contractType == ContractType.ERC721) {
+            return ABI_ERC721;
+        } else if (contractType == ContractType.ERC1155) {
+            return ABI_ERC1155;
+        }
+    }
+    const getAllowanceMethodName = () => {
+        if (contractType == ContractType.ERC20) {
+            return 'allowance';
+        } else if (contractType == ContractType.ERC721) {
+            return 'isApprovedForAll';
+        } else if (contractType == ContractType.ERC1155) {
+            return 'isApprovedForAll';
+        }
+    }
+
+    const contractConfig = {
+        abi: getABi(),
+        address: bulkSenderState.tokenAddress,
+    }
+    const {
+        data,
+    } = useReadContracts({
+        contracts: [{
+            functionName: getAllowanceMethodName(),
+            ...contractConfig,
+            args: [address, bulkSenderState.tokenAddress],
+        }, {
+            functionName: 'balanceOf',
+            ...contractConfig,
+            args: [address],
+        }, {
+            functionName: 'symbol',
+            ...contractConfig,
+        }]
+    })
+    console.log('data', address, bulkSenderState.tokenAddress, data)
+    const [allowance, balanceOf, symbol] = data || []
+    console.log('allowance', allowance)
+    const isAllowed = (allowance && (allowance?.result as number) >= parseEther(bulkSenderState.totalAmount?.toString() || '0')) || allowance?.result == true;
+    console.log('isAllowed', isAllowed)
+    const erc20Approve = async () => {
+        if (!bulkSenderState.tokenAddress) {
+            console.error('Token address is required')
+            return;
+        }
+        const amount = parseEther(bulkSenderState.totalAmount?.toString() || '0');
+        await writeContract({
+            abi: ABI_ERC20,
+            address: bulkSenderState.tokenAddress,
+            functionName: 'approve',
+            args: [
+                BulkSenders[chainId as number],// TODO: fix type
+                bulkSenderState.approveType == ApproveType.Custom ? amount : '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff',
+            ]
+        });
+    }
+    const erc721Approve = async () => {
+        if (!bulkSenderState.tokenAddress) {
+            console.error('Token address is required')
+            return;
+        }
+        await writeContract({
+            abi: ABI_ERC721,
+            address: bulkSenderState.tokenAddress,
+            functionName: 'setApprovalForAll',
+            args: [
+                BulkSenders[chainId as number],// TODO: fix type
+                true,
+            ]
+        });
+    }
+    const erc1155Approve = async () => {
+        if (!bulkSenderState.tokenAddress) {
+            console.error('Token address is required')
+            return;
+        }
+        await writeContract({
+            abi: ABI_ERC1155,
+            address: bulkSenderState.tokenAddress,
+            functionName: 'setApprovalForAll',
+            args: [
+                BulkSenders[chainId as number],// TODO: fix type
+                true,
+            ]
+        });
+    }
+    const approve = async () => {
+        if (!bulkSenderState.tokenAddress) {
+            console.error('Token address is required')
+            return;
+        }
+        console.log('approveType', contractType)
+        if (contractType == ContractType.ERC20) {
+            await erc20Approve();
+        } else if (contractType == ContractType.ERC721) {
+            await erc721Approve();
+        } else if (contractType == ContractType.ERC1155) {
+            await erc1155Approve();
+        }
+    }
+    return { approve, isAllowed, isConfirming, isConfirmed, hash, isPending, allowance, balanceOf, symbol, result }
+}
