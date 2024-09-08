@@ -28,18 +28,15 @@ import { parseEther } from "viem";
 export function TabsWithIcon( ) {
   const {setBulkSenderState,bulkSenderState} = useContext(BulkSenderStateContext);
   
-  const { approve, isConfirmed, isAllowed } = useApproveHelper();
-  const { transfer} = useTransferHelper();
+  //const { approve, isConfirmed, isAllowed } = useApproveHelper();
+  const { transfer, transferError} = useTransferHelper();
 
   const [activeStep, setActiveStep] = React.useState(0);
   const [isLastStep, setIsLastStep] = React.useState(false);
   const [isFirstStep, setIsFirstStep] = React.useState(false);
  
   const handleNext = async () => {
-      //!isLastStep && setActiveStep((cur) => cur + 1)
-     
-       await transfer();
-      
+      !isLastStep && setActiveStep((cur) => cur + 1)      
   };
 
 
@@ -77,6 +74,7 @@ export function TabsWithIcon( ) {
   }
   return (
     <div className="w-full py-4 px-8">
+      {transferError && <div className="text-red-500">{transferError.message}</div>}
     <Stepper
       activeStep={activeStep}
       isLastStep={(value) => setIsLastStep(value)}
@@ -91,12 +89,6 @@ export function TabsWithIcon( ) {
             >
               {data[0].label}
             </Typography>
-            {/* <Typography
-              color={activeStep === 0 ? "blue-gray" : "gray"}
-              className="font-normal"
-            >
-              Fill token address, receivers and amounts.
-            </Typography> */}
           </div>
         </Step>
         <Step onClick={() => setActiveStep(1)}>
@@ -108,12 +100,6 @@ export function TabsWithIcon( ) {
             >
                {data[1].label}
             </Typography>
-            {/* <Typography
-              color={activeStep === 1 ? "blue-gray" : "gray"}
-              className="font-normal"
-            >
-              Give allowance to bulk sender contract to spend token.
-            </Typography> */}
           </div>
         </Step>
         <Step onClick={() => setActiveStep(2)}>
@@ -125,17 +111,12 @@ export function TabsWithIcon( ) {
             >
                {data[2].label}
             </Typography>
-            {/* <Typography
-              color={activeStep === 2 ? "blue-gray" : "gray"}
-              className="font-normal"
-            >
-              Execute the transaction.
-            </Typography> */}
           </div>
         </Step>
     </Stepper>
     <div className="mt-20">
     {data[activeStep].desc}
+    <Button onClick={transfer} className="mt-4"> Transfer </Button>
     </div>
     <div className="mt-16 flex justify-between">
       <Button onClick={handlePrev} disabled={isFirstStep}>

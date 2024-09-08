@@ -18,7 +18,7 @@ import CheckContractType from "@/app/utils/getTokenType";
 export function useTransferHelper() {
     const {address, chainId} = useAccount()
     const { data: hash,
-        error,
+        error: transferError,
         isPending: isTransferPending, 
         writeContract 
      } = useWriteContract();
@@ -62,7 +62,7 @@ export function useTransferHelper() {
                 args: [
                     bulkSenderState.tokenAddress,
                     bulkSenderState.receivers?.map(a=> a.address),
-                    bulkSenderState.receivers?.map(a=> a.tokenId),
+                    bulkSenderState.receivers?.map(a=> BigInt(a.tokenId as string)),
                 ],
                 value: parseEther('0.01')
                 //gasPrice: parseGwei(bulkSenderState.currentGasPrice?.toString() || '0'),
@@ -80,8 +80,8 @@ export function useTransferHelper() {
                 args: [
                     bulkSenderState.tokenAddress,
                     bulkSenderState.receivers?.map(a=> a.address),
-                    bulkSenderState.receivers?.map(a=> a.tokenId),
-                    bulkSenderState.receivers?.map(a=> a.amount),
+                    bulkSenderState.receivers?.map(a=> BigInt(a.tokenId as string)),
+                    bulkSenderState.receivers?.map(a=> BigInt(a.amount as string)),
                 ],
                 value: parseEther('0.01')
                 //gasPrice: parseGwei(bulkSenderState.currentGasPrice?.toString() || '0'),
@@ -103,5 +103,5 @@ export function useTransferHelper() {
             await erc1155Transfer();
         }
     }
-    return {transfer, isTransferConfirming, isTransferConfirmed, isTransferPending}
+    return {transfer, isTransferConfirming, isTransferConfirmed, isTransferPending, transferError}
 }
