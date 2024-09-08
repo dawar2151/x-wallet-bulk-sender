@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef, useContext } from 'react';
-import { BulkSenderStateContext } from '../providers';
+import { BulkSenderStateContext } from '@/app/providers';
 import { isAddress } from 'viem';
 
 export function NumberedTextarea() {

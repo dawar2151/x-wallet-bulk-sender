@@ -16,6 +16,10 @@ export interface Receiver {
     address: string;
     amount: string;
 }
+export const enum ApproveType {
+    Unlimited = 'unlimited',
+    Custom = 'custom'
+}
 export enum STEPS  {
     PREPARING = "Preparing",
     APPROVE = "Approve",
@@ -33,7 +37,8 @@ export type BulkSenderState = {
     receivers?: Receiver[];
     totalAmount?: number;
     currentGasPrice?: number;
-    currentTypingType:TypingType
+    currentTypingType:TypingType,
+    approveType?: ApproveType;
 }
 export const initialBulkSenderState: BulkSenderState = {
     currentStep: STEPS.PREPARING,
@@ -49,5 +54,6 @@ export const initialBulkSenderState: BulkSenderState = {
     }],
     totalAmount: 0,
     currentGasPrice: 0,
-    currentTypingType: TypingType.Upload
+    currentTypingType: TypingType.Upload,
+    approveType: ApproveType.Unlimited
 }

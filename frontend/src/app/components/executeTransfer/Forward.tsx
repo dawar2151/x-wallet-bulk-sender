@@ -8,13 +8,13 @@ import {
 import { simulateContract } from '@wagmi/core'
 
 import { useContext, useEffect } from "react";
-import { BulkSenderStateContext } from "../providers";
+import { BulkSenderStateContext } from "@/app/providers";
 import { useAccount, useBalance, useReadContracts, useWriteContract, usePrepareTransactionRequest} from "wagmi";
-import { ABI_ERC20 } from "../abis/ERC20";
-import { encodeFunctionData, formatEther, Hex, parseEther, parseGwei } from "viem";
-import { BULK_SENDER_ABI } from "../abis/BULKSENDER";
-import { BulkSenders } from "../config/bulkSender";
-import DiscreteSliderLabel from "./GasFee";
+import { ABI_ERC20 } from "@/app/abis/ERC20";
+import { encodeFunctionData, formatEther, Hex, isAddress, parseEther, parseGwei } from "viem";
+import { BULK_SENDER_ABI } from "@/app/abis/BULKSENDER";
+import { BulkSenders } from "@/app/config/bulkSender";
+import DiscreteSliderLabel from "@/components/executeTransfer/GasFee";
 import { config } from "@/lib/config";
 import { useEstimateGas } from 'wagmi'
 export function Forward() {
@@ -55,40 +55,26 @@ export function Forward() {
     })
     const [allowance, balanceOf, symbol,decimals] = data || []
     console.log(dataWriteError?.message);
-    const transfer = async () => {
-        if (!bulkSenderState.tokenAddress) {
-            console.error('Token address is required')
-            return;
-        }
-        console.log(bulkSenderState.receivers?.map(a=> a.address))
-        const amount = parseEther(bulkSenderState.totalAmount?.toString() || '0');
-        await writeContract({
-                abi: BULK_SENDER_ABI,
-                address: BulkSenders[chainId as number],
-                functionName: 'bulkTransferERC20',
-                args: [
-                    bulkSenderState.tokenAddress,
-                    bulkSenderState.receivers?.map(a=> a.address),
-                    bulkSenderState.receivers?.map(a=> parseEther(a.amount)),
-                ],
-                value: parseEther('0.01')
-                //gasPrice: parseGwei(bulkSenderState.currentGasPrice?.toString() || '0'),
-            });
+  
+   
+    let result;
+    if(isAddress(bulkSenderState.tokenAddress) && bulkSenderState.receivers?.length){
+        const dataHex = encodeFunctionData({
+            abi: BULK_SENDER_ABI,
+            functionName: 'bulkTransferERC20',
+            args: [
+                bulkSenderState.tokenAddress,
+                bulkSenderState.receivers?.map(a=> a.address),
+                bulkSenderState.receivers?.map(a=> parseEther(a.amount)),
+            ]
+          })
+         result = useEstimateGas({
+            data: dataHex?.toString() as Hex, 
+            to: BulkSenders[chainId as number] ,
+            value: parseEther('0.01'),
+          })
     }
-    const dataHex = encodeFunctionData({
-        abi: BULK_SENDER_ABI,
-        functionName: 'bulkTransferERC20',
-        args: [
-            bulkSenderState.tokenAddress,
-            bulkSenderState.receivers?.map(a=> a.address),
-            bulkSenderState.receivers?.map(a=> parseEther(a.amount)),
-        ]
-      })
-    const result = useEstimateGas({
-        data: dataHex?.toString() as Hex, 
-        to: BulkSenders[chainId as number] ,
-        value: parseEther('0.01'),
-      })
+    
       useEffect(() => {
         console.log(result);
      }, [bulkSenderState.currentGasPrice]);
@@ -143,7 +129,7 @@ export function Forward() {
                 <Card className="mt-6 w-96">
                     <CardBody>
                         <Typography variant="h5" color="blue-gray" className="mb-2">
-                            {(Number(result.data) * bulkSenderState?.currentGasPrice)/1000000000} ETH
+                            {(Number(result?.data) * bulkSenderState?.currentGasPrice)/1000000000} ETH
                         </Typography>
                         <Typography>
                         Approximate cost of operation 
@@ -160,14 +146,6 @@ export function Forward() {
                         </Typography>
                     </CardBody>
                 </Card>
-            </div>
-            <div className="text-right my-10">
-            <button
-                onClick={()=>transfer()}
-                className="rounded-md bg-indigo-600 px-10 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            >
-                Processes Transfer
-            </button>
             </div>
         </div>
     )

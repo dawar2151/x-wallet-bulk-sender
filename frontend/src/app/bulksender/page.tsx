@@ -1,5 +1,5 @@
 import { NextPage } from 'next';
-import { TabsWithIcon } from '../components/Steps';
+import { TabsWithIcon } from '@/components/Steps';
 
 import fs from 'fs';
 const Home: NextPage = () => {

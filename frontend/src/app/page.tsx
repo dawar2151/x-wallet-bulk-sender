@@ -6,7 +6,6 @@ export default  function Home() {
 
   const router = useRouter()
   const gotToHome = () => {
-    console.log("clicked")
     router.push("/bulksender");
 };
   return (

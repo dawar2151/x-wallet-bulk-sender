@@ -3,7 +3,7 @@
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import { Dialog, DialogPanel } from '@headlessui/react'
 import { useState } from 'react'
-import { ConnectBtn } from '../components/connectButton';
+import { ConnectBtn } from '@/components/connection/connectButton';
 
 const navigation = [
   { name: 'VIP', href: '/bulksender/vip', current: true },

@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
 import { Mark } from '@mui/material/Slider/useSlider.types';
 import { safe } from 'wagmi/connectors';
-import { BulkSenderStateContext } from '../providers';
+import { BulkSenderStateContext } from '@/app/providers';
 
 
 export default function DiscreteSliderLabel() {

@@ -1,11 +1,9 @@
 import { useReadContract } from 'wagmi';
-import { ABI_ERC20 } from '../abis/ERC20';
-import { ABI_ERC721 } from '../abis/ERC721';
-import { ABI_ERC1155 } from '../abis/ERC1155';
+import { ABI_ERC20 } from '@/app/abis/ERC20';
+import { ABI_ERC721 } from '@/app/abis/ERC721';
+import { ABI_ERC1155 } from '@/app/abis/ERC1155';
 import { Address } from 'viem';
-import { useContext } from 'react';
-import { BulkSenderStateContext } from '../providers';
-import { ContractType } from '../types/BulkSenderState';
+import { ContractType } from '@/app/types/BulkSenderState';
 
 
 function useContractType(address: Address) {

@@ -3,9 +3,9 @@
 import { Textarea, IconButton, Spinner } from "@material-tailwind/react";
 import { ReactNode, useContext, useState } from "react";
 import { useReadContract, useReadContracts } from "wagmi";
-import { ABI_ERC20 } from "../abis/ERC20";
+import { ABI_ERC20 } from "@/app/abis/ERC20";
 import { Address } from "viem";
-import { BulkSenderStateContext } from "../providers";
+import { BulkSenderStateContext } from "@/app/providers";
 
 export function TokenAddressInput() {
   const { setBulkSenderState, bulkSenderState } = useContext(BulkSenderStateContext);

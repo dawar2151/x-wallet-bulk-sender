@@ -1,14 +1,12 @@
 'use client'
 
 import { useContext } from "react";
-import { BulkSenderStateContext } from "../providers";
-import { DragComponent } from "./DragComponent"
-import { TokenAddressInput } from "./TokenAddressInput"
-import { NumberedTextarea } from "./NumberedTextarea";
-import { STEPS, TypingType } from "../types/BulkSenderState";
-import CheckContractType from "../utils/getTokenType";
-import { Address } from "viem";
-import { TypingTypeChoose } from "./TypingType";
+import { BulkSenderStateContext } from "@/app/providers";
+import { DragComponent } from "@/components/preparing/DragComponent"
+import { TokenAddressInput } from "@/components/preparing/TokenAddressInput"
+import { NumberedTextarea } from "@/components/preparing/NumberedTextarea";
+import { TypingType } from "@/app/types/BulkSenderState";
+import { TypingTypeChoose } from "@/components/preparing/TypingType";
 
 export function FillDetails() {
     const { setBulkSenderState, bulkSenderState } = useContext(BulkSenderStateContext);
@@ -20,8 +18,8 @@ export function FillDetails() {
                 Contract type: <CheckContractType contractAddress={bulkSenderState.tokenAddress as Address} />
             </div> */}
             <div className="my-10">
-                <TypingTypeChoose />
 
+                <TypingTypeChoose />
                 {
                     bulkSenderState?.currentTypingType == TypingType.Manually ? (
                         <NumberedTextarea />

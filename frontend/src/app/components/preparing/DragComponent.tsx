@@ -1,10 +1,10 @@
 "use client";
 
-import { CustomDragDrop } from "./CustomContainer";
+import { CustomDragDrop } from "@/components/preparing/CustomDragDrop";
 import { useContext, useState } from "react";
 import { Base64 } from "js-base64";
-import { BulkSenderStateContext } from "../providers";
-import { Receiver, TypingType } from "../types/BulkSenderState";
+import { BulkSenderStateContext } from "@/app/providers";
+import { Receiver, TypingType } from "@/app/types/BulkSenderState";
 import { useBalance } from "wagmi";
 import { isAddress } from "viem";
 
