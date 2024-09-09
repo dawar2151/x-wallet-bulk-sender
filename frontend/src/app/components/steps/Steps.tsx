@@ -66,11 +66,15 @@ export function TabsWithIcon( ) {
       step: STEPS.TRANSFER,
     },
   };
-  const setStep =(step: STEPS)=>{
-    setBulkSenderState({
-      ...bulkSenderState,
-      currentStep: step
-  })
+  const getNextLabel = ()=>{
+    switch(activeStep){
+      case 1:
+        return "Approve";
+      case 2:
+        return "Transfer";
+      default:
+        return "Next";
+    }
   }
   return (
     <div className="w-full py-4 px-8">
@@ -116,15 +120,13 @@ export function TabsWithIcon( ) {
     </Stepper>
     <div className="mt-20">
     {data[activeStep].desc}
-    <Button onClick={transfer} className="mt-4"> Transfer </Button>
-    <Button onClick={approve} className="mt-4"> Approve </Button>
     </div>
     <div className="mt-16 flex justify-between">
       <Button onClick={handlePrev} disabled={isFirstStep}>
         Prev
       </Button>
       <Button onClick={handleNext}>
-        Next
+        {getNextLabel()}
       </Button>
     </div>
   </div>

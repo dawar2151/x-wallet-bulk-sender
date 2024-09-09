@@ -17,7 +17,7 @@ import { ABI_ERC1155 } from "@/app/abis/ERC1155";
 export function useApproveHelper() {
     const { address, chainId } = useAccount()
     const { data: hash,
-        error,
+        error: approveError,
         isPending,
         writeContract
     } = useWriteContract();
@@ -138,5 +138,5 @@ export function useApproveHelper() {
             await erc1155Approve();
         }
     }
-    return { approve, isAllowed, isConfirming, isConfirmed, hash, isPending, allowance, balanceOf, symbol, result }
+    return { approve, approveError, isAllowed, isConfirming, isConfirmed, hash, isPending, allowance, balanceOf, symbol, result }
 }
