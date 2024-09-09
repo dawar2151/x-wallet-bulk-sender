@@ -28,7 +28,7 @@ import { parseEther } from "viem";
 export function TabsWithIcon( ) {
   const {setBulkSenderState,bulkSenderState} = useContext(BulkSenderStateContext);
   
-  //const { approve, isConfirmed, isAllowed } = useApproveHelper();
+  const { approve, isConfirmed, isAllowed } = useApproveHelper();
   const { transfer, transferError} = useTransferHelper();
 
   const [activeStep, setActiveStep] = React.useState(0);
@@ -117,6 +117,7 @@ export function TabsWithIcon( ) {
     <div className="mt-20">
     {data[activeStep].desc}
     <Button onClick={transfer} className="mt-4"> Transfer </Button>
+    <Button onClick={approve} className="mt-4"> Approve </Button>
     </div>
     <div className="mt-16 flex justify-between">
       <Button onClick={handlePrev} disabled={isFirstStep}>
