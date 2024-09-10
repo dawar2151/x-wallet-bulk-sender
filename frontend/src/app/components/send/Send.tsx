@@ -11,8 +11,7 @@ export const Send = () => {
         <>
         {(isTransferPending) && <LoadingAlert />}
         {isTransferSuccess && <SuccessAlert />}
-        {transferError && <ErrorAlert />}
-        {transferError && <button onClick={transfer}>{"Resend please"}</button> }
+        {transferError && <ErrorAlert resend={transfer} />}
       </>
     )
 }
@@ -71,7 +70,7 @@ function LoadingAlert(){
     </Typography>
   </Alert>
 }
-function ErrorAlert(){
+function ErrorAlert({resend}:{resend:()=>void}){
     const [open, setOpen] = React.useState(true);
     return <Alert
     open={open}
@@ -83,7 +82,7 @@ function ErrorAlert(){
       Transaction Rejected
     </Typography>
     <Typography color="white" className="mt-2 font-normal">
-      Transaction rejected, please click on the button bellow to retry.
+      Transaction rejected, please click on the button bellow to retry. <Button onClick={resend}>Resend</Button>
     </Typography>
   </Alert>
 }

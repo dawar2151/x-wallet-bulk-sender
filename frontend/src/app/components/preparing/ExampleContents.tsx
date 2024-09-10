@@ -33,8 +33,8 @@ export function ExampleContents() {
     { receiver: '0x4a4fF9CA8aF0649eB056cA1a902b559Da97FFde9', tokenId: 4, amount: 4 },
   ];
   return (
-    <>
-      <Button size="lg" color="white" onClick={handleOpen} className="flex items-center gap-3">
+    <div className="mt-5">
+      <Button size="sm" color="white" onClick={handleOpen} className="flex items-center gap-3">
         Example Data
       </Button>
 
@@ -83,6 +83,6 @@ export function ExampleContents() {
           </div>
         </DialogBody>
       </Dialog>
-    </>
+    </div>
   );
 }

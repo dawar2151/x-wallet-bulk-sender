@@ -7,6 +7,7 @@ import { TokenAddressInput } from "@/components/preparing/TokenAddressInput"
 import { NumberedTextarea } from "@/components/preparing/NumberedTextarea";
 import { TypingType } from "@/app/types/BulkSenderState";
 import { TypingTypeChoose } from "@/components/preparing/TypingType";
+import { ExampleContents } from "./ExampleContents";
 
 export function FillDetails() {
     const { setBulkSenderState, bulkSenderState } = useContext(BulkSenderStateContext);
@@ -27,6 +28,7 @@ export function FillDetails() {
                         <DragComponent />
                     )
                 }
+                <ExampleContents />
             </div>
         </>
     )

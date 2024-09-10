@@ -85,7 +85,7 @@ export default function DiscreteSliderLabel() {
                 max={max}
                 aria-label="Always visible"
                 value={value}
-                size='small'
+                size='medium'
                 getAriaValueText={valuetext}
                 getAriaLabel={(value)=>  'Gas Fee'}
                 onChange={(event, newValue) => proceedChange(newValue)}
