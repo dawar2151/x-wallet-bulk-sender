@@ -1,5 +1,4 @@
 
-'use client'
 import { NextPage } from 'next';
 
 import TransactionTable from '@/app/components/history/Transactions';

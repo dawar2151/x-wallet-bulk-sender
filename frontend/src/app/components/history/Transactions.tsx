@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { TransactionERC20 } from './etherscan';
+import { formatEther } from 'viem';
 
 const TransactionTable = ({transactions}:{readonly transactions: TransactionERC20[]}) => {
   const [expandedRows, setExpandedRows] = useState({});
@@ -14,16 +15,15 @@ const TransactionTable = ({transactions}:{readonly transactions: TransactionERC2
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 py-10">
+    <div className="py-10">
       <div className="container mx-auto px-4">
-        <h1 className="text-3xl font-bold mb-6 text-center">Transactions</h1>
+        <h1 className="text-3xl font-bold mb-6 text-left">Transactions</h1>
 
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white rounded-lg shadow-lg">
             <thead>
               <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                 <th className="py-3 px-6 text-left">Block #</th>
-                <th className="py-3 px-6 text-left">Hash</th>
                 <th className="py-3 px-6 text-left">From</th>
                 <th className="py-3 px-6 text-left">To</th>
                 <th className="py-3 px-6 text-left">Value (ETH)</th>
@@ -38,11 +38,10 @@ const TransactionTable = ({transactions}:{readonly transactions: TransactionERC2
                     <td className="py-3 px-6 text-left whitespace-nowrap">
                       {transaction.blockNumber}
                     </td>
-                    <td className="py-3 px-6 text-left">{transaction.hash}</td>
                     <td className="py-3 px-6 text-left">{transaction.from}</td>
                     <td className="py-3 px-6 text-left">{transaction.to}</td>
                     <td className="py-3 px-6 text-left">
-                      {(parseFloat(transaction.value) / 10 ** transaction.tokenDecimal).toFixed(4)}
+                      {formatEther(BigInt(transaction.value))}
                     </td>
                     <td className="py-3 px-6 text-left">{transaction.gasUsed}</td>
                     <td className="py-3 px-6 text-center">
@@ -62,6 +61,7 @@ const TransactionTable = ({transactions}:{readonly transactions: TransactionERC2
                           <div>
                             <p><strong>Nonce:</strong> {transaction.nonce}</p>
                             <p><strong>Block Hash:</strong> {transaction.blockHash}</p>
+                            <p><strong>Transaction Hash:</strong> {transaction.hash}</p>
                             <p><strong>Transaction Index:</strong> {transaction.transactionIndex}</p>
                             <p><strong>Gas Price:</strong> {transaction.gasPrice}</p>
                             <p><strong>Confirmations:</strong> {transaction.confirmations}</p>

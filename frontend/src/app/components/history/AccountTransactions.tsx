@@ -7,7 +7,7 @@ import TransactionTable from './Transactions';
 export const AccountTransactions = async ({accountAddress, network}:{accountAddress: Address, network: string}) => {
 
   const result = await fetchErc20Transaction(network, accountAddress);
-
+  console.log('res', result);
   return (
     <div className="min-h-screen flex items-center justify-center mt-20">
       <TransactionTable transactions={result?.result as TransactionERC20[]} />
