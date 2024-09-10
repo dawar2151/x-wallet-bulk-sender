@@ -82,7 +82,7 @@ function ErrorAlert({resend}:{resend:()=>void}){
       Transaction Rejected
     </Typography>
     <Typography color="white" className="mt-2 font-normal">
-      Transaction rejected, please click on the button bellow to retry. <Button onClick={resend}>Resend</Button>
+      Transaction rejected, please click on the button resend to retry. <Button onClick={resend}>Resend</Button>
     </Typography>
   </Alert>
 }

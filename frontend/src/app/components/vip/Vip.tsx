@@ -2,17 +2,29 @@
 
 import React from "react"
 import { Button } from "@material-tailwind/react"
+import { useVipHelper } from "../send/useVipHelper";
+import { formatEther } from "viem";
 export const BuyVip = () => {
+    const {vipFee} = useVipHelper();
+    console.log(vipFee);
+    console.log(vipFee?formatEther((vipFee as bigint)):"0");
     return <>
         <div className="min-h-screen flex items-center justify-center bg-white">
             <div className="relative w-full max-w-3xl mx-auto p-10 bg-black rounded-lg shadow-xl">
                 <h1 className="text-5xl font-bold text-white text-center mb-5 uppercase">VIP Members Lounge</h1>
                 <p className="text-lg text-gray-300 text-center mb-8">
-                    Welcome to the exclusive members-only lounge. Enjoy premium content and services tailored just for you.
+                Become a VIP Member for Only {vipFee?formatEther((vipFee as bigint)):"0"} ETH
+                </p>
+                <p className="text-lg text-gray-300 text-center mb-8">
+                    Enjoy unlimited free transactions through x-wallet bulk sender forever!
+                </p>
+                <p className="text-lg text-gray-300 text-center mb-8">
+                Please note: while transaction fees are waived, standard mining fees still apply.
+                Need more info? Join our Telegram community for support and answers!
                 </p>
                 <div className="mt-10 text-center">
                     <button className="px-8 py-3 bg-white text-black font-bold rounded-lg hover:bg-gray-100 transition duration-300">
-                        Click to Join
+                        Click here to Join and pay {vipFee?formatEther(BigInt(vipFee as bigint)):'0'} ETH
                     </button>
                 </div>
                 <div className="absolute inset-x-0 bottom-0 transform translate-y-1/2">

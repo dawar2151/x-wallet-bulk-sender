@@ -1,14 +1,16 @@
+
+'use client'
 import { NextPage } from 'next';
 
-import fs from 'fs';
-const VIP: NextPage = () => {
- 
+import TransactionTable from '@/app/components/history/Transactions';
+import { useAccount } from 'wagmi';
+import { fetchErc20Transaction } from '@/app/components/history/etherscan';
+import { AccountTransactions } from '@/app/components/history/AccountTransactions';
+import { WrapperAccountTransactions } from '@/app/components/history/WrapperAccountTransactions';
+const VIP: NextPage =  () => {
+
   return (
-    <div className="max-w-sm mx-auto p-4 m-60">
-      <h1>
-        Welcome to history
-      </h1>
-  </div>
+    <WrapperAccountTransactions AccountTransactions={AccountTransactions} />
   );
 };
 
