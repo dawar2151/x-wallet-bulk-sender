@@ -5,57 +5,25 @@ import {
     CardBody,
     Typography,
 } from "@material-tailwind/react";
-import { simulateContract } from '@wagmi/core'
 
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { BulkSenderStateContext } from "@/app/providers";
-import { useAccount, useBalance, useReadContracts, useWriteContract, usePrepareTransactionRequest} from "wagmi";
-import { ABI_ERC20 } from "@/app/abis/ERC20";
-import { encodeFunctionData, formatEther, Hex, isAddress, parseEther, parseGwei } from "viem";
+import { useAccount, useBalance, useWriteContract} from "wagmi";
+import { encodeFunctionData, formatEther, Hex, isAddress, parseEther } from "viem";
 import { BULK_SENDER_ABI } from "@/app/abis/BULKSENDER";
 import { BulkSenders } from "@/app/config/bulkSender";
-import DiscreteSliderLabel from "@/components/executeTransfer/GasFee";
-import { config } from "@/lib/config";
+import DiscreteSliderLabel from "@/components/confirm/GasFee";
 import { useEstimateGas } from 'wagmi'
+import { useApproveHelper } from "../approve/useApproveHelper";
 export function Forward() {
     const {address, chainId} = useAccount();
-    const { writeContract,  isSuccess,data:dataWrite, error: dataWriteError } = useWriteContract();
+    const { writeContract,  isSuccess,data: dataWrite, error: dataWriteError } = useWriteContract();
+    const {balanceOf, symbol} = useApproveHelper();
     const {bulkSenderState} = useContext(BulkSenderStateContext);
     const nativeTokenBalance = useBalance({
         address: address,
         unit: 'ether',
     });
-
-
-    const contractConfig = {
-        abi: ABI_ERC20,
-        address: bulkSenderState.tokenAddress,
-    }
-    const {
-        data,
-        error,
-        isPending
-    } = useReadContracts({
-        contracts: [{
-            functionName: 'allowance',
-            ...contractConfig,
-            args: [address, bulkSenderState.tokenAddress],
-        }, {
-            functionName: 'balanceOf',
-            ...contractConfig,
-            args: [address],
-        }, {
-            functionName: 'symbol',
-            ...contractConfig,
-        },
-        {
-            functionName: 'decimals',
-            ...contractConfig,
-        }]
-    })
-    const [allowance, balanceOf, symbol,decimals] = data || []
-    console.log(dataWriteError?.message);
-  
    
     let result;
     if(isAddress(bulkSenderState.tokenAddress) && bulkSenderState.receivers?.length){
@@ -74,11 +42,6 @@ export function Forward() {
             value: parseEther('0.01'),
           })
     }
-    
-      useEffect(() => {
-        console.log(result);
-     }, [bulkSenderState.currentGasPrice]);
-
   
     return (
         <div>

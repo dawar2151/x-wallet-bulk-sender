@@ -19,7 +19,8 @@ export function useTransferHelper() {
     const {address, chainId} = useAccount()
     const { data: hash,
         error: transferError,
-        isPending: isTransferPending, 
+        isPending: isTransferPending,
+        isSuccess: isTransferSuccess,
         writeContract 
      } = useWriteContract();
 
@@ -27,6 +28,9 @@ export function useTransferHelper() {
     useWaitForTransactionReceipt({ 
       hash, 
     }) 
+    console.log('isTransferConfirming', isTransferConfirming)
+    console.log('isTransferConfirmed', isTransferConfirmed)
+
     const { bulkSenderState } = useContext(BulkSenderStateContext);
     const contractType = CheckContractType();
 
@@ -103,5 +107,5 @@ export function useTransferHelper() {
             await erc1155Transfer();
         }
     }
-    return {transfer, isTransferConfirming, isTransferConfirmed, isTransferPending, transferError}
+    return {transfer, isTransferConfirming,isTransferSuccess, isTransferConfirmed, isTransferPending, transferError}
 }

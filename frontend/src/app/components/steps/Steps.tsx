@@ -11,7 +11,7 @@ import {
 } from "@heroicons/react/24/solid";
 import { FillDetails } from "@/components/preparing/FillDetails";
 import { Summary } from "@/app/components/approve/Summary";
-import { Forward } from "@/components/executeTransfer/Forward";
+import { Forward } from "@/components/confirm/Forward";
 import { BulkSenderStateContext } from "@/app/providers";
 import { STEPS } from "@/app/types/BulkSenderState";
 
@@ -22,8 +22,9 @@ import {
   BuildingLibraryIcon,
 } from "@heroicons/react/24/outline";
 import { useApproveHelper } from "@/app/components/approve/useApproveHelper";
-import { useTransferHelper } from "@/components/executeTransfer/useTransferHelper";
+import { useTransferHelper } from "@/app/components/confirm/useTransferHelper";
 import { parseEther } from "viem";
+import { Send } from "../send/Send";
  
 export function TabsWithIcon( ) {
   const {setBulkSenderState,bulkSenderState} = useContext(BulkSenderStateContext);
@@ -59,12 +60,19 @@ export function TabsWithIcon( ) {
       step: STEPS.APPROVE,
     },
     2: {
-      label: STEPS.TRANSFER,
-      value: STEPS.TRANSFER,
+      label: STEPS.CONFIRM,
+      value: STEPS.CONFIRM,
       icon: Cog6ToothIcon,
       desc: <Forward />,
-      step: STEPS.TRANSFER,
+      step: STEPS.CONFIRM,
     },
+    3: {
+      label: STEPS.SEND,
+      value: STEPS.SEND,
+      icon: Cog6ToothIcon,
+      desc: <Send />,
+      step: STEPS.CONFIRM,
+    }
   };
   const getNextLabel = ()=>{
     switch(activeStep){
@@ -114,6 +122,17 @@ export function TabsWithIcon( ) {
               color={activeStep === 2 ? "blue-gray" : "gray"}
             >
                {data[2].label}
+            </Typography>
+          </div>
+        </Step>
+        <Step onClick={() => setActiveStep(3)}>
+          <BuildingLibraryIcon className="h-5 w-5" />
+          <div className="absolute -bottom-[2.5rem] w-max text-center">
+            <Typography
+              variant="h6"
+              color={activeStep === 3 ? "blue-gray" : "gray"}
+            >
+               {data[3].label}
             </Typography>
           </div>
         </Step>

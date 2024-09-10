@@ -24,7 +24,8 @@ export const enum ApproveType {
 export enum STEPS  {
     PREPARING = "Preparing",
     APPROVE = "Approve",
-    TRANSFER ="Transfer"
+    CONFIRM ="Confirm",
+    SEND = "Send"
 }
 export type BulkSenderState = {
     currentStep: STEPS;

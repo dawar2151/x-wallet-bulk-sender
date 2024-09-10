@@ -39,7 +39,7 @@ export function ExampleContents() {
       </Button>
 
       <Dialog open={open} handler={handleOpen}>
-        <DialogHeader>Its a simple dialog.</DialogHeader>
+        <DialogHeader>Example Receivers Data</DialogHeader>
         <DialogBody>
           <div className="p-4">
             <Card className="mb-4">
