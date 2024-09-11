@@ -4,12 +4,18 @@ import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import { Dialog, DialogPanel } from '@headlessui/react'
 import { useState } from 'react'
 import { ConnectBtn } from '@/components/connection/connectButton';
+import { IconButton } from '@material-tailwind/react';
+import { useRouter } from 'next/navigation';
+const Icon = () => {return (
+  <div className="">
+        <i className="fab fa-github text-lg" />
+    </div>)};
 
 const navigation = [
   { name: 'VIP', href: '/bulksender/vip', current: true },
   { name: 'Tutorial', href: '/bulksender/tutorial', current: false },
   { name: 'Transactions history', href: '/bulksender/history', current: false },
-  { name: 'Verification', href: '/bulksender/verification', current: false },
+  { name: 'Github', href: '/bulksender/verification', icon: Icon,current: false },
 ]
 
 function classNames(...classes:any) {
@@ -21,13 +27,14 @@ export default function Layout({
   children: React.ReactNode
 }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const router = useRouter();
 
   return (
     <div className="bg-white">
       <header className="absolute inset-x-0 top-0 z-50">
         <nav aria-label="Global" className="flex items-center justify-between p-6 lg:px-8">
           <div className="flex lg:flex-1">
-            <a href="/bulksender" className="-m-1.5 p-1.5">
+            <a onClick={()=>router.push("/bulksender")} className="-m-1.5 p-1.5">
               <span className="sr-only">X-wallet bulk sender</span>
               <img
                 alt=""
@@ -46,10 +53,10 @@ export default function Layout({
               <Bars3Icon aria-hidden="true" className="h-6 w-6" />
             </button>
           </div>
-          <div className="hidden lg:flex lg:gap-x-12">
+          <div className="hidden lg:flex lg:gap-x-12 justify-center">
             {navigation.map((item) => (
-              <a key={item.name} href={item.href} className="text-sm font-semibold leading-6 text-gray-900">
-                {item.name}
+              <a key={item.name} href="#" onClick={()=>router.push(item.href)} className="text-sm font-semibold leading-6 text-gray-900">
+                {item.icon?<item.icon />:item.name}
               </a>
             ))}
           </div>

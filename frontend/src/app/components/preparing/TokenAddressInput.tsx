@@ -6,9 +6,11 @@ import { useReadContract, useReadContracts } from "wagmi";
 import { ABI_ERC20 } from "@/app/abis/ERC20";
 import { Address } from "viem";
 import { BulkSenderStateContext } from "@/app/providers";
+import CheckContractType from "@/app/utils/getTokenType";
 
 export function TokenAddressInput() {
   const { setBulkSenderState, bulkSenderState } = useContext(BulkSenderStateContext);
+  const tokenType = CheckContractType()
   const onChangeAddress = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setBulkSenderState(
       {
@@ -41,7 +43,7 @@ export function TokenAddressInput() {
       <div className="flex">
         {isPending ? <Spinner size="sm" color="gray" /> :
           <IconButton variant="text" className="rounded-full">
-                        {symbol?.result as ReactNode}
+                        {tokenType}
 
           </IconButton>
         }

@@ -144,7 +144,7 @@ export function TabsWithIcon( ) {
       <Button onClick={handlePrev} disabled={isFirstStep}>
         Prev
       </Button>
-      <Button onClick={handleNext}>
+      <Button onClick={handleNext} disabled={!bulkSenderState.tokenAddress}>
         {getNextLabel()}
       </Button>
     </div>

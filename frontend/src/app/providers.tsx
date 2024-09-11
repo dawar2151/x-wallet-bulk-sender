@@ -26,6 +26,7 @@ export  default function Providers({ children }: Props) {
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
         <RainbowKitProvider
+        coolMode
           theme={darkTheme({
             accentColor: "#0E76FD",
             accentColorForeground: "white",
