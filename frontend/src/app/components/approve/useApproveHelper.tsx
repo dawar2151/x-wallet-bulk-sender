@@ -63,7 +63,7 @@ export function useApproveHelper() {
         contracts: [{
             functionName: getAllowanceMethodName(),
             ...contractConfig,
-            args: [address, bulkSenderState.tokenAddress],
+            args: [address, BulkSenders[chainId as number]],
         }, {
             functionName: 'balanceOf',
             ...contractConfig,

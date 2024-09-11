@@ -11,6 +11,7 @@ export const Send = () => {
         <>
         {(isTransferPending) && <LoadingAlert />}
         {isTransferSuccess && <SuccessAlert />}
+        {transferError && <p>{transferError.message}</p>}
         {transferError && <ErrorAlert resend={transfer} />}
       </>
     )

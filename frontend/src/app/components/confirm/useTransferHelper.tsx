@@ -39,8 +39,7 @@ export function useTransferHelper() {
             console.error('Token address is required')
             return;
         }
-        console.log(bulkSenderState.receivers?.map(a=> a.address))
-        const amount = parseEther(bulkSenderState.totalAmount?.toString() || '0');
+        console.log(BulkSenders[chainId as number]);
         await writeContract({
                 abi: BULK_SENDER_ABI,
                 address: BulkSenders[chainId as number],
