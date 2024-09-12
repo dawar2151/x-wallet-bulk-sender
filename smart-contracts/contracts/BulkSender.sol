@@ -13,7 +13,7 @@ contract BulkSender is Ownable, IBulkSender {
     uint public txFee = 0.01 ether;
     uint public VIPFee = 0.1 ether;
 
-    mapping(address => bool) public vipList;
+    mapping(address => bool) private vipList;
 
     modifier onlyAllowedAccount(){
         require(isVIP(msg.sender) || msg.value >= txFee, NotAllowedAccount());

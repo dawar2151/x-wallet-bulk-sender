@@ -1,5 +1,4 @@
 import { NextPage } from 'next';
-import { TabsWithIcon } from '@/components/steps/Steps';
 
 import fs from 'fs';
 const Home: NextPage = () => {
@@ -19,7 +18,6 @@ const Home: NextPage = () => {
         />
       </div>
       <div className="mx-auto max-w-4xl py-32 sm:py-48 lg:py-56">
-        <TabsWithIcon   />
       </div>
     </div>
   );

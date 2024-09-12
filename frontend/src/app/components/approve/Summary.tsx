@@ -12,6 +12,26 @@ import { useContext, useState } from "react";
 import { formatEther } from "viem";
 import { ApproveType, STEPS } from "@/app/types/BulkSenderState";
 import { useApproveHelper } from "./useApproveHelper";
+import React, {  useEffect } from 'react';
+
+export const HorizontalSpinnerWithPercentage = ({text, progress}:{text: string, progress: number}) => {
+  return (
+    <div className="flex flex-col m-8">
+        <div className="text-left font-semibold">
+        Approve
+      </div>
+      <div className="relative w-full h-4 bg-gray-200 rounded">
+        <div
+          className="absolute left-0 top-0 h-full bg-blue-500 transition-all duration-500"
+          style={{ width: `${progress}%` }}
+        ></div>
+      </div>
+    </div>
+  );
+};
+
+
+
 export function Summary() {
 
     const { setBulkSenderState, bulkSenderState } = useContext(BulkSenderStateContext);
