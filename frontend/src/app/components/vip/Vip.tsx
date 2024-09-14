@@ -1,13 +1,13 @@
 'use client';
 
 import React from "react"
-import { Button } from "@material-tailwind/react"
+import { Button, ButtonGroup } from "@material-tailwind/react"
 import { useVipHelper } from "../send/useVipHelper";
 import { formatEther } from "viem";
 export const BuyVip = () => {
-    const {vipFee} = useVipHelper();
-    console.log(vipFee);
-    console.log(vipFee?formatEther((vipFee as bigint)):"0");
+    const {vipFee, isVIP, buyVip, isLoading, isSuccess, isBuyingVip} = useVipHelper();
+
+    
     return <>
         <div className="min-h-screen flex items-center justify-center bg-white">
             <div className="relative w-full max-w-3xl mx-auto p-10 bg-black rounded-lg shadow-xl">
@@ -23,9 +23,11 @@ export const BuyVip = () => {
                 Need more info? Join our Telegram community for support and answers!
                 </p>
                 <div className="mt-10 text-center">
-                    <button className="px-8 py-3 bg-white text-black font-bold rounded-lg hover:bg-gray-100 transition duration-300">
-                        Click here to Join and pay {vipFee?formatEther(BigInt(vipFee as bigint)):'0'} ETH
-                    </button>
+                    <Button onClick={()=> buyVip()} className="px-8 py-3 bg-white text-black font-bold rounded-lg hover:bg-gray-100 transition duration-300">
+                       {
+                        (isBuyingVip  || isLoading) ? 'Loading...' : isSuccess ? 'VIP Purchased' : isVIP ? 'VIP Purchased' : `Buy VIP for ${vipFee?formatEther((vipFee as bigint)):"0"} ETH`
+                       }
+                    </Button>
                 </div>
                 <div className="absolute inset-x-0 bottom-0 transform translate-y-1/2">
                     <svg className="w-full h-20 text-white" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">

@@ -21,7 +21,7 @@ export function useVipHelper() {
     const { data: hash,
         error: buyVipError,
         isPending: isBuyingVip,
-        writeContract
+        writeContractAsync
     } = useWriteContract();
 
     const { isLoading: isConfirming, isSuccess: isConfirmed } =
@@ -44,20 +44,20 @@ export function useVipHelper() {
         ...contractConfig,
         functionName: 'VIPFee'
     })
-    console.log(data)
+    const {data: isVip} = useReadContract({
+        ...contractConfig,
+        functionName: 'isVIP',
+        args: [address]
+    })
     const buyVip = async () => {
-        if (!bulkSenderState.tokenAddress) {
-            console.error('Token address is required')
-            return;
-        }
-        const amount = parseEther(bulkSenderState.totalAmount?.toString() || '0');
-        await writeContract({
+        console.log('buying vip', data);
+        await writeContractAsync({
             abi: BULK_SENDER_ABI,
-            address: bulkSenderState.tokenAddress,
+            address: BulkSenders[chainId as number],
             functionName: 'registerVIP',
             args: [],
             value: data as bigint,
         });
     }
-    return { buyVip,vipFee: data, buyVipError, isBuyingVip, isLoading: isConfirming, isSuccess: isConfirmed }
+    return { buyVip,vipFee: data, buyVipError, isBuyingVip, isLoading: isConfirming, isSuccess: isConfirmed, isVIP: isVip }
 }

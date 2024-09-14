@@ -44,12 +44,9 @@ export default function DiscreteSliderLabel() {
     const getGas = async () => {
         const apiKey = 'CRGFC2A36MV1J8HJGQ8RJRICDXI3J4N33Q';
         const url = `https://api.etherscan.io/api?module=gastracker&action=gasoracle&apikey=${apiKey}`;
-        console.log(url);
         try {
             const response = await fetch(url);
-            console.log(response);
             const data = await response.json();
-            console.log(data);
             setMarks([
                 {
                     value: 1,

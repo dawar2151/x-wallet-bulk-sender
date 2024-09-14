@@ -7,28 +7,33 @@ import {
     useWriteContract
 } from "wagmi";
 import { BulkSenderStateContext } from "@/app/providers";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Address, parseEther } from "viem";
 import { BulkSenders } from "@/app/config/bulkSender";
 import { ApproveType, ContractType } from "@/app/types/BulkSenderState";
 import CheckContractType from "@/app/utils/getTokenType";
 import { ABI_ERC721 } from "@/app/abis/ERC721";
 import { ABI_ERC1155 } from "@/app/abis/ERC1155";
+import { useEthersProvider } from "@/app/utils/useEthersProvider";
+import { ethers } from "ethers";
 export function useApproveHelper() {
     const { address, chainId } = useAccount()
-    const { data: hash,
-        error: approveError,
-        isPending,
-        writeContract
-    } = useWriteContract();
+    const provider = useEthersProvider();
 
+    const {
+        error: approveError,
+        data: hash,
+        isSuccess,
+        isPending,
+        writeContractAsync
+    } = useWriteContract();
     const { isLoading: isConfirming, isSuccess: isConfirmed } =
         useWaitForTransactionReceipt({
             hash,
         })
     const { bulkSenderState } = useContext(BulkSenderStateContext);
     const contractType = CheckContractType();
-
+    console.log('hashs', hash)
     const result = useBalance({
         address: address,
         unit: 'ether',
@@ -52,7 +57,20 @@ export function useApproveHelper() {
             return 'isApprovedForAll';
         }
     }
-
+    // useEffect(() => {
+    //     async function fetchData() {
+    //         if (!bulkSenderState.tokenAddress || !address) {
+    //             console.error('Token address is required')
+    //             return;
+    //         }
+    //         const p = new ethers.BrowserProvider(window.ethereum)
+    //         const contract = new ethers.Contract(bulkSenderState.tokenAddress, ABI_ERC20, provider);
+    //         console.log('contract', provider)
+    //         const a = await contract.allowance(ethers.getAddress(address), ethers.getAddress(BulkSenders[chainId as number]));
+    //         console.log('fd', a.toString(), bulkSenderState.tokenAddress)
+    //     }
+    //     fetchData();
+    // }, [address, bulkSenderState.tokenAddress, chainId, provider]);
     const contractConfig = {
         abi: getABi(),
         address: bulkSenderState.tokenAddress,
@@ -61,21 +79,26 @@ export function useApproveHelper() {
         data,
     } = useReadContracts({
         contracts: [{
-            functionName: getAllowanceMethodName(),
-            ...contractConfig,
-            args: [address, BulkSenders[chainId as number]],
-        }, {
             functionName: 'balanceOf',
             ...contractConfig,
             args: [address],
         }, {
             functionName: 'symbol',
             ...contractConfig,
+        },
+        {
+            functionName: 'decimals',
+            ...contractConfig,
+        },
+        {
+            functionName: 'allowance',
+            ...contractConfig,
+            args: [ethers.getAddress(address), ethers.getAddress(BulkSenders[chainId as number])],
         }]
     })
     console.log('data', address, bulkSenderState.tokenAddress, data)
-    const [allowance, balanceOf, symbol] = data || []
-    console.log('allowance', allowance)
+    const [balanceOf, symbol, decimals, allowance] = data || []
+    console.log('hsh', allowance)
     const isAllowed = (allowance && (allowance?.result as number) >= parseEther(bulkSenderState.totalAmount?.toString() || '0')) || allowance?.result == true;
     console.log('isAllowed', isAllowed)
     const erc20Approve = async () => {
@@ -84,7 +107,7 @@ export function useApproveHelper() {
             return;
         }
         const amount = parseEther(bulkSenderState.totalAmount?.toString() || '0');
-        await writeContract({
+        const res = await writeContractAsync({
             abi: ABI_ERC20,
             address: bulkSenderState.tokenAddress,
             functionName: 'approve',
@@ -93,6 +116,7 @@ export function useApproveHelper() {
                 bulkSenderState.approveType == ApproveType.Custom ? amount : '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff',
             ]
         });
+        console.log('hash', res)
     }
     const erc721Approve = async () => {
         if (!bulkSenderState.tokenAddress) {
@@ -138,5 +162,5 @@ export function useApproveHelper() {
             await erc1155Approve();
         }
     }
-    return { approve, approveError, isAllowed, isConfirming, isConfirmed, hash, isPending, allowance, balanceOf, symbol, result }
+    return { approve, approveError,isSuccess, isAllowed, isConfirming, isConfirmed, hash, isPending, decimals, allowance, balanceOf, symbol, result }
 }

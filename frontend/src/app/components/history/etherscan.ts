@@ -110,7 +110,6 @@ export const fetchErc20Transaction = async (
     const response = await axios.get(`${url}`)
     return response.data
   } catch (e) {
-    console.log(e)
     return undefined
   }
 }

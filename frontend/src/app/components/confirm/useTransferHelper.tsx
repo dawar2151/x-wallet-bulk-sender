@@ -21,15 +21,14 @@ export function useTransferHelper() {
         error: transferError,
         isPending: isTransferPending,
         isSuccess: isTransferSuccess,
-        writeContract 
+        writeContractAsync 
      } = useWriteContract();
 
      const { isLoading: isTransferConfirming, isSuccess: isTransferConfirmed } = 
     useWaitForTransactionReceipt({ 
       hash, 
     }) 
-    console.log('isTransferConfirming', isTransferConfirming)
-    console.log('isTransferConfirmed', isTransferConfirmed)
+
 
     const { bulkSenderState } = useContext(BulkSenderStateContext);
     const contractType = CheckContractType();
@@ -39,8 +38,7 @@ export function useTransferHelper() {
             console.error('Token address is required')
             return;
         }
-        console.log(BulkSenders[chainId as number]);
-        await writeContract({
+        const newHash = await writeContractAsync({
                 abi: BULK_SENDER_ABI,
                 address: BulkSenders[chainId as number],
                 functionName: 'bulkTransferERC20',
@@ -58,7 +56,7 @@ export function useTransferHelper() {
             console.error('Token address is required')
             return;
         }
-        await writeContract({
+        await writeContractAsync({
                 abi: BULK_SENDER_ABI,
                 address: BulkSenders[chainId as number],
                 functionName: 'bulkTransferERC721',
@@ -76,7 +74,7 @@ export function useTransferHelper() {
             console.error('Token address is required')
             return;
         }
-        await writeContract({
+        await writeContractAsync({
                 abi: BULK_SENDER_ABI,
                 address: BulkSenders[chainId as number],
                 functionName: 'bulkTransferERC1155',
@@ -91,13 +89,11 @@ export function useTransferHelper() {
             });
     }
     const transfer = async () => {
-        console.log('transfer', contractType)
 
         if (!bulkSenderState.tokenAddress) {
             console.error('Token address is required')
             return;
         }
-        console.log('transfer', contractType)
         if (contractType == ContractType.ERC20) {
             await erc20Transfer();
         } else if (contractType == ContractType.ERC721) {

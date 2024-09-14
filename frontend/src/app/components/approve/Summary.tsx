@@ -9,16 +9,16 @@ import { ABI_ERC20 } from "@/app/abis/ERC20";
 import { useAccount, useBalance, useReadContracts, useWriteContract } from "wagmi";
 import { BulkSenderStateContext } from "@/app/providers";
 import { useContext, useState } from "react";
-import { formatEther } from "viem";
+import { formatEther, formatUnits, parseUnits } from "viem";
 import { ApproveType, STEPS } from "@/app/types/BulkSenderState";
 import { useApproveHelper } from "./useApproveHelper";
 import React, {  useEffect } from 'react';
 
 export const HorizontalSpinnerWithPercentage = ({text, progress}:{text: string, progress: number}) => {
   return (
-    <div className="flex flex-col m-8">
+    <div className="flex flex-col m-2">
         <div className="text-left font-semibold">
-        Approve
+        {text}
       </div>
       <div className="relative w-full h-4 bg-gray-200 rounded">
         <div
@@ -35,7 +35,7 @@ export const HorizontalSpinnerWithPercentage = ({text, progress}:{text: string, 
 export function Summary() {
 
     const { setBulkSenderState, bulkSenderState } = useContext(BulkSenderStateContext);
-    const {allowance, balanceOf, symbol, result} = useApproveHelper();
+    const {allowance, balanceOf, symbol, result, decimals} = useApproveHelper();
 
     const setApproveType = (type: ApproveType) => {
         setBulkSenderState({
@@ -43,13 +43,14 @@ export function Summary() {
             approveType: type
         })
     }
+    console.log('balanceOf', allowance, balanceOf, symbol, result)
     return (
         <div>
             <div className="grid grid-cols-2 gap-2 justify-items-center">
                 <Card className="mt-6 w-96">
                     <CardBody>
                         <Typography variant="h5" color="blue-gray" className="mb-2">
-                            {`${allowance?.result} ${symbol?.result}`}
+                            {`${formatUnits(allowance?.result?.toString() ?? '0', decimals?.result)} ${symbol?.result}`}
                         </Typography>
                         <Typography>
                             Your current bulksender allowance.
