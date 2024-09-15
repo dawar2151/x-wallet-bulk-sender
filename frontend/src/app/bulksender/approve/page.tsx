@@ -11,11 +11,14 @@ import { useApproveHelper } from '@/app/components/approve/useApproveHelper';
 import { useState } from 'react';
 import { Approving } from '@/app/components/execute-approve/Approving';
 
+import { motion, AnimatePresence } from 'framer-motion';
+import AnimatedPage from '@/app/utils/AnimatedPage';
 
 const Approve: NextPage = () => {
     const router = useRouter();
 
     return (
+        <AnimatedPage>
         <div className="w-full py-4 px-8">
             <div className="mt-20">
                 <div className="mx-auto max-w-4xl py-32 sm:py-48 lg:py-56">
@@ -31,6 +34,7 @@ const Approve: NextPage = () => {
             </div>
            
         </div>
+        </AnimatedPage>
     );
 };
 

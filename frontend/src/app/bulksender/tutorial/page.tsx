@@ -1,10 +1,14 @@
+'use client';
 import { NextPage } from 'next';
 import { TabsWithIcon } from '@/components/Steps';
 
 import fs from 'fs';
+import AnimatedPage from '@/app/utils/AnimatedPage';
 const Home: NextPage = () => {
  
   return (
+    <AnimatedPage>
+
     <div className="min-h-screen bg-gray-100 flex items-center justify-center">
       <div className="max-w-6xl mx-auto p-6 bg-white rounded-lg shadow-lg grid grid-cols-1 lg:grid-cols-2 gap-6">
         
@@ -39,6 +43,8 @@ const Home: NextPage = () => {
 
       </div>
     </div>
+    </AnimatedPage>
+
   );
 };
 

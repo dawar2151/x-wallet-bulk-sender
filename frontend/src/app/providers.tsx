@@ -3,7 +3,7 @@
 import '@rainbow-me/rainbowkit/styles.css';
 
 import { WagmiProvider } from "wagmi";
-import { RainbowKitProvider, darkTheme } from "@rainbow-me/rainbowkit";
+import { RainbowKitProvider, lightTheme } from "@rainbow-me/rainbowkit";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import { config } from "@/lib/config";
@@ -27,7 +27,7 @@ export  default function Providers({ children }: Props) {
       <QueryClientProvider client={queryClient}>
         <RainbowKitProvider
         coolMode
-          theme={darkTheme({
+          theme={lightTheme({
             accentColor: "#0E76FD",
             accentColorForeground: "white",
             borderRadius: "large",

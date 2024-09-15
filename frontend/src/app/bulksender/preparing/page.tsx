@@ -6,9 +6,11 @@ import { FillDetails } from '@/app/components/preparing/FillDetails';
 import { Button } from '@material-tailwind/react';
 import { useRouter } from 'next/navigation';
 import { HorizontalSpinnerWithPercentage } from '@/app/components/approve/Summary';
+import AnimatedPage from '@/app/utils/AnimatedPage';
 const Preparing: NextPage = () => {
     const router = useRouter();
     return (
+        <AnimatedPage>
         <div className="w-full py-4 px-8">
             <div className="mt-20">
                 <div className="mx-auto max-w-4xl py-32 sm:py-48 lg:py-56">
@@ -21,6 +23,8 @@ const Preparing: NextPage = () => {
                 </div>
             </div>
         </div>
+        </AnimatedPage>
+
     );
 };
 

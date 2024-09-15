@@ -30,11 +30,11 @@ export default function Layout({
   const router = useRouter();
 
   return (
-    <div className="bg-white">
+    <div>
       <header className="absolute inset-x-0 top-0 z-50">
         <nav aria-label="Global" className="flex items-center justify-between p-6 lg:px-8">
           <div className="flex lg:flex-1">
-            <a onClick={()=>router.push("/bulksender")} className="-m-1.5 p-1.5">
+            <a href='#' onClick={()=>router.push("/bulksender/preparing")} className="-m-1.5 p-1.5">
               <span className="sr-only">X-wallet bulk sender</span>
               <img
                 alt=""

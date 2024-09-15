@@ -17,8 +17,11 @@
 }
 
 body {
+  width: 100vw;
+  height: 100vh;
+  background: url('/abstract_wavy_lines_gradient_background.jpg');
+  opacity: 0.9;
 }
-
 @layer utilities {
   .text-balance {
     text-wrap: balance;

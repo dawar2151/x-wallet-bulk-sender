@@ -30,7 +30,6 @@ export const Approving = () => {
         <>
         {(isPending || isConfirming) && <LoadingAlert />}
         {isConfirmed && <SuccessAlert />}
-        {approveError && <p>{approveError.message}</p>}
         {approveError && <ErrorAlert resend={approve} />}
       </>
     )
