@@ -4,6 +4,15 @@ import { Alert, Button, Spinner, Typography } from "@material-tailwind/react";
 
 export const Sending = () => {
     const {transfer, isTransferConfirmed, isTransferSuccess, isTransferPending, isTransferConfirming, transferError} = useTransferHelper();
+    const [called, setCalled] = React.useState(false);
+
+    useEffect(() => {
+      if(!called){
+        transfer()
+      }else
+        setCalled(true)
+      //}
+    }, [])
     return (    
         <>
         {(isTransferPending || isTransferConfirming) && <LoadingAlert />}

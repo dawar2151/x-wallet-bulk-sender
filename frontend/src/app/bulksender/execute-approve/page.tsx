@@ -1,6 +1,6 @@
 'use client'
 import { HorizontalSpinnerWithPercentage } from '@/app/components/approve/Summary';
-import { Approving } from '@/app/components/execute-approve/Sending';
+import { Approving } from '@/app/components/execute-approve/Approving';
 import { Sending } from '@/app/components/send/Sending';
 import { Button } from '@material-tailwind/react';
 import { NextPage } from 'next';

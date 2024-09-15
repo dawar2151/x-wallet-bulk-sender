@@ -9,13 +9,14 @@ import { useRouter } from "next/navigation";
 export const Approving = () => {
     const {approve, isAllowed, isSuccess,isConfirmed, isConfirming, isPending, approveError} = useApproveHelper();
     const router = useRouter();
-    const initialized = useRef(false)
+    const [called, setCalled] = React.useState(false);
 
     useEffect(() => {
-      if (!initialized.current) {
-        initialized.current = true
+      if(!called){
         approve()
-      }
+      }else
+        setCalled(true)
+      //}
     }, [])
     useEffect(() => {
         if(isSuccess){

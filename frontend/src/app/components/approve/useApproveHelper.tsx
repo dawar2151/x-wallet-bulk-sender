@@ -149,6 +149,12 @@ export function useApproveHelper() {
         });
     }
     const approve = async () => {
+        console.log('approve', bulkSenderState.tokenAddress)
+        console.log('approveType', bulkSenderState.approveType)
+        console.log('totalAmount', isPending, isConfirming, isConfirmed, bulkSenderState.totalAmount)
+        if(isPending || isConfirming){
+            return;
+        }
         if (!bulkSenderState.tokenAddress) {
             console.error('Token address is required')
             return;
