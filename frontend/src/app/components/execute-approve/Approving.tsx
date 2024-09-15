@@ -1,5 +1,7 @@
 import { useTransferHelper } from "../confirm/useTransferHelper"
-import React, { useEffect } from "react";
+import React, { use } from "react";
+import { useEffect, useRef } from "react"
+
 import { Alert, Button, Spinner, Typography } from "@material-tailwind/react";
 import { useApproveHelper } from "../approve/useApproveHelper";
 import { useRouter } from "next/navigation";
@@ -7,20 +9,26 @@ import { useRouter } from "next/navigation";
 export const Approving = () => {
     const {approve, isAllowed, isSuccess,isConfirmed, isConfirming, isPending, approveError} = useApproveHelper();
     const router = useRouter();
+    const initialized = useRef(false)
+
     useEffect(() => {
-        approve();
-    });
+      if (!initialized.current) {
+        initialized.current = true
+        approve()
+      }
+    }, [])
     useEffect(() => {
         if(isSuccess){
             setTimeout(() => {
                router.push('/bulksender/confirm');
-            }, 3000);
+            }, 3000); 
         }
     }, [isSuccess]);
+    console.log(isSuccess, isAllowed, isConfirmed, isConfirming, isPending, approveError);
     return (    
         <>
-        {( isPending) && <LoadingAlert />}
-        {isSuccess && <SuccessAlert />}
+        {(isPending || isConfirming) && <LoadingAlert />}
+        {isConfirmed && <SuccessAlert />}
         {approveError && <p>{approveError.message}</p>}
         {approveError && <ErrorAlert resend={approve} />}
       </>

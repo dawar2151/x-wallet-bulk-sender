@@ -123,7 +123,7 @@ export function useApproveHelper() {
             console.error('Token address is required')
             return;
         }
-        await writeContract({
+        await writeContractAsync({
             abi: ABI_ERC721,
             address: bulkSenderState.tokenAddress,
             functionName: 'setApprovalForAll',
@@ -138,7 +138,7 @@ export function useApproveHelper() {
             console.error('Token address is required')
             return;
         }
-        await writeContract({
+        await writeContractAsync({
             abi: ABI_ERC1155,
             address: bulkSenderState.tokenAddress,
             functionName: 'setApprovalForAll',

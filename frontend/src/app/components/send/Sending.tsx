@@ -4,15 +4,12 @@ import { Alert, Button, Spinner, Typography } from "@material-tailwind/react";
 
 export const Sending = () => {
     const {transfer, isTransferConfirmed, isTransferSuccess, isTransferPending, isTransferConfirming, transferError} = useTransferHelper();
-    useEffect(() => {
-        transfer();
-    }, [transfer]);
     return (    
         <>
         {(isTransferPending || isTransferConfirming) && <LoadingAlert />}
-        {isTransferConfirmed && <SuccessAlert />}
+        {(isTransferConfirmed) && <SuccessAlert />}
         {transferError && <p>{transferError.message}</p>}
-        {transferError && <ErrorAlert resend={transfer} />}
+        {transferError && <ErrorAlert resend={()=>transfer()} />}
       </>
     )
 }
@@ -36,7 +33,7 @@ function IconSuccess() {
 }
 function IconLoading() {
   return (
-    <Spinner />
+    <Spinner color="blue" onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} />
   );
 }
 function ErrorIcon() {
@@ -83,7 +80,7 @@ function ErrorAlert({resend}:{resend:()=>void}){
       Transaction Rejected
     </Typography>
     <Typography color="white" className="mt-2 font-normal">
-      Transaction rejected, please click on the button resend to retry. <Button onClick={resend}>Resend</Button>
+      Transaction rejected, please click on the button resend to retry. <Button onClick={()=>resend()}>Resend</Button>
     </Typography>
   </Alert>
 }

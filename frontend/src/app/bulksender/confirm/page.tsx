@@ -5,10 +5,16 @@ import { Forward } from '@/app/components/confirm/Forward';
 import { HorizontalSpinnerWithPercentage } from '@/app/components/approve/Summary';
 import { Button } from '@material-tailwind/react';
 import { useRouter } from 'next/navigation';
+import { useApproveHelper } from '@/app/components/approve/useApproveHelper';
+import { useTransferHelper } from '@/app/components/confirm/useTransferHelper';
 
 const Confirm: NextPage = () => {
     const router = useRouter();
-
+    const {transfer} = useTransferHelper();
+    const manageTransfer = () => {
+        transfer();
+        router.push('/bulksender/send');
+    }
     return (
         <div className="w-full py-4 px-8">
             <div className="mt-20">
@@ -17,7 +23,7 @@ const Confirm: NextPage = () => {
                     <Forward />
                     <div className="flex space-x-4 mt-4">
                 <Button   onClick={() => {router.push('/bulksender/approve')}}>Back</Button>
-                <Button   onClick={() => {router.push('/bulksender/send')}}>Next</Button>
+                <Button   onClick={()=>manageTransfer()}>Next</Button>
             </div>
                 </div>
             </div>

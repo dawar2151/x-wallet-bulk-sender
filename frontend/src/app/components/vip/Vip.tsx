@@ -2,12 +2,11 @@
 
 import React from "react"
 import { Button, ButtonGroup } from "@material-tailwind/react"
-import { useVipHelper } from "../send/useVipHelper";
+import { useVipHelper } from "@/components/vip/useVipHelper";
 import { formatEther } from "viem";
 export const BuyVip = () => {
     const {vipFee, isVIP, buyVip, isLoading, isSuccess, isBuyingVip} = useVipHelper();
 
-    
     return <>
         <div className="min-h-screen flex items-center justify-center bg-white">
             <div className="relative w-full max-w-3xl mx-auto p-10 bg-black rounded-lg shadow-xl">
