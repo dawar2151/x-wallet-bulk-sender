@@ -48,8 +48,8 @@ export function Forward() {
             <div className="m-8">
                 <DiscreteSliderLabel />
             </div>
-            <div className="grid grid-cols-2 gap-2 justify-items-center">
-                <Card className="mt-6 w-96">
+            <div className="grid grid-cols-2 gap-2  justify-items-stretch">
+                <Card className="w-auto">
                     <CardBody>
                         <Typography variant="h5" color="blue-gray" className="mb-2">
                             {bulkSenderState?.receivers?.length || '0'} Addresses
@@ -59,7 +59,7 @@ export function Forward() {
                         </Typography>
                     </CardBody>
                 </Card>
-                <Card className="mt-6 w-96">
+                <Card className="w-auto">
                     <CardBody>
                         <Typography variant="h5" color="blue-gray" className="mb-2">
                             {bulkSenderState?.totalAmount || '0'} {bulkSenderState?.tokenSymbol}
@@ -69,7 +69,7 @@ export function Forward() {
                         </Typography>
                     </CardBody>
                 </Card>
-                <Card className="mt-6 w-96">
+                <Card className="w-auto">
                     <CardBody>
                         <Typography variant="h5" color="blue-gray" className="mb-2">
                             1
@@ -79,7 +79,7 @@ export function Forward() {
                         </Typography>
                     </CardBody>
                 </Card>
-                <Card className="mt-6 w-96">
+                <Card className="w-auto">
                     <CardBody>
                         <Typography variant="h5" color="blue-gray" className="mb-2">
                         {balanceOf?.result?formatEther(BigInt(balanceOf?.result), 'wei'):'0'} {symbol?.result}
@@ -89,7 +89,7 @@ export function Forward() {
                         </Typography>
                     </CardBody>
                 </Card>
-                <Card className="mt-6 w-96">
+                <Card className="w-auto">
                     <CardBody>
                         <Typography variant="h5" color="blue-gray" className="mb-2">
                             {(Number(result?.data) * bulkSenderState?.currentGasPrice)/1000000000} ETH
@@ -99,7 +99,7 @@ export function Forward() {
                         </Typography>
                     </CardBody>
                 </Card>
-                <Card className="mt-6 w-96">
+                <Card className="w-auto">
                     <CardBody>
                         <Typography variant="h5" color="blue-gray" className="mb-2">
                            {nativeTokenBalance.data?.formatted || '0'} {nativeTokenBalance.data?.symbol}
