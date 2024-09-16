@@ -7,8 +7,17 @@ import { Button } from '@material-tailwind/react';
 import { useRouter } from 'next/navigation';
 import { HorizontalSpinnerWithPercentage } from '@/app/components/approve/Summary';
 import AnimatedPage from '@/app/utils/AnimatedPage';
+import { useApproveHelper } from '@/app/components/approve/useApproveHelper';
 const Preparing: NextPage = () => {
     const router = useRouter();
+    const {isAllowed} = useApproveHelper();
+    const manageApprove = ()    => {
+        if(isAllowed){
+            router.push('/bulksender/confirm');
+        }else{
+            router.push('/bulksender/approve');
+        }
+    }  
     return (
         <AnimatedPage>
         <div className="w-full py-4 px-8">
@@ -18,7 +27,7 @@ const Preparing: NextPage = () => {
                     <FillDetails />
                     <div className="flex space-x-4 mt-4">
                 <Button   onClick={() => {router.push('/bulksender/preparing')}}>Back</Button>
-                <Button   onClick={() =>  {router.push('/bulksender/approve')}}>Next</Button>
+                <Button   onClick={() =>  manageApprove()}>Next</Button>
             </div>
                 </div>
             </div>

@@ -10,7 +10,7 @@ import { TypingTypeChoose } from "@/components/preparing/TypingType";
 import { ExampleContents } from "./ExampleContents";
 
 export function FillDetails() {
-    const { setBulkSenderState, bulkSenderState } = useContext(BulkSenderStateContext);
+    const { bulkSenderState } = useContext(BulkSenderStateContext);
 
     return (
         <>
