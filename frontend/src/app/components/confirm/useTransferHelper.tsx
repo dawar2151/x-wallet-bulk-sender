@@ -15,8 +15,11 @@ import { BulkSenders } from "@/app/config/bulkSender";
 import { ApproveType, ContractType, STEPS } from "@/app/types/BulkSenderState";
 import { BULK_SENDER_ABI } from "@/app/abis/BULKSENDER";
 import CheckContractType from "@/app/utils/getTokenType";
+import { useApproveHelper } from "../approve/useApproveHelper";
+import { useVipHelper } from "../vip/useVipHelper";
 export function useTransferHelper() {
     const {address, chainId} = useAccount()
+    const {isVIP, vipFee} = useVipHelper();
     const { data: hash,
         error: transferError,
         isPending: isTransferPending,
@@ -47,7 +50,7 @@ export function useTransferHelper() {
                     bulkSenderState.receivers?.map(a=> a.address),
                     bulkSenderState.receivers?.map(a=> parseEther(a.amount)),
                 ],
-                value: parseEther('0.01')
+                value: !isVIP?vipFee as bigint: BigInt('0')
                 //gasPrice: parseGwei(bulkSenderState.currentGasPrice?.toString() || '0'),
             });
     }
@@ -65,7 +68,7 @@ export function useTransferHelper() {
                     bulkSenderState.receivers?.map(a=> a.address),
                     bulkSenderState.receivers?.map(a=> BigInt(a.tokenId as string)),
                 ],
-                value: parseEther('0.01')
+                value: !isVIP?vipFee as bigint: BigInt('0')
                 //gasPrice: parseGwei(bulkSenderState.currentGasPrice?.toString() || '0'),
             });
     }
@@ -84,7 +87,7 @@ export function useTransferHelper() {
                     bulkSenderState.receivers?.map(a=> BigInt(a.tokenId as string)),
                     bulkSenderState.receivers?.map(a=> BigInt(a.amount as string)),
                 ],
-                value: parseEther('0.01')
+                value: !isVIP?vipFee as bigint: BigInt('0')
                 //gasPrice: parseGwei(bulkSenderState.currentGasPrice?.toString() || '0'),
             });
     }

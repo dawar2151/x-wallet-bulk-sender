@@ -93,7 +93,7 @@ export function useApproveHelper() {
         {
             functionName: 'allowance',
             ...contractConfig,
-            args: [ethers.getAddress(address), ethers.getAddress(BulkSenders[chainId as number])],
+            args: [address, BulkSenders[chainId as number]],
         }]
     })
     console.log('data', address, bulkSenderState.tokenAddress, data)

@@ -6,19 +6,20 @@ import { useState } from 'react'
 import { ConnectBtn } from '@/components/connection/connectButton';
 import { IconButton } from '@material-tailwind/react';
 import { useRouter } from 'next/navigation';
-const Icon = () => {return (
-  <div className="">
-        <i className="fab fa-github text-lg" />
-    </div>)};
+const Icon = () => {
+  return (
+    <div className="">
+      <i className="fab fa-github text-lg" />
+    </div>)
+};
 
 const navigation = [
   { name: 'VIP', href: '/bulksender/vip', current: true },
   { name: 'Tutorial', href: '/bulksender/tutorial', current: false },
   { name: 'Transactions history', href: '/bulksender/history', current: false },
-  { name: 'Github', href: '/bulksender/verification', icon: Icon,current: false },
 ]
 
-function classNames(...classes:any) {
+function classNames(...classes: any) {
   return classes.filter(Boolean).join(' ')
 }
 export default function Layout({
@@ -31,87 +32,46 @@ export default function Layout({
 
   return (
     <div>
-      <header className="absolute inset-x-0 top-0 z-50">
+      <header className="bg-gradient-to-r from-blue-600 to-blue-400 text-white p-4 shadow-lg">
         <nav aria-label="Global" className="flex items-center justify-between p-6 lg:px-8">
-          <div className="flex lg:flex-1">
-            <a href='#' onClick={()=>router.push("/bulksender/preparing")} className="-m-1.5 p-1.5">
-              <span className="sr-only">X-wallet bulk sender</span>
-              <img
-                alt=""
-                src="/bulk-sender-high-resolution-logo-black-transparent.png"
-                className="h-10 w-auto"
-              />
+          <div className="text-2xl font-bold flex items-center">
+            <span className="mr-2 text-3xl text-white">💸</span> {/* Optional Logo/Icon */}
+            <a href='#' onClick={() => router.push("/bulksender/preparing")} className="-m-1.5 p-1.5">
+              <span>bulk sender</span>
+              <span className="ml-1 text-blue-200">x-wallet</span>
             </a>
           </div>
-          <div className="flex lg:hidden">
-            <button
-              type="button"
-              onClick={() => setMobileMenuOpen(true)}
-              className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
-            >
-              <span className="sr-only">Open main menu</span>
-              <Bars3Icon aria-hidden="true" className="h-6 w-6" />
-            </button>
-          </div>
-          <div className="hidden lg:flex lg:gap-x-12 justify-center">
+          <nav className="hidden md:flex space-x-6">
             {navigation.map((item) => (
-              <a key={item.name} href="#" onClick={()=>router.push(item.href)} className="text-sm font-semibold leading-6 text-gray-900">
-                {item.icon?<item.icon />:item.name}
+              <a key={item.name} href="#" onClick={() => router.push(item.href)} className="hover:text-blue-200 transition duration-200">
+                {item.icon ? <item.icon /> : item.name}
               </a>
             ))}
-          </div>
-          <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-            <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
-            <ConnectBtn />
-            </a>
-          </div>
+          </nav>
+          
+              <ConnectBtn />
+           
+
+      {/* GitHub Icon Link */}
+      <a
+        href="https://github.com"
+        className="text-white hover:text-gray-200 transition duration-200"
+        aria-label="GitHub"
+      >
+        <svg
+          className="w-6 h-6"
+          fill="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            fillRule="evenodd"
+            d="M12 1.293c-5.867 0-10.667 4.8-10.667 10.707 0 4.736 3.074 8.742 7.332 10.15.533.1.733-.2.733-.533V19.86c-2.8.607-3.4-1.293-3.4-1.293-.467-1.2-1.2-1.533-1.2-1.533-.933-.6.067-.533.067-.533 1 .066 1.6 1.066 1.6 1.066.933 1.666 2.533 1.2 3.2.933.067-.666.267-1.2.533-1.533-2.4-.267-4.933-1.2-4.933-5.333 0-1.2.4-2.133 1.067-2.8-.2-.267-.467-1.333.067-2.667 0 0 .867-.267 2.867 1.066.8-.2 1.6-.267 2.533-.267.933 0 1.733.067 2.533.267 2-1.4 2.867-1.066 2.867-1.066.533 1.333.267 2.4.067 2.667.667.667 1.067 1.6 1.067 2.8 0 4.133-2.533 5.066-4.933 5.333.267.267.533.8.533 1.533v2.667c0 .267.267.667.733.533 4.267-1.4 7.333-5.467 7.333-10.2C22.667 6.093 17.867 1.293 12 1.293z"
+            clipRule="evenodd"
+          />
+        </svg>
+      </a>
         </nav>
-        <Dialog open={mobileMenuOpen} onClose={setMobileMenuOpen} className="lg:hidden">
-          <div className="fixed inset-0 z-50" />
-          <DialogPanel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
-            <div className="flex items-center justify-between">
-              <a href="#" className="-m-1.5 p-1.5">
-                <span className="sr-only">Your Company</span>
-                <img
-                  alt=""
-                  src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                  className="h-8 w-auto"
-                />
-              </a>
-              <button
-                type="button"
-                onClick={() => setMobileMenuOpen(false)}
-                className="-m-2.5 rounded-md p-2.5 text-gray-700"
-              >
-                <span className="sr-only">Close menu</span>
-                <XMarkIcon aria-hidden="true" className="h-6 w-6" />
-              </button>
-            </div>
-            <div className="mt-6 flow-root">
-              <div className="-my-6 divide-y divide-gray-500/10">
-                <div className="space-y-2 py-6">
-                  {navigation.map((item) => (
-                    <a
-                      key={item.name}
-                      href={item.href}
-                      className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                    >
-                      {item.name}
-                    </a>
-                  ))}
-                </div>
-                <div className="py-6">
-                  <a
-                    href="#"
-                    className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                  >
-                    Connect Wallet
-                  </a>
-                </div>
-              </div>
-            </div>
-          </DialogPanel>
-        </Dialog>
       </header>
       {children}
     </div>

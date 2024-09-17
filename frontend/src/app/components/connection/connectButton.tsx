@@ -48,18 +48,17 @@ export const ConnectBtn: React.FC = () => {
   }
 
   return (
-    <div>
+    <div className="flex items-center space-x-4">
       <a
         href="#"
         onClick={openChainModal}
-        className="rounded-md px-3.5 py-2.5 text-sm font-semibold  shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+        className="bg-white text-blue-600 font-semibold px-4 py-2 rounded-full shadow hover:bg-blue-100 transition"
       >
         Switch Networks
       </a>
-      <a href="#" onClick={async () => openAccountModal?.()} className="text-sm font-semibold leading-6 text-gray-900">
-        {address?.slice(0, 6)}...{address?.slice(-4)} <span aria-hidden="true">→</span>
+      <a href="#" onClick={async () => openAccountModal?.()} className="bg-gray-900 text-gray-200 px-3 py-1 rounded-full shadow-sm text-sm">
+        {address?.slice(0, 6)}...{address?.slice(-4)} ({chain?.name})<span aria-hidden="true">→</span>
       </a>
-      <span>{chain?.name}</span>
     </div>
   );
 };

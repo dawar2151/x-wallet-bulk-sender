@@ -21,7 +21,7 @@ const Preparing: NextPage = () => {
     return (
         <AnimatedPage>
         <div className="w-full py-4 px-8">
-            <div className="mt-20">
+            <div className="mt-5">
                 <div className="mx-auto max-w-4xl py-32 sm:py-48 lg:py-56">
                 <HorizontalSpinnerWithPercentage text='Prepare' progress={25} />
                     <FillDetails />

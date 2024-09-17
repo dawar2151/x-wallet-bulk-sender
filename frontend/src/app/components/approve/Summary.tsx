@@ -16,20 +16,34 @@ import React, {  useEffect } from 'react';
 
 export const HorizontalSpinnerWithPercentage = ({text, progress}:{text: string, progress: number}) => {
   return (
-    <div className="flex flex-col m-1 my-8">
-        <div className="text-left font-semibold">
-        {text}
-      </div>
-      <div className="relative w-full h-6 bg-gray-200 rounded-full">
-        <div
-          className="absolute left-0 top-0 h-full bg-blue-500 rounded-full"
-          style={{
-            width: `${progress}%`,
-            transition: 'width 1s ease-in-out', // smooth animation
-          }}
-        ></div>
+    <div className="flex flex-col m-2 my-8 space-y-2">
+    {/* Text Label */}
+    <div className="text-left text-lg font-semibold text-gray-800">
+      {text}
+    </div>
+  
+    {/* Progress Bar */}
+    <div className="relative w-full h-6 bg-gray-200 rounded-full shadow-inner">
+      {/* Progress Indicator */}
+      <div
+        className="absolute left-0 top-0 h-full bg-gradient-to-r from-blue-400 to-blue-600 rounded-full transition-all duration-1000 ease-in-out"
+        style={{
+          width: `${progress}%`,
+        }}
+      ></div>
+  
+      {/* Progress Percentage (inside bar) */}
+      <div
+        className={`absolute inset-0 flex items-center justify-center text-sm font-medium transition-colors duration-500 ${
+          progress <= 25 ? 'text-gray-800' : 'text-white'
+        }`}
+      >
+        {progress}%
       </div>
     </div>
+  </div>
+  
+
   );
 };
 

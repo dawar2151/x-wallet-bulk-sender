@@ -76,7 +76,7 @@ export default function DiscreteSliderLabel() {
         getGas();
     }, [min, max]);
     return (
-        <Box>
+        
             <Slider
                 min={min}
                 max={max}
@@ -90,6 +90,6 @@ export default function DiscreteSliderLabel() {
                 marks={marks}
                 valueLabelDisplay="on"
             />
-        </Box>
+       
     );
 }

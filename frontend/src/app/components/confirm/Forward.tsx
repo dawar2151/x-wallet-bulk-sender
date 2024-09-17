@@ -14,10 +14,9 @@ import { BULK_SENDER_ABI } from "@/app/abis/BULKSENDER";
 import { BulkSenders } from "@/app/config/bulkSender";
 import DiscreteSliderLabel from "@/components/confirm/GasFee";
 import { useEstimateGas } from 'wagmi'
-import { useApproveHelper } from "../approve/useApproveHelper";
+import { useApproveHelper } from "@/components/approve/useApproveHelper";
 export function Forward() {
     const {address, chainId} = useAccount();
-    const { writeContract,  isSuccess,data: dataWrite, error: dataWriteError } = useWriteContract();
     const {balanceOf, symbol} = useApproveHelper();
     const {bulkSenderState} = useContext(BulkSenderStateContext);
     const nativeTokenBalance = useBalance({
@@ -26,7 +25,7 @@ export function Forward() {
     });
    
     let result;
-    if(isAddress(bulkSenderState.tokenAddress) && bulkSenderState.receivers?.length){
+    //if(isAddress(bulkSenderState.tokenAddress as string) && bulkSenderState.receivers?.length){
         const dataHex = encodeFunctionData({
             abi: BULK_SENDER_ABI,
             functionName: 'bulkTransferERC20',
@@ -39,13 +38,13 @@ export function Forward() {
          result = useEstimateGas({
             data: dataHex?.toString() as Hex, 
             to: BulkSenders[chainId as number] ,
-            value: parseEther('0.01'),
+            value: parseEther(),
           })
-    }
+   // }
   
     return (
         <div>
-            <div className="m-8">
+            <div className="m-3">
                 <DiscreteSliderLabel />
             </div>
             <div className="grid grid-cols-2 gap-2  justify-items-stretch">
