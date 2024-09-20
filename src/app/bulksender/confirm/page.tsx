@@ -2,7 +2,7 @@
 'use client'
 import { NextPage } from 'next';
 import { Forward } from '@/app/components/confirm/Forward';
-import { HorizontalSpinnerWithPercentage } from '@/app/components/approve/Summary';
+import { HorizontalSpinnerWithPercentage } from "@/app/components/approve/HorizontalSpinnerWithPercentage";
 import { Button } from '@material-tailwind/react';
 import { useRouter } from 'next/navigation';
 import { useApproveHelper } from '@/app/components/approve/useApproveHelper';

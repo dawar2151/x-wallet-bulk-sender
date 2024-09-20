@@ -4,7 +4,8 @@
 import { NextPage } from 'next';
 
 
-import { HorizontalSpinnerWithPercentage, Summary } from '@/app/components/approve/Summary';
+import { Summary } from '@/app/components/approve/Summary';
+import { HorizontalSpinnerWithPercentage } from "@/app/components/approve/HorizontalSpinnerWithPercentage";
 import { Button } from '@material-tailwind/react';
 import { useRouter } from 'next/navigation';
 import { useApproveHelper } from '@/app/components/approve/useApproveHelper';

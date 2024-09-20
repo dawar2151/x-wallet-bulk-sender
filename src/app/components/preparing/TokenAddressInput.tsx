@@ -1,50 +1,34 @@
 'use client';
 
 import { Textarea, IconButton, Spinner } from "@material-tailwind/react";
-import { ReactNode, useContext, useState } from "react";
+import { ReactNode, useContext } from "react";
 import { useReadContract, useReadContracts } from "wagmi";
 import { ABI_ERC20 } from "@/app/abis/ERC20";
 import { Address } from "viem";
 import { BulkSenderStateContext } from "@/app/providers";
 import CheckContractType from "@/app/utils/getTokenType";
+import { useApproveHelper } from "../approve/useApproveHelper";
 
 export function TokenAddressInput() {
-  const { setBulkSenderState, bulkSenderState } = useContext(BulkSenderStateContext);
-  const tokenType = CheckContractType()
+  const { setBulkSenderState, bulkSenderState, isDarkMode } = useContext(BulkSenderStateContext);
+  const tokenType = CheckContractType();
+  
   const onChangeAddress = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setBulkSenderState(
-      {
-        ...bulkSenderState,
-        tokenAddress: e.target.value as Address,  
-      }  
-    )
-  }
-  const contractConfig = {
-    abi: ABI_ERC20,
-    address: bulkSenderState.tokenAddress,
-  }
-  const {
-    data,
-    error,
-    isPending
-  } = useReadContracts({
-    contracts: [{
-      functionName: 'symbol',
-      ...contractConfig,
-    },
-    {
-      functionName: 'decimals',
-      ...contractConfig,
-    }]
-  })
-  const [symbol, decimals] = data || []
-  return (
-    <div className="flex w-full flex-row items-center gap-2 rounded-[99px] border border-gray-900/10 bg-gray-900/5 p-2">
-      <div className="flex">
-        {isPending ? <Spinner size="sm" color="gray" /> :
-          <IconButton variant="text" className="rounded-full">
-                        {tokenType}
+    setBulkSenderState({
+      ...bulkSenderState,
+      tokenAddress: e.target.value as Address,  
+    });
+  };
 
+  const { decimals, symbol, isReadLoading } = useApproveHelper();
+  
+  return (
+    <div className={`flex w-full flex-row items-center gap-2 rounded-[99px] border ${isDarkMode ? 'border-gray-700' : 'border-gray-300'} bg-gray-900/5 p-2`}>
+      <div className="flex">
+        {(isReadLoading || !bulkSenderState.tokenAddress) ? 
+          <Spinner size="sm" color={isDarkMode ? 'white' : 'gray'} /> :
+          <IconButton variant="text" className="rounded-full text-gray-800">
+            {tokenType}
           </IconButton>
         }
       </div>
@@ -52,7 +36,7 @@ export function TokenAddressInput() {
         rows={1}
         resize={true}
         value={bulkSenderState.tokenAddress}
-        onChange={e => onChangeAddress(e)}
+        onChange={onChangeAddress}
         placeholder="Fill your ERC20, ERC721 or ERC1155 Address"
         className="min-h-full !border-0 focus:border-transparent"
         containerProps={{
@@ -60,11 +44,13 @@ export function TokenAddressInput() {
         }}
         labelProps={{
           className: "before:content-none after:content-none",
-        }} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} />
+        }}
+      />
       <div>
-        {isPending ? <Spinner size="sm" color="gray" /> :
-          <IconButton variant="text" className="rounded-full">
-            {!decimals?.error? decimals?.result.toString() as ReactNode:'0'}
+        {(isReadLoading || !bulkSenderState.tokenAddress) ? 
+          <Spinner size="sm" color={isDarkMode ? 'white' : 'gray'} /> :
+          <IconButton variant="text" className="rounded-full text-gray-800">
+            {!decimals?.error ? decimals?.result.toString() as ReactNode : '0'}
           </IconButton>
         }
       </div>

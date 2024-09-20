@@ -10,15 +10,17 @@ export const AccountTransactions = ({accountAddress, network}:{accountAddress: A
   const [loading, setLoading] = React.useState<boolean>(true);
   useEffect(() => {
     const fetchTransactions = async () => {
-      const result = await fetchErc20Transaction(network, accountAddress);
-      setTransactions(result?.result);
+      const response = await fetchErc20Transaction(network, accountAddress);
+      if(response?.result === undefined) 
+        return;
+      setTransactions([...response?.result]);
       setLoading(false);
     };
     fetchTransactions();
   }, [accountAddress, network]);
   return (
     <div className="flex items-center justify-center mt-20">
-      {loading && <Spinner className="h-16 w-16 text-gray-900/50" />}
+      {loading && <Spinner className="h-16 w-16 text-gray-900/50" onPointerEnterCapture={() => {}} onPointerLeaveCapture={() => {}} />}
       {!loading && <TransactionTable transactions={transactions} />}
       </div>
   );

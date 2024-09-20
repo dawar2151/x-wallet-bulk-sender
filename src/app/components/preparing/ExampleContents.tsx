@@ -7,6 +7,7 @@ import {
   DialogFooter,
 } from "@material-tailwind/react";
 import { Card, CardContent, Typography } from '@mui/material';
+import { XButton } from "@/app/utils/XButton";
 
 export function ExampleContents() {
   const [open, setOpen] = React.useState(false);
@@ -34,9 +35,7 @@ export function ExampleContents() {
   ];
   return (
     <div className="mt-5">
-      <Button size="sm" color="white" onClick={handleOpen} className="flex items-center gap-3">
-        Example Data
-      </Button>
+      <a className="text-gray-700" onClick={handleOpen} >Example Data</a>
 
       <Dialog open={open} handler={handleOpen}>
         <DialogHeader>Example Receivers Data</DialogHeader>

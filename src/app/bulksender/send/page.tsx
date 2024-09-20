@@ -1,5 +1,5 @@
 'use client'
-import { HorizontalSpinnerWithPercentage } from '@/app/components/approve/Summary';
+import { HorizontalSpinnerWithPercentage } from "@/app/components/approve/HorizontalSpinnerWithPercentage";
 import { Sending } from '@/app/components/send/Sending';
 import AnimatedPage from '@/app/utils/AnimatedPage';
 import { Button } from '@material-tailwind/react';

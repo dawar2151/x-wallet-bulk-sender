@@ -4,6 +4,7 @@ import { Alert, Button, Spinner, Typography } from "@material-tailwind/react";
 import { useRouter } from "next/navigation";
 import { NetworksConfig } from "@/app/config/bulkSender";
 import { useAccount } from "wagmi";
+import { XButton } from "@/app/utils/XButton";
 
 export const Sending = () => {
     const {transfer, isTransferConfirmed, isTransferSuccess, isTransferPending, isTransferConfirming, transferError, hash} = useTransferHelper();
@@ -107,7 +108,7 @@ function ErrorAlert({resend}:{resend:()=>void}){
       Transaction Rejected
     </Typography>
     <Typography color="white" className="mt-2 font-normal">
-      Transaction rejected, please click on the button resend to retry. <Button onClick={()=>resend()}>Resend</Button>
+      Transaction rejected, please click on the button resend to retry.<XButton action={resend} caption="Resend" />
     </Typography>
   </Alert>
 }

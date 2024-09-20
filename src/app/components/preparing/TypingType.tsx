@@ -1,39 +1,23 @@
 "use client";
 
 import { useContext, useState } from "react";
-import { Base64 } from "js-base64";
 import { BulkSenderStateContext } from "@/app/providers";
-import { Receiver, TypingType } from "@/app/types/BulkSenderState";
-import { Button } from "@material-tailwind/react";
+import { TypingType } from "@/app/types/BulkSenderState";
+import { Button, Switch } from "@material-tailwind/react";
 
 export function TypingTypeChoose() {
-  const [ownerLicense, setOwnerLicense] = useState<any>([]);
-  const { bulkSenderState, setBulkSenderState } = useContext(BulkSenderStateContext);
+  const { bulkSenderState, setBulkSenderState, isDarkMode } = useContext(BulkSenderStateContext);
 
-  const setTypingtoManually = () => {
-    setBulkSenderState({
-      ...bulkSenderState,
-      currentTypingType: TypingType.Manually
-    })
+  const toggleTypingType = () => {
+      setBulkSenderState({
+        ...bulkSenderState,
+        currentTypingType: bulkSenderState.currentTypingType == TypingType.Manually? TypingType.Upload: TypingType.Manually
+      });
   }
-  const setTypingtoUpload = () => {
-    setBulkSenderState({
-      ...bulkSenderState,
-      currentTypingType: TypingType.Upload
-    })
-  }
+
   return (
-      <div className="pb-[8px] flex flex-row">
-        <h2 className="text-black text-[12px] font-[500] basis-1/2 text-left">
-        <Button size="sm" color="white" onClick={()=>setTypingtoUpload()} className="flex items-center gap-3">
-        Upload File
-      </Button>
-        </h2>
-        <h2 className="text-black text-[12px] font-[500] basis-1/2 text-right">
-          <Button size="sm" color="white" onClick={()=>setTypingtoManually()}>
-        Insert Manually
-      </Button>
-        </h2>
-      </div>
+    <div className={`pb-[8px] flex flex-row`}>
+      <Switch color={isDarkMode?"blue-gray":"black"} label={bulkSenderState.currentTypingType == TypingType.Upload ? 'Insert Manually' : 'Upload'} onClick={toggleTypingType} />
+    </div>
   );
 }

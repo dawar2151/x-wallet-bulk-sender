@@ -1,7 +1,9 @@
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import * as d3 from 'd3';
+import { BulkSenderStateContext } from '../providers';
 
 const MovingGraph = () => {
+  const {isDarkMode} = useContext(BulkSenderStateContext);
   useEffect(() => {
     const width = window.innerWidth;
     const height = window.innerHeight;
@@ -10,10 +12,9 @@ const MovingGraph = () => {
       .attr('width', width)
       .attr('height', height)
       .style('position', 'absolute')
-      .style('top', 100)
+      .style('top', 80)
       .style('left', 0)
       .style('z-index', '-1')
-      .style('background-color', '#fff');  // Dark background for contrast
 
     const nodes = Array.from({ length: 50 }, (_, i) => ({ id: i, r: Math.random() * 10 + 5 }));
     const links = Array.from({ length: 80 }, () => ({

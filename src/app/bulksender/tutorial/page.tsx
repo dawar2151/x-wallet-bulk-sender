@@ -9,7 +9,7 @@ const Home: NextPage = () => {
   return (
     <AnimatedPage>
 
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+    <div className="min-h-screen flex items-center justify-center">
       <div className="max-w-6xl mx-auto p-6 bg-white rounded-lg shadow-lg grid grid-cols-1 lg:grid-cols-2 gap-6">
         
         {/* Video Section */}

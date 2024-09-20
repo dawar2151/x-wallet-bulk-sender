@@ -19,7 +19,7 @@ export const Approving = () => {
       //}
     }, [])
     useEffect(() => {
-        if(isSuccess){
+        if(isConfirmed){
             setTimeout(() => {
                router.push('/bulksender/confirm');
             }, 3000); 

@@ -34,7 +34,7 @@ export function useApproveHelper() {
     const { bulkSenderState } = useContext(BulkSenderStateContext);
     const contractType = CheckContractType();
     console.log('hashs', hash)
-    const result = useBalance({
+    const nativeTokenBalance = useBalance({
         address: address,
         unit: 'ether',
     });
@@ -63,6 +63,7 @@ export function useApproveHelper() {
     }
     const {
         data,
+        isLoading: isReadLoading,
     } = useReadContracts({
         contracts: [{
             functionName: 'balanceOf',
@@ -158,5 +159,5 @@ export function useApproveHelper() {
             await erc1155Approve();
         }
     }
-    return { approve, approveError,isSuccess, isAllowed, isConfirming, isConfirmed, hash, isPending, decimals, allowance, balanceOf, symbol, result }
+    return { approve, approveError,isSuccess, isAllowed, isConfirming, isConfirmed, hash, isPending, decimals, allowance, balanceOf, symbol, nativeTokenBalance, isReadLoading }
 }

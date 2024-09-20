@@ -8,7 +8,7 @@ export const BuyVip = () => {
     const {vipFee, isVIP, buyVip, isLoading, isSuccess, isBuyingVip} = useVipHelper();
 
     return <>
-        <div className="min-h-screen flex items-center justify-center bg-white">
+        <div className="min-h-screen flex items-center justify-center">
             <div className="relative w-full max-w-3xl mx-auto p-10 bg-black rounded-lg shadow-xl">
                 <h1 className="text-5xl font-bold text-white text-center mb-5 uppercase">VIP Members Lounge</h1>
                 <p className="text-lg text-gray-300 text-center mb-8">
