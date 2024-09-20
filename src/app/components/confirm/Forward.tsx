@@ -11,7 +11,7 @@ import { BulkSenderStateContext } from "@/app/providers";
 import { useAccount, useBalance, useWriteContract} from "wagmi";
 import { encodeFunctionData, formatEther, Hex, isAddress, parseEther } from "viem";
 import { BULK_SENDER_ABI } from "@/app/abis/BULKSENDER";
-import { BulkSenders } from "@/app/config/bulkSender";
+import { NetworksConfig } from "@/app/config/bulkSender";
 import DiscreteSliderLabel from "@/components/confirm/GasFee";
 import { useEstimateGas } from 'wagmi'
 import { useApproveHelper } from "@/components/approve/useApproveHelper";
@@ -37,7 +37,7 @@ export function Forward() {
           })
          result = useEstimateGas({
             data: dataHex?.toString() as Hex, 
-            to: BulkSenders[chainId as number] ,
+            to: NetworksConfig[chainId as number].bulkSenderAddress ,
             value: parseEther('0'),
           })
    // }

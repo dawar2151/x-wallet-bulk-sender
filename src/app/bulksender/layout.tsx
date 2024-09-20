@@ -38,10 +38,9 @@ export default function Layout({
       <header className="bg-gradient-to-r from-blue-600 to-blue-400 text-white p-4 shadow-lg">
         <nav aria-label="Global" className="flex items-center justify-between p-6 lg:px-8">
           <div className="text-2xl font-bold flex items-center">
-            <span className="mr-2 text-3xl text-white">💸</span> {/* Optional Logo/Icon */}
+            <span className="mr-2 text-3xl text-white"><img className='h-10 w-full rounded-xl object-cover object-center' src="/ahoo.png" /></span> {/* Optional Logo/Icon */}
             <a href='#' onClick={() => router.push("/bulksender/preparing")} className="-m-1.5 p-1.5">
-              <span>bulk sender</span>
-              <span className="ml-1 text-blue-200">x-wallet</span>
+              <span>BULK Sender</span>
             </a>
           </div>
           <nav className="hidden md:flex space-x-6">
@@ -57,7 +56,8 @@ export default function Layout({
 
           {/* GitHub Icon Link */}
           <a
-            href="https://github.com"
+            href="https://github.com/dawar2151/x-wallet-bulksender-smart-contracts"
+            target="_blank"
             className="text-white hover:text-gray-200 transition duration-200"
             aria-label="GitHub"
           >

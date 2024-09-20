@@ -11,7 +11,7 @@ import { BulkSenderStateContext } from "@/app/providers";
 import { useContext, useState } from "react";
 import { formatEther, formatUnits, parseEther } from "viem";
 import { config } from "@/lib/config";
-import { BulkSenders } from "@/app/config/bulkSender";
+import { NetworksConfig } from "@/app/config/bulkSender";
 import { ApproveType, ContractType, STEPS } from "@/app/types/BulkSenderState";
 import { BULK_SENDER_ABI } from "@/app/abis/BULKSENDER";
 import CheckContractType from "@/app/utils/getTokenType";
@@ -43,7 +43,7 @@ export function useTransferHelper() {
         }
         const newHash = await writeContractAsync({
                 abi: BULK_SENDER_ABI,
-                address: BulkSenders[chainId as number],
+                address: NetworksConfig[chainId as number].bulkSenderAddress,
                 functionName: 'bulkTransferERC20',
                 args: [
                     bulkSenderState.tokenAddress,
@@ -53,6 +53,7 @@ export function useTransferHelper() {
                 value: !isVIP?vipFee as bigint: BigInt('0')
                 //gasPrice: parseGwei(bulkSenderState.currentGasPrice?.toString() || '0'),
             });
+            console.log('newHash', newHash)
     }
     const erc721Transfer = async () => {
         if (!bulkSenderState.tokenAddress) {
@@ -61,7 +62,7 @@ export function useTransferHelper() {
         }
         await writeContractAsync({
                 abi: BULK_SENDER_ABI,
-                address: BulkSenders[chainId as number],
+                address: NetworksConfig[chainId as number].bulkSenderAddress,
                 functionName: 'bulkTransferERC721',
                 args: [
                     bulkSenderState.tokenAddress,
@@ -79,7 +80,7 @@ export function useTransferHelper() {
         }
         await writeContractAsync({
                 abi: BULK_SENDER_ABI,
-                address: BulkSenders[chainId as number],
+                address: NetworksConfig[chainId as number].bulkSenderAddress,
                 functionName: 'bulkTransferERC1155',
                 args: [
                     bulkSenderState.tokenAddress,
@@ -105,5 +106,5 @@ export function useTransferHelper() {
             await erc1155Transfer();
         }
     }
-    return {transfer, isTransferConfirming,isTransferSuccess, isTransferConfirmed, isTransferPending, transferError}
+    return {transfer, hash, isTransferConfirming,isTransferSuccess, isTransferConfirmed, isTransferPending, transferError}
 }

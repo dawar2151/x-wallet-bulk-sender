@@ -1,9 +1,12 @@
 import { useTransferHelper } from "../confirm/useTransferHelper"
-import React, { useEffect } from "react";
+import React, { use, useEffect } from "react";
 import { Alert, Button, Spinner, Typography } from "@material-tailwind/react";
+import { useRouter } from "next/navigation";
+import { NetworksConfig } from "@/app/config/bulkSender";
+import { useAccount } from "wagmi";
 
 export const Sending = () => {
-    const {transfer, isTransferConfirmed, isTransferSuccess, isTransferPending, isTransferConfirming, transferError} = useTransferHelper();
+    const {transfer, isTransferConfirmed, isTransferSuccess, isTransferPending, isTransferConfirming, transferError, hash} = useTransferHelper();
     const [called, setCalled] = React.useState(false);
 
     useEffect(() => {
@@ -15,8 +18,9 @@ export const Sending = () => {
     }, [])
     return (    
         <>
-        {(isTransferPending || isTransferConfirming) && <LoadingAlert />}
-        {(isTransferConfirmed) && <SuccessAlert />}
+        {(isTransferPending) && <LoadingAlert />}
+        {(isTransferConfirming) && <ConfirmingAlert />}
+        {(isTransferConfirmed) && <SuccessAlert hash={hash}/>}
         {transferError && <ErrorAlert resend={()=>transfer()} />}
       </>
     )
@@ -76,6 +80,21 @@ function LoadingAlert(){
     </Typography>
   </Alert>
 }
+function ConfirmingAlert(){
+  const [open, setOpen] = React.useState(true);
+  return <Alert
+  open={open}
+  icon={<IconLoading />}
+  onClose={() => setOpen(false)}
+>
+  <Typography variant="h5" color="white">
+    Confirming
+  </Typography>
+  <Typography color="white" className="mt-2 font-normal">
+    Please wait while the transaction is being confirmed.
+  </Typography>
+</Alert>
+}
 function ErrorAlert({resend}:{resend:()=>void}){
     const [open, setOpen] = React.useState(true);
     return <Alert
@@ -92,8 +111,11 @@ function ErrorAlert({resend}:{resend:()=>void}){
     </Typography>
   </Alert>
 }
-function SuccessAlert(){
+function SuccessAlert({hash}:{hash:string}){
     const [open, setOpen] = React.useState(true);
+    const router = useRouter();
+    const {chainId} = useAccount();
+
     return <Alert
     open={open}
     icon={<IconSuccess />}
@@ -105,5 +127,20 @@ function SuccessAlert(){
     <Typography color="white" className="mt-2 font-normal">
       transaction has been sent successfully.
     </Typography>
+    <div className="mt-4 flex space-x-4">
+        {/* Button to go to a specific page */}
+        <Button color="blue" ripple={true}>
+          <a onClick={()=>router.push('/bulksender/history')} className="text-white">
+            Check transaction history
+          </a>
+        </Button>
+
+        {/* Button to view transaction details on Etherscan */}
+        <Button color="green" ripple={true}>
+          <a href={`${NetworksConfig[chainId as number].etherscanURL}/tx/${hash}`} target="_blank" rel="noopener noreferrer" className="text-white">
+            View on Etherscan
+          </a>
+        </Button>
+      </div>
   </Alert>
 }

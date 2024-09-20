@@ -8,9 +8,13 @@ import { useRouter } from 'next/navigation';
 import { HorizontalSpinnerWithPercentage } from '@/app/components/approve/Summary';
 import AnimatedPage from '@/app/utils/AnimatedPage';
 import { useApproveHelper } from '@/app/components/approve/useApproveHelper';
+import { useAccount, useConnect } from 'wagmi';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 const Preparing: NextPage = () => {
     const router = useRouter();
     const { isAllowed } = useApproveHelper();
+    const {isConnected } = useAccount();
+    const { connectors, connect } = useConnect()
     const manageApprove = () => {
         if (isAllowed) {
             router.push('/bulksender/confirm');
@@ -26,8 +30,12 @@ const Preparing: NextPage = () => {
                         <HorizontalSpinnerWithPercentage text='Prepare' progress={25} />
                         <FillDetails />
                         <div className="flex space-x-4 mt-4">
-                            <Button onClick={() => { router.push('/bulksender/preparing') }}>Back</Button>
-                            <Button onClick={() => manageApprove()}>Next</Button>
+                        {   isConnected &&
+                             <Button onClick={() => manageApprove()}>Next</Button>
+                        }
+                        {   !isConnected &&
+                             <ConnectButton chainStatus="icon" />
+                        }   
                         </div>
                     </div>
                 </div>

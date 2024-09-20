@@ -1,11 +1,15 @@
 'use client'
 
+import { Button } from '@material-tailwind/react';
 import { useRouter } from 'next/navigation';
+import { MouseEvent } from 'react';
 
 export default  function Home() {
 
   const router = useRouter()
-  const gotToHome = () => {
+  const gotToHome = (e: MouseEvent<HTMLButtonElement>) => {
+    alert("clicked")
+    e.preventDefault()
     router.push("/bulksender/preparing");
 };
   return (
@@ -40,12 +44,12 @@ export default  function Home() {
         <p className="mt-6 text-lg leading-8 text-gray-600">
           Bulk Send your ERC20 Token, NFTs, Native Tokens, and more.
         </p>
-        <button
-                onClick={() => gotToHome()}
-                className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            >
+        <a
+            href='#'
+            onClick={(e) => gotToHome(e)}
+            className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" >
                 Get started
-            </button>
+            </a>
       </div>
     </div>
   </div>

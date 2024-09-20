@@ -38,7 +38,7 @@ export function useVipHelper() {
 
     const contractConfig = {
         abi: BULK_SENDER_ABI,
-        address: BulkSenders[chainId as number]
+        address: NetworksConfig[chainId as number].bulkSenderAddress
     }
     const {data} = useReadContract({
         ...contractConfig,

@@ -8,13 +8,9 @@ import {
     useReadContract
 } from "wagmi";
 import { BulkSenderStateContext } from "@/app/providers";
-import { useContext, useState } from "react";
-import { Address, parseEther } from "viem";
-import { BulkSenders } from "@/app/config/bulkSender";
-import { ApproveType, ContractType } from "@/app/types/BulkSenderState";
+import { useContext } from "react";
+import { NetworksConfig } from "@/app/config/bulkSender";
 import CheckContractType from "@/app/utils/getTokenType";
-import { ABI_ERC721 } from "@/app/abis/ERC721";
-import { ABI_ERC1155 } from "@/app/abis/ERC1155";
 import { BULK_SENDER_ABI } from "@/app/abis/BULKSENDER";
 export function useVipHelper() {
     const { address, chainId } = useAccount()
@@ -38,7 +34,7 @@ export function useVipHelper() {
 
     const contractConfig = {
         abi: BULK_SENDER_ABI,
-        address: BulkSenders[chainId as number]
+        address: NetworksConfig[chainId as number].bulkSenderAddress
     }
     const {data} = useReadContract({
         ...contractConfig,
@@ -53,7 +49,7 @@ export function useVipHelper() {
         console.log('buying vip', data);
         await writeContractAsync({
             abi: BULK_SENDER_ABI,
-            address: BulkSenders[chainId as number],
+            address: NetworksConfig[chainId as number].bulkSenderAddress,
             functionName: 'registerVIP',
             args: [],
             value: data as bigint,

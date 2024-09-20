@@ -9,7 +9,7 @@ import {
 import { BulkSenderStateContext } from "@/app/providers";
 import { useContext, useEffect, useState } from "react";
 import { Address, parseEther } from "viem";
-import { BulkSenders } from "@/app/config/bulkSender";
+import { NetworksConfig } from "@/app/config/bulkSender";
 import { ApproveType, ContractType } from "@/app/types/BulkSenderState";
 import CheckContractType from "@/app/utils/getTokenType";
 import { ABI_ERC721 } from "@/app/abis/ERC721";
@@ -57,20 +57,6 @@ export function useApproveHelper() {
             return 'isApprovedForAll';
         }
     }
-    // useEffect(() => {
-    //     async function fetchData() {
-    //         if (!bulkSenderState.tokenAddress || !address) {
-    //             console.error('Token address is required')
-    //             return;
-    //         }
-    //         const p = new ethers.BrowserProvider(window.ethereum)
-    //         const contract = new ethers.Contract(bulkSenderState.tokenAddress, ABI_ERC20, provider);
-    //         console.log('contract', provider)
-    //         const a = await contract.allowance(ethers.getAddress(address), ethers.getAddress(BulkSenders[chainId as number]));
-    //         console.log('fd', a.toString(), bulkSenderState.tokenAddress)
-    //     }
-    //     fetchData();
-    // }, [address, bulkSenderState.tokenAddress, chainId, provider]);
     const contractConfig = {
         abi: getABi(),
         address: bulkSenderState.tokenAddress,
@@ -91,9 +77,9 @@ export function useApproveHelper() {
             ...contractConfig,
         },
         {
-            functionName: 'allowance',
+            functionName: getAllowanceMethodName(),
             ...contractConfig,
-            args: [address, BulkSenders[chainId as number]],
+            args: [address, NetworksConfig[chainId as number]?.bulkSenderAddress],
         }]
     })
     console.log('data', address, bulkSenderState.tokenAddress, data)
@@ -106,13 +92,17 @@ export function useApproveHelper() {
             console.error('Token address is required')
             return;
         }
+        if(!NetworksConfig[chainId as number]){
+            console.error('Network not supported')
+            return;
+        }
         const amount = parseEther(bulkSenderState.totalAmount?.toString() || '0');
         const res = await writeContractAsync({
             abi: ABI_ERC20,
             address: bulkSenderState.tokenAddress,
             functionName: 'approve',
             args: [
-                BulkSenders[chainId as number],// TODO: fix type
+                NetworksConfig[chainId as number].bulkSenderAddress,// TODO: fix type
                 bulkSenderState.approveType == ApproveType.Custom ? amount : '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff',
             ]
         });
@@ -128,7 +118,7 @@ export function useApproveHelper() {
             address: bulkSenderState.tokenAddress,
             functionName: 'setApprovalForAll',
             args: [
-                BulkSenders[chainId as number],// TODO: fix type
+                NetworksConfig[chainId as number].bulkSenderAddress,// TODO: fix type
                 true,
             ]
         });
@@ -143,7 +133,7 @@ export function useApproveHelper() {
             address: bulkSenderState.tokenAddress,
             functionName: 'setApprovalForAll',
             args: [
-                BulkSenders[chainId as number],// TODO: fix type
+                NetworksConfig[chainId as number].bulkSenderAddress,// TODO: fix type
                 true,
             ]
         });
