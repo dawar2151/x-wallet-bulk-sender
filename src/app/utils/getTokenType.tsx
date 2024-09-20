@@ -34,8 +34,6 @@ function useContractType() {
     functionName: 'uri',
     args: [BigInt(1)],
   });
-  console.log(isERC20, isERC721, isERC1155);
-  console.log(errorERC1155, errorERC20, errorERC721);
   if (isERC20) currentTokenType = ContractType.ERC20;
   else if (isERC721) currentTokenType =  ContractType.ERC721;
   else if (isERC1155 == '') currentTokenType = ContractType.ERC1155;

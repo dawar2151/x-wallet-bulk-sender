@@ -20,7 +20,6 @@ const Approve: NextPage = () => {
     const router = useRouter();
     const {isAllowed} = useApproveHelper();
     const manageApprove = ()    => {
-        console.log(isAllowed);
         if(isAllowed){
             router.push('/bulksender/confirm');
         }else{

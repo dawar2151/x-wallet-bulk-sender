@@ -24,8 +24,7 @@ export const Approving = () => {
                router.push('/bulksender/confirm');
             }, 3000); 
         }
-    }, [isSuccess]);
-    console.log(isSuccess, isAllowed, isConfirmed, isConfirming, isPending, approveError);
+    }, [isConfirmed]);
     return (    
         <>
         {(isPending || isConfirming) && <LoadingAlert />}

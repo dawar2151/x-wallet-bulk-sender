@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { MouseEvent } from 'react';
 
@@ -35,10 +36,10 @@ export default function Home() {
         <div className="hidden sm:mb-6 sm:flex sm:justify-center">
           <div className="relative rounded-full px-3 py-1 text-sm leading-6 text-gray-600 ring-1 ring-gray-900/10 hover:ring-gray-900/20 transition-all duration-200">
             X-Wallet bulk sender.{' '}
-            <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500 transition-all">
+            <Link href="#" className="font-semibold text-indigo-600 hover:text-indigo-500 transition-all">
               <span aria-hidden="true" className="absolute inset-0" />
               Read more <span aria-hidden="true">&rarr;</span>
-            </a>
+            </Link>
           </div>
         </div>
 
@@ -52,13 +53,13 @@ export default function Home() {
           </p>
 
           {/* CTA Button */}
-          <a
-            href="#"
+          <Link
+            href={""}
             onClick={(e) => goToHome(e)}
             className="inline-block mt-8 rounded-md bg-indigo-600 px-5 py-3 text-lg font-semibold text-white shadow-lg hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-all duration-300"
           >
             Get started
-          </a>
+          </Link>
         </div>
       </div>
     </div>

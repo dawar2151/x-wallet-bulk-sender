@@ -10,10 +10,12 @@ import DiscreteSliderLabel from "@/components/confirm/GasFee";
 import { useEstimateGas } from 'wagmi';
 import { useApproveHelper } from "@/components/approve/useApproveHelper";
 import { XCard } from "@/app/utils/XCard";
+import { useTransferHelper } from "./useTransferHelper";
 
 export function Forward() {
     const { address, chainId } = useAccount();
     const { balanceOf, symbol } = useApproveHelper();
+    const {getTransferTokenFunctionName, getTransferTokenArgs} = useTransferHelper()
     const { bulkSenderState, isDarkMode } = useContext(BulkSenderStateContext);
     const nativeTokenBalance = useBalance({
         address: address,
@@ -21,21 +23,18 @@ export function Forward() {
     });
 
     let result;
+    console.log(getTransferTokenArgs())
     const dataHex = encodeFunctionData({
         abi: BULK_SENDER_ABI,
-        functionName: 'bulkTransferERC20',
-        args: [
-            bulkSenderState.tokenAddress,
-            bulkSenderState.receivers?.map(a => a.address),
-            bulkSenderState.receivers?.map(a => parseEther(a.amount)),
-        ]
+        functionName: getTransferTokenFunctionName(),
+        args: getTransferTokenArgs()
     });
     result = useEstimateGas({
         data: dataHex?.toString() as Hex,
         to: NetworksConfig[chainId as number].bulkSenderAddress,
         value: parseEther('0'),
     });
-
+    console.log(result);
     return (
         <div className={`m-3 ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-white text-black'}`}>
             <DiscreteSliderLabel />

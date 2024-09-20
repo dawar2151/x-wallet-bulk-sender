@@ -46,7 +46,6 @@ export function useVipHelper() {
         args: [address]
     })
     const buyVip = async () => {
-        console.log('buying vip', data);
         await writeContractAsync({
             abi: BULK_SENDER_ABI,
             address: NetworksConfig[chainId as number].bulkSenderAddress,

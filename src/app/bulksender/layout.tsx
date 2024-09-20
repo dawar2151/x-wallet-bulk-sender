@@ -7,6 +7,7 @@ import { ConnectBtn } from '@/components/connection/connectButton';
 import { useRouter } from 'next/navigation';
 import MovingGraph from '../utils/BackRight';
 import { BulkSenderStateContext } from '../providers';
+import Link from 'next/link';
 
 const navigation = [
   { name: 'VIP', href: '/bulksender/vip', current: true },
@@ -36,26 +37,26 @@ export default function Layout({
           {/* Logo and Brand */}
           <div className="flex items-center">
             <img className="h-10 w-auto rounded-xl object-cover object-center mr-2" src="/ahoo.png" alt="Logo" />
-            <a
+            <Link
               href="#"
               onClick={() => router.push('/bulksender/preparing')}
               className="text-2xl font-bold"
             >
               BULK Sender
-            </a>
+            </Link>
           </div>
 
           {/* Desktop NAV */}
           <div className="hidden md:flex space-x-6">
             {navigation.map((item) => (
-              <a
+              <Link
                 key={item.name}
                 href="#"
                 onClick={() => router.push(item.href)}
                 className="hover:text-blue-200 dark:hover:text-gray-300 transition duration-200"
               >
                 {item.name}
-              </a>
+              </Link>
             ))}
           </div>
 
@@ -90,9 +91,9 @@ export default function Layout({
           <div className="fixed inset-0 z-10 overflow-y-auto bg-black bg-opacity-50">
             <DialogPanel className="relative z-10 bg-white dark:bg-gray-900 p-6">
               <div className="flex items-center justify-between">
-                <a href="#" onClick={() => router.push('/bulksender/preparing')} className="text-2xl font-bold text-blue-600 dark:text-white">
+                <Link href="#" onClick={() => router.push('/bulksender/preparing')} className="text-2xl font-bold text-blue-600 dark:text-white">
                   BULK Sender
-                </a>
+                </Link>
                 <button
                   type="button"
                   className="rounded-md p-2 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-800"
@@ -103,7 +104,7 @@ export default function Layout({
               </div>
               <div className="mt-6 space-y-4">
                 {navigation.map((item) => (
-                  <a
+                  <Link
                     key={item.name}
                     href="#"
                     onClick={() => {
@@ -113,15 +114,15 @@ export default function Layout({
                     className="block text-lg font-semibold text-blue-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 px-4 py-2 rounded-lg"
                   >
                     {item.name}
-                  </a>
+                  </Link>
                 ))}
-                <a
+                <Link
                   href="https://github.com/dawar2151/x-wallet-bulksender-smart-contracts"
                   target="_blank"
                   className="block text-lg font-semibold text-blue-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 px-4 py-2 rounded-lg"
                 >
                   GitHub
-                </a>
+                </Link>
               </div>
             </DialogPanel>
           </div>

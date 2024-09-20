@@ -8,6 +8,7 @@ import {
 } from "@material-tailwind/react";
 import { Card, CardContent, Typography } from '@mui/material';
 import { XButton } from "@/app/utils/XButton";
+import Link from "next/link";
 
 export function ExampleContents() {
   const [open, setOpen] = React.useState(false);
@@ -35,7 +36,7 @@ export function ExampleContents() {
   ];
   return (
     <div className="mt-5">
-      <a className="text-gray-700" onClick={handleOpen} >Example Data</a>
+      <Link className="text-gray-500" onClick={handleOpen} href={""} >Example Data(Separated by comma)</Link>
 
       <Dialog open={open} handler={handleOpen}>
         <DialogHeader>Example Receivers Data</DialogHeader>

@@ -33,7 +33,6 @@ export function useApproveHelper() {
         })
     const { bulkSenderState } = useContext(BulkSenderStateContext);
     const contractType = CheckContractType();
-    console.log('hashs', hash)
     const nativeTokenBalance = useBalance({
         address: address,
         unit: 'ether',
@@ -83,11 +82,8 @@ export function useApproveHelper() {
             args: [address, NetworksConfig[chainId as number]?.bulkSenderAddress],
         }]
     })
-    console.log('data', address, bulkSenderState.tokenAddress, data)
     const [balanceOf, symbol, decimals, allowance] = data || []
-    console.log('hsh', allowance)
     const isAllowed = (allowance && (allowance?.result as number) >= parseEther(bulkSenderState.totalAmount?.toString() || '0')) || allowance?.result == true;
-    console.log('isAllowed', isAllowed)
     const erc20Approve = async () => {
         if (!bulkSenderState.tokenAddress) {
             console.error('Token address is required')
@@ -107,7 +103,6 @@ export function useApproveHelper() {
                 bulkSenderState.approveType == ApproveType.Custom ? amount : '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff',
             ]
         });
-        console.log('hash', res)
     }
     const erc721Approve = async () => {
         if (!bulkSenderState.tokenAddress) {
@@ -140,9 +135,6 @@ export function useApproveHelper() {
         });
     }
     const approve = async () => {
-        console.log('approve', bulkSenderState.tokenAddress)
-        console.log('approveType', bulkSenderState.approveType)
-        console.log('totalAmount', isPending, isConfirming, isConfirmed, bulkSenderState.totalAmount)
         if(isPending || isConfirming){
             return;
         }
@@ -150,7 +142,6 @@ export function useApproveHelper() {
             console.error('Token address is required')
             return;
         }
-        console.log('approveType', contractType)
         if (contractType == ContractType.ERC20) {
             await erc20Approve();
         } else if (contractType == ContractType.ERC721) {
