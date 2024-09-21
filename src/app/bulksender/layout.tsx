@@ -38,8 +38,7 @@ export default function Layout({
           <div className="flex items-center">
             <img className="h-10 w-auto rounded-xl object-cover object-center mr-2" src="/ahoo.png" alt="Logo" />
             <Link
-              href="#"
-              onClick={() => router.push('/bulksender/preparing')}
+              href="/bulksender/preparing"
               className="text-2xl font-bold"
             >
               BULK Sender
@@ -51,8 +50,7 @@ export default function Layout({
             {navigation.map((item) => (
               <Link
                 key={item.name}
-                href="#"
-                onClick={() => router.push(item.href)}
+                href={item.href}
                 className="hover:text-blue-200 dark:hover:text-gray-300 transition duration-200"
               >
                 {item.name}
@@ -106,7 +104,7 @@ export default function Layout({
                 {navigation.map((item) => (
                   <Link
                     key={item.name}
-                    href="#"
+                    href={item.href}
                     onClick={() => {
                       setMobileMenuOpen(false);
                       router.push(item.href);
