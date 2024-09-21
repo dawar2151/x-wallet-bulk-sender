@@ -8,7 +8,7 @@ import {
 } from "wagmi";
 import { BulkSenderStateContext } from "@/app/providers";
 import { useContext, useEffect, useState } from "react";
-import { Address, parseEther } from "viem";
+import { Address, formatEther, formatUnits, parseEther } from "viem";
 import { NetworksConfig } from "@/app/config/bulkSender";
 import { ApproveType, ContractType } from "@/app/types/BulkSenderState";
 import CheckContractType from "@/app/utils/getTokenType";
@@ -19,6 +19,7 @@ import { ethers } from "ethers";
 export function useApproveHelper() {
     const { address, chainId } = useAccount()
     const provider = useEthersProvider();
+    const tokenType = CheckContractType();
 
     const {
         error: approveError,
@@ -82,6 +83,18 @@ export function useApproveHelper() {
             args: [address, NetworksConfig[chainId as number]?.bulkSenderAddress],
         }]
     })
+    const getTokenBalance = () => {
+        if(tokenType === ContractType.ERC20) {
+        return balanceOf?.result ? formatUnits(BigInt(balanceOf?.result.toString()), decimals?.result as number) : '0';
+        }else if(tokenType === ContractType.ERC721) {
+        return balanceOf?.result;
+        }else if(tokenType === ContractType.ERC1155){
+        return 'ERC1155 tokens balances';
+        }else if(tokenType === ContractType.Native) {
+        return formatEther(BigInt(balanceOf?.result?.toString() ?? '0'));
+        }else
+        return '0';
+    }
     const [balanceOf, symbol, decimals, allowance] = data || []
     const isAllowed = (allowance && (allowance?.result as number) >= parseEther(bulkSenderState.totalAmount?.toString() || '0')) || allowance?.result == true;
     const erc20Approve = async () => {
@@ -150,5 +163,5 @@ export function useApproveHelper() {
             await erc1155Approve();
         }
     }
-    return { approve, approveError,isSuccess, isAllowed, isConfirming, isConfirmed, hash, isPending, decimals, allowance, balanceOf, symbol, nativeTokenBalance, isReadLoading }
+    return { approve,getTokenBalance, approveError,isSuccess, isAllowed, isConfirming, isConfirmed, hash, isPending, decimals, allowance, balanceOf, symbol, nativeTokenBalance, isReadLoading }
 }
