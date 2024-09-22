@@ -5,36 +5,37 @@ import { useEffect, useRef } from "react"
 import { Alert, Button, Spinner, Typography } from "@material-tailwind/react";
 import { useApproveHelper } from "../approve/useApproveHelper";
 import { useRouter } from "next/navigation";
+import { XButton } from "@/app/utils/XButton";
 
 export const Approving = () => {
-    const {approve, isAllowed, isSuccess,isConfirmed, isConfirming, isPending, approveError} = useApproveHelper();
-    const router = useRouter();
-    const [called, setCalled] = React.useState(false);
+  const { approve, isAllowed, isSuccess, isConfirmed, isConfirming, isPending, approveError } = useApproveHelper();
+  const router = useRouter();
+  const [called, setCalled] = React.useState(false);
 
-    useEffect(() => {
-      if(!called){
-        approve()
-      }else
-        setCalled(true)
-      //}
-    }, [])
-    useEffect(() => {
-        if(isConfirmed){
-            setTimeout(() => {
-               router.push('/bulksender/confirm');
-            }, 3000); 
-        }
-    }, [isConfirmed]);
-    return (    
-        <>
-        {(isPending || isConfirming) && <LoadingAlert />}
-        {isConfirmed && <SuccessAlert />}
-        {approveError && <ErrorAlert resend={approve} />}
-      </>
-    )
+  useEffect(() => {
+    if (!called) {
+      approve()
+    } else
+      setCalled(true)
+    //}
+  }, [])
+  useEffect(() => {
+    if (isConfirmed) {
+      setTimeout(() => {
+        router.push('/bulksender/confirm');
+      }, 3000);
+    }
+  }, [isConfirmed]);
+  return (
+    <>
+      {(isPending || isConfirming) && <LoadingAlert />}
+      {isConfirmed && <SuccessAlert />}
+      {approveError && <ErrorAlert resend={approve} />}
+    </>
+  )
 }
 
- 
+
 function IconSuccess() {
   return (
     <svg
@@ -53,68 +54,69 @@ function IconSuccess() {
 }
 function IconLoading() {
   return (
-    <Spinner />
+    <Spinner onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} />
   );
 }
 function ErrorIcon() {
-    return (
-        <svg
-        xmlns="http://www.w3.org/2000/svg"
-        color="white"
-        viewBox="0 0 24 24"
-        fill="currentColor"
-        className="h-6 w-6"
-      >
-        <path
-          fillRule="evenodd"
-          d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z"
-          clipRule="evenodd"
-        />
-      </svg>
-    );
-  }
-function LoadingAlert(){
-    const [open, setOpen] = React.useState(true);
-    return <Alert
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      color="white"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      className="h-6 w-6"
+    >
+      <path
+        fillRule="evenodd"
+        d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z"
+        clipRule="evenodd"
+      />
+    </svg>
+  );
+}
+function LoadingAlert() {
+  const [open, setOpen] = React.useState(true);
+  return <Alert
     open={open}
     icon={<IconLoading />}
     onClose={() => setOpen(false)}
   >
-    <Typography variant="h5" color="white">
+
+    <Typography variant="h5" color="white" onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} placeholder={undefined}>
       Approving
     </Typography>
-    <Typography color="white" className="mt-2 font-normal">
+    <Typography color="white" className="mt-2 font-normal" onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} placeholder={undefined}>
       Please validate transaction on your wallet.
     </Typography>
   </Alert>
 }
-function ErrorAlert({resend}:{resend:()=>void}){
-    const [open, setOpen] = React.useState(true);
-    return <Alert
+function ErrorAlert({ resend }: { resend: () => void }) {
+  const [open, setOpen] = React.useState(true);
+  return <Alert
     open={open}
     color="amber"
     icon={<ErrorIcon />}
     onClose={() => setOpen(false)}
   >
-    <Typography variant="h5" color="white">
+    <Typography color="white" className="mt-2 font-normal" onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} placeholder={undefined}>
       Transaction Rejected
     </Typography>
-    <Typography color="white" className="mt-2 font-normal">
-      Transaction rejected, please click on the button resend to retry. <Button onClick={resend}>Resend</Button>
+    <Typography color="white" className="mt-2 font-normal" onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} placeholder={undefined}>
+      Transaction rejected, please click on the button resend to retry. <XButton action={resend} caption="Resend" />
     </Typography>
   </Alert>
 }
-function SuccessAlert(){
-    const [open, setOpen] = React.useState(true);
-    return <Alert
+function SuccessAlert() {
+  const [open, setOpen] = React.useState(true);
+  return <Alert
     open={open}
     icon={<IconSuccess />}
     onClose={() => setOpen(false)}
   >
-    <Typography variant="h5" color="white">
+    <Typography color="white" className="mt-2 font-normal" onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} placeholder={undefined}>
       Transaction Sent
     </Typography>
-    <Typography color="white" className="mt-2 font-normal">
+    <Typography color="white" className="mt-2 font-normal" onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} placeholder={undefined}>
       transaction has been sent successfully.
     </Typography>
   </Alert>

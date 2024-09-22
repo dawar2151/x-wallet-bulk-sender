@@ -38,9 +38,9 @@ export function ExampleContents() {
     <div className="mt-5">
       <Link className="text-gray-500" onClick={handleOpen} href={""} >Example Data(Separated by comma)</Link>
 
-      <Dialog open={open} handler={handleOpen}>
-        <DialogHeader>Example Receivers Data</DialogHeader>
-        <DialogBody>
+      <Dialog open={open} handler={handleOpen} placeholder={undefined} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}>
+        <DialogHeader  placeholder={undefined} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}>Example Receivers Data</DialogHeader>
+        <DialogBody  placeholder={undefined} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}>
           <div className="p-4">
             <Card className="mb-4">
               <CardContent>

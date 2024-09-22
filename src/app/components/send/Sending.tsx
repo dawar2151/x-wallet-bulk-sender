@@ -21,7 +21,7 @@ export const Sending = () => {
         <>
         {(isTransferPending) && <LoadingAlert />}
         {(isTransferConfirming) && <ConfirmingAlert />}
-        {(isTransferConfirmed) && <SuccessAlert hash={hash}/>}
+        {(isTransferConfirmed && hash) && <SuccessAlert hash={hash}/>}
         {transferError && <ErrorAlert resend={()=>transfer()} />}
       </>
     )
@@ -73,10 +73,10 @@ function LoadingAlert(){
     icon={<IconLoading />}
     onClose={() => setOpen(false)}
   >
-    <Typography variant="h5" color="white">
+    <Typography variant="h5" color="white"  onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} placeholder={undefined}>
       Sending
     </Typography>
-    <Typography color="white" className="mt-2 font-normal">
+    <Typography color="white" className="mt-2 font-normal"  onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} placeholder={undefined}>
       Please validate transaction on your wallet.
     </Typography>
   </Alert>
@@ -88,10 +88,10 @@ function ConfirmingAlert(){
   icon={<IconLoading />}
   onClose={() => setOpen(false)}
 >
-  <Typography variant="h5" color="white">
+  <Typography variant="h5" color="white" onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} placeholder={undefined}>
     Confirming
   </Typography>
-  <Typography color="white" className="mt-2 font-normal">
+  <Typography color="white" className="mt-2 font-normal" onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} placeholder={undefined}>
     Please wait while the transaction is being confirmed.
   </Typography>
 </Alert>
@@ -104,10 +104,10 @@ function ErrorAlert({resend}:{resend:()=>void}){
     icon={<ErrorIcon />}
     onClose={() => setOpen(false)}
   >
-    <Typography variant="h5" color="white">
+    <Typography variant="h5" color="white" onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} placeholder={undefined}>
       Transaction Rejected
     </Typography>
-    <Typography color="white" className="mt-2 font-normal">
+    <Typography color="white" className="mt-2 font-normal" placeholder={undefined} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}>
       Transaction rejected, please click on the button resend to retry.<XButton action={resend} caption="Resend" />
     </Typography>
   </Alert>
@@ -122,22 +122,22 @@ function SuccessAlert({hash}:{hash:string}){
     icon={<IconSuccess />}
     onClose={() => setOpen(false)}
   >
-    <Typography variant="h5" color="white">
+    <Typography variant="h5" color="white"  onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} placeholder={undefined}>
       Transaction Sent
     </Typography>
-    <Typography color="white" className="mt-2 font-normal">
+    <Typography color="white" className="mt-2 font-normal" onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} placeholder={undefined}>
       transaction has been sent successfully.
     </Typography>
     <div className="mt-4 flex space-x-4">
         {/* Button to go to a specific page */}
-        <Button color="blue" ripple={true}>
+        <Button color="blue" ripple={true}  placeholder={undefined} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}>
           <a onClick={()=>router.push('/bulksender/history')} className="text-white">
             Check transaction history
           </a>
         </Button>
 
         {/* Button to view transaction details on Etherscan */}
-        <Button color="green" ripple={true}>
+        <Button color="green" ripple={true}  placeholder={undefined} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}>
           <a href={`${NetworksConfig[chainId as number].etherscanURL}/tx/${hash}`} target="_blank" rel="noopener noreferrer" className="text-white">
             View on Etherscan
           </a>

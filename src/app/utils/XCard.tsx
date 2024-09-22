@@ -6,12 +6,12 @@ export const XCard = (props: {caption: string, description: string }) => {
     const { caption, description } = props;
     const { isDarkMode } = useContext(BulkSenderStateContext);
     return (
-    <Card className='w-auto dark:bg-gray-800 bg-white'>
-        <CardBody>
-            <Typography variant="h5" color={isDarkMode ? 'white' : 'blue-gray'} className="mb-2">
+    <Card className='w-auto dark:bg-gray-800 bg-white'  placeholder={undefined} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}>
+        <CardBody  placeholder={undefined} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}>
+            <Typography variant="h5" color={isDarkMode ? 'white' : 'blue-gray'} className="mb-2" placeholder={undefined} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}>
                 {caption}
             </Typography>
-            <Typography color={isDarkMode ? 'gray-100' : 'gray-700'}>
+            <Typography color={isDarkMode ? 'amber' : 'green'} placeholder={undefined} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}>
                 {description}
             </Typography>
         </CardBody>

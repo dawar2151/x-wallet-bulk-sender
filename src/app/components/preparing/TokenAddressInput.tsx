@@ -26,8 +26,8 @@ export function TokenAddressInput() {
     <div className={`flex w-full flex-row items-center gap-2 rounded-[99px] border ${isDarkMode ? 'border-gray-700' : 'border-gray-300'} bg-gray-900/5 p-2`}>
       <div className="flex">
         {(isReadLoading || !bulkSenderState.tokenAddress) ? 
-          <Spinner size="sm" color={isDarkMode ? 'white' : 'gray'} /> :
-          <IconButton variant="text" className="rounded-full text-gray-800">
+          <Spinner color={isDarkMode ? 'amber' : 'green'} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} /> :
+          <IconButton variant="text" className="rounded-full text-gray-800"  placeholder={undefined} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}>
             {tokenType}
           </IconButton>
         }
@@ -44,13 +44,12 @@ export function TokenAddressInput() {
         }}
         labelProps={{
           className: "before:content-none after:content-none",
-        }}
-      />
+        }} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}      />
       <div>
         {(isReadLoading || !bulkSenderState.tokenAddress) ? 
-          <Spinner size="sm" color={isDarkMode ? 'white' : 'gray'} /> :
-          <IconButton variant="text" className="rounded-full text-gray-800">
-            {!decimals?.error ? decimals?.result.toString() as ReactNode : '0'}
+          <Spinner color={isDarkMode ? 'brown' : 'amber'} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} /> :
+          <IconButton variant="text" className="rounded-full text-gray-800"  placeholder={undefined} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}>
+            {!decimals?.error ? (decimals?.result as number).toString() as ReactNode : '0'}
           </IconButton>
         }
       </div>

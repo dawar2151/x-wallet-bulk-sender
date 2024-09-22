@@ -1,7 +1,7 @@
 'use client';
 import React, { useEffect } from 'react';
 import { Address } from 'viem';
-import { fetchErc20Transaction } from './etherscan';
+import { fetchErc20Transaction, TransactionERC20 } from './etherscan';
 import TransactionTable from './Transactions';
 import { Spinner } from '@material-tailwind/react';
 

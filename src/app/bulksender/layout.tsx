@@ -9,6 +9,7 @@ import MovingGraph from '../utils/BackRight';
 import { BulkSenderStateContext } from '../providers';
 import Link from 'next/link';
 import { Button, IconButton } from '@material-tailwind/react';
+import Image from 'next/image';
 
 const navigation = [
   { name: 'VIP', href: '/bulksender/vip', current: true },
@@ -37,7 +38,7 @@ export default function Layout({
         <nav aria-label="Global" className="flex items-center justify-between lg:px-8">
           {/* Logo and Brand */}
           <div className="flex items-center">
-            <img className="h-10 w-auto rounded-xl object-cover object-center mr-2" src="/ahoo.png" alt="Logo" />
+            <Image className="h-10 w-auto rounded-xl object-cover object-center mr-2" width={50} height={50} src="/ahoo.png" alt="Logo" />
             <Link
               href="/bulksender/preparing"
               className="text-2xl font-bold"
@@ -68,7 +69,7 @@ export default function Layout({
               onClick={toggleTheme}
             >
               {isDarkMode ? 
-             <i class="fa-regular fa-lightbulb"></i>
+             <i className="fa-regular fa-lightbulb"></i>
               : 
               <i className="fa-sharp fa-solid fa-circle-half-stroke" />
           }

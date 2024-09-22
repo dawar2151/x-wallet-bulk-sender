@@ -7,10 +7,10 @@ export const XButton = (props: {action: () => void; caption: string, disabled?: 
     
     return (
         <Button
-            disabled={props.disabled?? false}
-            onClick={props.action}
-            className={`font-bold py-2 px-4 rounded ${isDarkMode ? 'bg-blue-600 hover:bg-blue-700' : 'bg-gray-900 hover:bg-gray-700'} text-white`}
-        >
+        placeholder={undefined} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} {...props}
+        disabled={props.disabled ?? false}
+        onClick={props.action}
+        className={`font-bold py-2 px-4 rounded ${isDarkMode ? 'bg-blue-600 hover:bg-blue-700' : 'bg-gray-900 hover:bg-gray-700'} text-white`}        >
             {props.caption}
         </Button>
     );

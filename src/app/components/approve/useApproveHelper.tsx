@@ -112,7 +112,7 @@ export function useApproveHelper() {
             address: bulkSenderState.tokenAddress,
             functionName: 'approve',
             args: [
-                NetworksConfig[chainId as number].bulkSenderAddress,// TODO: fix type
+                NetworksConfig[chainId as number]?.bulkSenderAddress,// TODO: fix type
                 bulkSenderState.approveType == ApproveType.Custom ? amount : '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff',
             ]
         });
@@ -127,7 +127,7 @@ export function useApproveHelper() {
             address: bulkSenderState.tokenAddress,
             functionName: 'setApprovalForAll',
             args: [
-                NetworksConfig[chainId as number].bulkSenderAddress,// TODO: fix type
+                NetworksConfig[chainId as number]?.bulkSenderAddress,// TODO: fix type
                 true,
             ]
         });
@@ -142,7 +142,7 @@ export function useApproveHelper() {
             address: bulkSenderState.tokenAddress,
             functionName: 'setApprovalForAll',
             args: [
-                NetworksConfig[chainId as number].bulkSenderAddress,// TODO: fix type
+                NetworksConfig[chainId as number]?.bulkSenderAddress,// TODO: fix type
                 true,
             ]
         });

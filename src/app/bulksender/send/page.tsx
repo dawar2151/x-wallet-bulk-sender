@@ -2,7 +2,7 @@
 import { HorizontalSpinnerWithPercentage } from "@/app/components/approve/HorizontalSpinnerWithPercentage";
 import { Sending } from '@/app/components/send/Sending';
 import AnimatedPage from '@/app/utils/AnimatedPage';
-import { Button } from '@material-tailwind/react';
+import { XButton } from "@/app/utils/XButton";
 import { NextPage } from 'next';
 import { useRouter } from 'next/navigation';
 
@@ -18,7 +18,7 @@ const Send: NextPage = () => {
                 <HorizontalSpinnerWithPercentage text='Send' progress={100} />
                 <Sending />
                 <div className="flex space-x-4 mt-4">
-                <Button   onClick={() => {router.push('/bulksender/confirm')}}>Back</Button>
+                <XButton   action={() => {router.push('/bulksender/confirm')}} caption="Back" />
             </div>
                 </div>
             </div>

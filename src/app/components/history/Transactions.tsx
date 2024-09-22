@@ -6,10 +6,10 @@ import { formatEther } from 'viem';
 import { BulkSenderStateContext } from "@/app/providers";
 
 const TransactionTable = ({ transactions }: { readonly transactions: TransactionERC20[] }) => {
-  const [expandedRows, setExpandedRows] = useState({});
+  const [expandedRows, setExpandedRows] = useState<{ [key: number]: boolean }>({});
   const { isDarkMode } = useContext(BulkSenderStateContext);
 
-  const toggleRowExpansion = (index) => {
+  const toggleRowExpansion = (index: number) => {
     setExpandedRows((prevState) => ({
       ...prevState,
       [index]: !prevState[index],
@@ -58,7 +58,7 @@ const TransactionTable = ({ transactions }: { readonly transactions: Transaction
 
                   {expandedRows[index] && (
                     <tr className={`${isDarkMode ? 'bg-gray-700' : 'bg-gray-50'}`}>
-                      <td colSpan="7" className="py-3 px-6">
+                      <td colSpan={7} className="py-3 px-6">
                         <div className="grid grid-cols-2 gap-6">
                           <div>
                             <p><strong>Nonce:</strong> {transaction.nonce}</p>

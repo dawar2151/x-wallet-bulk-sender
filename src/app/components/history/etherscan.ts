@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { Address } from 'viem';
 import { sepolia } from 'viem/chains'
 
 const NETWORKS: { [key: number]: { name: string; chainId: number } } = {

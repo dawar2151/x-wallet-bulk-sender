@@ -54,9 +54,9 @@ export  default function Providers({ children }: Props) {
       theme={isDarkMode ? darkTheme() : lightTheme()} coolMode
         >
           <BulkSenderStateContext.Provider value={{ isDarkMode, theme,toggleTheme, bulkSenderState, setBulkSenderState }}>
-          <ThemeProvider>
+          {/* <ThemeProvider> */}
             {children}
-            </ThemeProvider>
+            {/* </ThemeProvider> */}
           </BulkSenderStateContext.Provider>
         </RainbowKitProvider>
       </QueryClientProvider>

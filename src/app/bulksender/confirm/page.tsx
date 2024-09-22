@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import { useApproveHelper } from '@/app/components/approve/useApproveHelper';
 import { useTransferHelper } from '@/app/components/confirm/useTransferHelper';
 import AnimatedPage from '@/app/utils/AnimatedPage';
+import { XButton } from '@/app/utils/XButton';
 
 const Confirm: NextPage = () => {
     const router = useRouter();
@@ -20,8 +21,8 @@ const Confirm: NextPage = () => {
                 <HorizontalSpinnerWithPercentage text='Confirm' progress={75} />
                     <Forward />
                     <div className="flex space-x-4 mt-4">
-                <Button   onClick={() => {router.push('/bulksender/approve')}}>Back</Button>
-                <Button   onClick={()=>router.push('/bulksender/send')}>Next</Button>
+                <XButton   action={() => router.push('/bulksender/approve')} caption="Back" />
+                <XButton   action={()=>router.push('/bulksender/send')} caption="Next" />
             </div>
                 </div>
             </div>

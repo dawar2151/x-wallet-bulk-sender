@@ -15,34 +15,35 @@ import { Approving } from '@/app/components/execute-approve/Approving';
 import { motion, AnimatePresence } from 'framer-motion';
 import AnimatedPage from '@/app/utils/AnimatedPage';
 import { BulkSenderStateContext } from '@/app/providers';
+import { XButton } from '@/app/utils/XButton';
 
 const Approve: NextPage = () => {
     const router = useRouter();
-    const {isAllowed} = useApproveHelper();
-    const manageApprove = ()    => {
-        if(isAllowed){
+    const { isAllowed } = useApproveHelper();
+    const manageApprove = () => {
+        if (isAllowed) {
             router.push('/bulksender/confirm');
-        }else{
+        } else {
             router.push('/bulksender/execute-approve');
         }
-    }    
+    }
     return (
         <AnimatedPage>
-        <div className="w-full py-4 px-10">
-            <div className="mt-20">
-                <div className="mx-auto max-w-4xl py-32 sm:py-48 lg:py-56">
-                <HorizontalSpinnerWithPercentage text='Approve' progress={50} />
-                       <Summary />
+            <div className="w-full py-4 px-10">
+                <div className="mt-20">
+                    <div className="mx-auto max-w-4xl py-32 sm:py-48 lg:py-56">
+                        <HorizontalSpinnerWithPercentage text='Approve' progress={50} />
+                        <Summary />
                         <div className="flex space-x-4 mt-4">
-                    <Button   onClick={() => {router.push('/bulksender/preparing')}}>Back</Button>
-                    <Button   onClick={() => manageApprove()}>Next</Button>
+                            <XButton action={() => router.push('/bulksender/preparing')} caption='Back' />
+                            <XButton action={() => manageApprove()} caption='Next' />
+                        </div>
+
+
+                    </div>
                 </div>
-                    
-                   
-                </div>
+
             </div>
-           
-        </div>
         </AnimatedPage>
     );
 };

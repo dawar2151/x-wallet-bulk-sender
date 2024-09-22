@@ -34,7 +34,7 @@ export function useVipHelper() {
 
     const contractConfig = {
         abi: BULK_SENDER_ABI,
-        address: NetworksConfig[chainId as number].bulkSenderAddress
+        address: NetworksConfig[chainId as number]?.bulkSenderAddress
     }
     const {data} = useReadContract({
         ...contractConfig,
@@ -48,7 +48,7 @@ export function useVipHelper() {
     const buyVip = async () => {
         await writeContractAsync({
             abi: BULK_SENDER_ABI,
-            address: NetworksConfig[chainId as number].bulkSenderAddress,
+            address: NetworksConfig[chainId as number]?.bulkSenderAddress,
             functionName: 'registerVIP',
             args: [],
             value: data as bigint,

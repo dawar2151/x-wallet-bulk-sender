@@ -37,7 +37,7 @@ const Preparing: NextPage = () => {
                              <XButton action={manageApprove} caption="Next" />
                         }
                         {   !isConnected &&
-                             <ConnectButton col chainStatus="icon" />
+                             <ConnectButton chainStatus="icon" />
                         }   
                         </div>
                     </div>

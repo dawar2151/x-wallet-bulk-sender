@@ -22,7 +22,7 @@ export const BuyVip = () => {
                 Need more info? Join our Telegram community for support and answers!
                 </p>
                 <div className="mt-10 text-center">
-                    <Button onClick={()=> buyVip()} className="px-8 py-3 bg-white text-black font-bold rounded-lg hover:bg-gray-100 transition duration-300">
+                    <Button onClick={() => buyVip()} className="px-8 py-3 bg-white text-black font-bold rounded-lg hover:bg-gray-100 transition duration-300" placeholder={undefined} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}>
                        {
                         (isBuyingVip  || isLoading) ? 'Loading...' : isSuccess ? 'VIP Purchased' : isVIP ? 'VIP Purchased' : `Buy VIP for ${vipFee?formatEther((vipFee as bigint)):"0"} ETH`
                        }

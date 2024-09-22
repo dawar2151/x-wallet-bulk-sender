@@ -38,7 +38,7 @@ export function useTransferHelper() {
         console.log('receivers', bulkSenderState.receivers);
         await writeContractAsync({
             abi: BULK_SENDER_ABI,
-            address: NetworksConfig[chainId as number].bulkSenderAddress,
+            address: NetworksConfig[chainId as number]?.bulkSenderAddress,
             functionName: getTransferTokenFunctionName(),
             args: getTransferTokenArgs(),
             value: !isVIP ? vipFee as bigint : BigInt('0')
@@ -88,7 +88,7 @@ export function useTransferHelper() {
             case ContractType.Native:
                 return "bulkTransfer";
             default:
-                throw new Error("Not supported token type");
+                return '';
                 break;
         }
     }
@@ -100,7 +100,7 @@ export function useTransferHelper() {
         console.log('receivers', bulkSenderState.receivers);
         await writeContractAsync({
             abi: BULK_SENDER_ABI,
-            address: NetworksConfig[chainId as number].bulkSenderAddress,
+            address: NetworksConfig[chainId as number]?.bulkSenderAddress,
             functionName: getTransferTokenFunctionName(),
             args: getTransferTokenArgs(),
             value: !isVIP ? vipFee as bigint : BigInt('0')
@@ -114,7 +114,7 @@ export function useTransferHelper() {
         }
         await writeContractAsync({
             abi: BULK_SENDER_ABI,
-            address: NetworksConfig[chainId as number].bulkSenderAddress,
+            address: NetworksConfig[chainId as number]?.bulkSenderAddress,
             functionName: getTransferTokenFunctionName(),
             args: getTransferTokenArgs(),
             value: !isVIP ? vipFee as bigint : BigInt('0')
@@ -125,6 +125,10 @@ export function useTransferHelper() {
 
         if (!bulkSenderState.tokenAddress) {
             console.error('Token address is required')
+            return;
+        }
+        if(tokenType == ContractType.Unknown){
+            console.error('Token type is unknown')
             return;
         }
         if (contractType == ContractType.ERC20) {

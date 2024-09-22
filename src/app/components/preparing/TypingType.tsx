@@ -17,7 +17,7 @@ export function TypingTypeChoose() {
 
   return (
     <div className={`pb-[8px] flex flex-row`}>
-      <Switch color={isDarkMode?"blue-gray":"black"} label={bulkSenderState.currentTypingType == TypingType.Upload ? 'Insert Manually' : 'Upload'} onClick={toggleTypingType} />
+      <Switch color={isDarkMode ? "green" : "gray"} label={bulkSenderState.currentTypingType == TypingType.Upload ? 'Insert Manually' : 'Upload'} onClick={toggleTypingType} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} crossOrigin={undefined} />
     </div>
   );
 }
