@@ -19,7 +19,7 @@ const NETWORKS: { [key: number]: { name: string; chainId: number } } = {
     chainId: 11155111,
   },
 }
-const ETHERSCAN_API = "CRGFC2A36MV1J8HJGQ8RJRICDXI3J4N33Q";
+const ETHERSCAN_API = process.env.ETHERSCAN_API;
 export interface Transaction {
   tokenName: string
   tokenSymbol: string

@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import MovingGraph from '../utils/BackRight';
 import { BulkSenderStateContext } from '../providers';
 import Link from 'next/link';
+import { Button, IconButton } from '@material-tailwind/react';
 
 const navigation = [
   { name: 'VIP', href: '/bulksender/vip', current: true },
@@ -61,12 +62,17 @@ export default function Layout({
           {/* Connect Button & Theme Toggle */}
           <div className="flex items-center space-x-4">
             <ConnectBtn />
-            <button
+            <Link
+            href={""}
+            className='p-2 rounded-full'
               onClick={toggleTheme}
-              className="text-white hover:text-gray-200 transition duration-200"
             >
-              {isDarkMode ? 'Light Mode' : 'Dark Mode'}
-            </button>
+              {isDarkMode ? 
+             <i class="fa-regular fa-lightbulb"></i>
+              : 
+              <i className="fa-sharp fa-solid fa-circle-half-stroke" />
+          }
+            </Link>
 
             {/* Mobile Menu Button */}
             <button
