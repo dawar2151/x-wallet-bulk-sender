@@ -137,7 +137,7 @@ function SuccessAlert({hash}:{hash:string}){
         </Button>
 
         {/* Button to view transaction details on Etherscan */}
-        <Button color="green" ripple={true}  placeholder={undefined} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}>
+        <Button color="gray" ripple={true}  placeholder={undefined} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}>
           <a href={`${NetworksConfig[chainId as number].etherscanURL}/tx/${hash}`} target="_blank" rel="noopener noreferrer" className="text-white">
             View on Etherscan
           </a>

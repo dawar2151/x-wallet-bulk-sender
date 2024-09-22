@@ -2,8 +2,6 @@
 
 import { Textarea, IconButton, Spinner } from "@material-tailwind/react";
 import { ReactNode, useContext } from "react";
-import { useReadContract, useReadContracts } from "wagmi";
-import { ABI_ERC20 } from "@/app/abis/ERC20";
 import { Address } from "viem";
 import { BulkSenderStateContext } from "@/app/providers";
 import CheckContractType from "@/app/utils/getTokenType";
@@ -26,7 +24,7 @@ export function TokenAddressInput() {
     <div className={`flex w-full flex-row items-center gap-2 rounded-[99px] border ${isDarkMode ? 'border-gray-700' : 'border-gray-300'} bg-gray-900/5 p-2`}>
       <div className="flex">
         {(isReadLoading || !bulkSenderState.tokenAddress) ? 
-          <Spinner color={isDarkMode ? 'amber' : 'green'} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} /> :
+          <Spinner color={isDarkMode ? 'amber' : 'gray'} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} /> :
           <IconButton variant="text" className="rounded-full text-gray-800"  placeholder={undefined} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}>
             {tokenType}
           </IconButton>

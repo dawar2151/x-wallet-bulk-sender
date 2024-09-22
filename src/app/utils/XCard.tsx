@@ -11,7 +11,7 @@ export const XCard = (props: {caption: string, description: string }) => {
             <Typography variant="h5" color={isDarkMode ? 'white' : 'blue-gray'} className="mb-2" placeholder={undefined} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}>
                 {caption}
             </Typography>
-            <Typography color={isDarkMode ? 'amber' : 'green'} placeholder={undefined} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}>
+            <Typography color={isDarkMode ? 'amber' : 'gray'} placeholder={undefined} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}>
                 {description}
             </Typography>
         </CardBody>
