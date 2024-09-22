@@ -8,7 +8,7 @@ export const config = createConfig({
   transports: {
     [mainnet.id]: http(),
     [base.id]: http(),
-    [sepolia.id]: http("https://sepolia.infura.io/v3/27ccbfa1c9d443d094d1b22e6c4af5cf"),
+    [sepolia.id]: http(`https://sepolia.infura.io/v3/27ccbfa1c9d443d094d1b22e6c4af5cf`),
     [bsc.id]: http()
   },
 })

@@ -49,7 +49,7 @@ export function TokenAddressInput() {
         {(isReadLoading || !bulkSenderState.tokenAddress) ? 
           <Spinner color={isDarkMode ? 'brown' : 'amber'} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} /> :
           <IconButton variant="text" className="rounded-full text-gray-800"  placeholder={undefined} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}>
-            {!decimals?.error ? (decimals?.result as number).toString() as ReactNode : '0'}
+            {!decimals?.error ? decimals?.result as ReactNode : '0'}
           </IconButton>
         }
       </div>
