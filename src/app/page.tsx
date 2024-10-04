@@ -53,13 +53,13 @@ export default function Home() {
           </p>
 
           {/* CTA Button */}
-          <Link
-            href={""}
-            onClick={(e) => goToHome(e)}
+          <a
+            href={"/bulksender/preparing"}
+            //onClick={(e) => goToHome(e)}
             className="inline-block mt-8 rounded-md bg-indigo-600 px-5 py-3 text-lg font-semibold text-white shadow-lg hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-all duration-300"
           >
             Get started
-          </Link>
+          </a>
         </div>
       </div>
     </div>
