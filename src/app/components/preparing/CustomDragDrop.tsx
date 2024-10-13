@@ -5,14 +5,14 @@
 import { useRef, useEffect, useState } from "react";
 import { FaUpload, FaRegFileImage, FaRegFile } from "react-icons/fa";
 import { BsX } from "react-icons/bs";
-import Swal from "sweetalert2";
+import { toast } from "react-hot-toast";
 
 export function CustomDragDrop({
   ownerLicense,
   onUpload,
   onDelete,
   count,
-  formats
+  formats,
 }) {
   const dropContainer = useRef(null);
   const [dragging, setDragging] = useState(false);
@@ -67,16 +67,13 @@ export function CustomDragDrop({
           name: file.name,
           fileContent: base64String,
           type: file.type,
-          size: file.size
+          size: file.size,
         };
       });
 
       Promise.all(nFiles).then((newFiles) => {
         onUpload(newFiles);
-        TopNotification.fire({
-          icon: "success",
-          title: "Image(s) uploaded"
-        });
+        toast.success("Image(s) uploaded");
       });
     }
   }
@@ -118,36 +115,17 @@ export function CustomDragDrop({
     };
   }, [ownerLicense]);
 
-  const TopNotification = Swal.mixin({
-    toast: true,
-    position: "bottom-end",
-    showConfirmButton: false,
-    timer: 3000,
-    timerProgressBar: true,
-    didOpen: (toast) => {
-      toast.addEventListener("mouseenter", Swal.stopTimer);
-      toast.addEventListener("mouseleave", Swal.resumeTimer);
-    }
-  });
-
   function showAlert(icon, title, text) {
-    Swal.fire({
-      icon: icon,
-      title: title,
-      text: text,
-      showConfirmButton: false,
-      width: 500,
-      timer: 1500
-    });
+    toast[icon === "error" ? "error" : "warning"](`${title}: ${text}`);
   }
 
   function showImage(image) {
-    Swal.fire({
-      imageUrl: image,
-      showCloseButton: true,
-      showConfirmButton: false,
-      width: 450
-    });
+    toast((t) => (
+      <div>
+        <img src={image} alt="uploaded" />
+        <button onClick={() => toast.dismiss(t.id)}>Close</button>
+      </div>
+    ));
   }
 
   return (
