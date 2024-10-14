@@ -4,8 +4,7 @@ import { CustomDragDrop } from "@/components/preparing/CustomDragDrop";
 import { useContext, useState } from "react";
 import { Base64 } from "js-base64";
 import { BulkSenderStateContext } from "@/app/providers";
-import { Receiver, TypingType } from "@/app/types/BulkSenderState";
-import { useBalance } from "wagmi";
+import { TypingType } from "@/app/types/BulkSenderState";
 import { isAddress } from "viem";
 
 export function DragComponent() {

@@ -1,6 +1,6 @@
 import { url } from 'inspector';
-import { http, createConfig } from 'wagmi'
-import { mainnet, sepolia, base, bsc } from 'wagmi/chains'
+import { http, createConfig } from 'wagmi';
+import { mainnet, sepolia, base, bsc } from 'wagmi/chains';
 
 export const config = createConfig({
   chains: [mainnet, sepolia, base, bsc],

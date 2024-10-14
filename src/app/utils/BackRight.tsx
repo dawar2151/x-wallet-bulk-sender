@@ -14,7 +14,7 @@ const MovingGraph = () => {
       .attr('width', width)
       .attr('height', height)
       .style('position', 'absolute')
-      .style('top', 40)
+      .style('top', 0)
       .style('left', 0)
       .style('z-index', '-1')
 
